@@ -25,18 +25,21 @@
       <h2>Test A — Easy</h2>
       <p>50 questions</p>
       <p style="margin-top:6px;">Single-concept recall drawn directly from Student Guide language.</p>
+      <p class="badge-line" id="badge-0"></p>
     </a>
     <a class="test-card topic-card" href="test-b.html">
       <div class="num">B</div>
       <h2>Test B — Medium</h2>
       <p>50 questions</p>
       <p style="margin-top:6px;">Two-part stems, applied relationships, and plausible near-miss distractors.</p>
+      <p class="badge-line" id="badge-1"></p>
     </a>
     <a class="test-card topic-card" href="test-c.html">
       <div class="num">C</div>
       <h2>Test C — Hard</h2>
       <p>50 questions</p>
       <p style="margin-top:6px;">Multi-step reasoning, cross-chapter integration, and near-miss distractors. Read every stem twice.</p>
+      <p class="badge-line" id="badge-2"></p>
     </a>
   </div>
 
@@ -68,5 +71,21 @@
   </div>
 
 </div>
+
+<script>
+// Best-score badges from this browser's attempt history
+[0, 1, 2].forEach(i => {
+  try {
+    const arr = JSON.parse(localStorage.getItem("nife-hist-" + i) || "[]");
+    if (!arr.length) return;
+    const full = arr.filter(a => a.f);
+    const best = full.length ? Math.max(...full.map(a => Math.round(a.c / a.n * 100))) : null;
+    const parts = [];
+    if (best !== null) parts.push("Best: " + best + "%");
+    parts.push(arr.length + " attempt" + (arr.length > 1 ? "s" : ""));
+    document.getElementById("badge-" + i).textContent = parts.join(" · ");
+  } catch (e) { /* no storage available */ }
+});
+</script>
 </body>
 </html>
