@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NIFE FR&R Practice Tests</title>
+<link rel="icon" type="image/png" href="../favicon.png">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="stylesheet" href="../style.css">
+<script src="../analytics.js"></script>
+</head>
+<body>
+<div class="wrap">
+
+  <a href="../" class="back-link">&larr; All Topics</a>
+  <header>
+    <div class="eyebrow">Naval Introductory Flight Evaluation</div>
+    <h1>Unit 5 of 5 — Flight Rules &amp; Regulations</h1>
+    <div class="sub">Trainee Guide Q-9B-0178 (08NOV24) &middot; 50 questions per test &middot; Passing score 80% (40 of 50)</div>
+  </header>
+
+  <div class="test-cards">
+    <a class="test-card topic-card" href="test-1.html">
+      <div class="num">1</div>
+      <h2>Test 1 — Easy</h2>
+      <p>50 questions</p>
+      <p style="margin-top:6px;">Single-concept recall drawn directly from Student Guide language.</p>
+      <p class="badge-line" id="badge-0"></p>
+    </a>
+    <a class="test-card topic-card" href="test-2.html">
+      <div class="num">2</div>
+      <h2>Test 2 — Medium</h2>
+      <p>50 questions</p>
+      <p style="margin-top:6px;">Two-part stems, applied relationships, and plausible near-miss distractors.</p>
+      <p class="badge-line" id="badge-1"></p>
+    </a>
+    <a class="test-card topic-card" href="test-3.html">
+      <div class="num">3</div>
+      <h2>Test 3 — Hard</h2>
+      <p>50 questions</p>
+      <p style="margin-top:6px;">Deliberately close distractors and applied scenarios. Read every option before answering.</p>
+      <p class="badge-line" id="badge-2"></p>
+    </a>
+  </div>
+
+  <p class="note">Each test offers Exam Mode (graded at the end, like the real test) or Practice Mode (instant feedback per question), with an optional 5-minute dump sheet. Results include a chapter breakdown (5-1, 5-2, 5-3).</p>
+
+  <h2 class="section-h">Quick Reference</h2>
+  <div class="test-cards" style="grid-template-columns: minmax(230px, 420px); justify-content: center;">
+    <a class="test-card topic-card" href="flashcards.html">
+      <div class="num">&#127183;</div>
+      <h2>Flashcards</h2>
+      <p>Mnemonics, light signals, airspace numbers, and aeromedical rules</p>
+      <p style="margin-top:6px;">Priority of regulations, Aldis lamp table, VFR minimums, the 12-hour rules, and more.</p>
+    </a>
+  </div>
+
+</div>
+
+<script>
+// Best-score badges from this browser's attempt history
+[0, 1, 2].forEach(i => {
+  try {
+    const arr = JSON.parse(localStorage.getItem("nife-frr-hist-" + i) || "[]");
+    if (!arr.length) return;
+    const full = arr.filter(a => a.f);
+    const best = full.length ? Math.max(...full.map(a => Math.round(a.c / a.n * 100))) : null;
+    const parts = [];
+    if (best !== null) parts.push("Best: " + best + "%");
+    parts.push(arr.length + " attempt" + (arr.length > 1 ? "s" : ""));
+    document.getElementById("badge-" + i).textContent = parts.join(" · ");
+  } catch (e) { /* no storage available */ }
+});
+</script>
+</body>
+</html>
