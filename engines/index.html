@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NIFE Engines Practice Tests</title>
+<link rel="icon" type="image/png" href="../favicon.png">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<div class="wrap">
+
+  <a href="../" class="back-link">&larr; All Topics</a>
+  <header>
+    <div class="eyebrow">Naval Introductory Flight Evaluation</div>
+    <h1>Unit 2 of 5 — Engines Practice Tests</h1>
+    <div class="sub">NAVAVSCOLSCOM-SG-200 (14SEP2020) &middot; 50 questions per test &middot; Passing score 80% (40 of 50)</div>
+  </header>
+
+  <!-- START SCREEN -->
+  <div id="start-screen">
+    <div class="test-cards" id="test-cards"></div>
+    <p class="note">Select a test to begin. You can move between questions freely and change answers before submitting.</p>
+  </div>
+
+  <!-- DUMP SHEET PROMPT -->
+  <div id="dump-prompt-screen" class="hidden">
+    <div class="center-box">
+      <h2 id="dump-prompt-title"></h2>
+      <p>Would you like to start with a dump sheet? You'll get 5 minutes to write down formulas, mnemonics, and facts from memory before the test begins.</p>
+      <div class="choice-row">
+        <button class="btn primary" id="btn-dump-yes">Yes — Start With a Dump Sheet</button>
+        <button class="btn" id="btn-dump-no">No — Go Straight to the Test</button>
+      </div>
+      <div style="margin-top:18px;">
+        <button class="btn" id="btn-dump-cancel" style="font-size:13px; padding:6px 14px;">Back</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- DUMP SHEET TIMER -->
+  <div id="dump-timer-screen" class="hidden">
+    <div class="center-box">
+      <h2>Dump Sheet</h2>
+      <p>Write down everything you want to remember — formulas, mnemonics, temperatures, percentages. The test will be available when the timer runs out.</p>
+      <div class="timer-display" id="timer-display">5:00</div>
+      <div class="timer-sub" id="timer-sub">Time remaining</div>
+      <button class="btn submit hidden" id="btn-timer-continue">Continue to Test</button>
+      <div style="margin-top:18px;">
+        <button class="btn" id="btn-timer-cancel" style="font-size:13px; padding:6px 14px;">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- QUIZ SCREEN -->
+  <div id="quiz-screen" class="hidden">
+    <div class="quiz-top">
+      <span class="test-name" id="quiz-test-name"></span>
+      <span class="counter" id="quiz-counter"></span>
+    </div>
+    <div class="progress"><div class="fill" id="progress-fill"></div></div>
+
+    <div class="section-label" id="q-number"></div>
+    <div class="question-text" id="q-text"></div>
+    <div class="options" id="q-options"></div>
+
+    <div class="nav-row">
+      <button class="btn" id="btn-prev">&larr; Previous</button>
+      <div style="display:flex; gap:12px;">
+        <button class="btn" id="btn-quit">Exit Test</button>
+        <button class="btn submit hidden" id="btn-submit">Submit Test</button>
+        <button class="btn primary" id="btn-next">Next &rarr;</button>
+      </div>
+    </div>
+
+    <div class="qgrid-label">Question navigator</div>
+    <div class="qgrid" id="qgrid"></div>
+  </div>
+
+  <!-- RESULTS SCREEN -->
+  <div id="results-screen" class="hidden">
+    <div class="score-box">
+      <div class="score-circle" id="score-circle">
+        <div class="pct" id="score-pct"></div>
+        <div class="frac" id="score-frac"></div>
+      </div>
+      <div class="verdict" id="score-verdict"></div>
+      <div class="verdict-sub">Passing score is 80% (40 of 50 correct)</div>
+    </div>
+
+    <div class="toggle-row">
+      <button class="btn" id="btn-toggle-all">Show All Questions</button>
+    </div>
+
+    <div class="review-h" id="review-heading"></div>
+    <div id="miss-list"></div>
+
+    <div class="results-actions">
+      <button class="btn primary" id="btn-retake">Retake This Test</button>
+      <button class="btn" id="btn-home">Choose Another Test</button>
+    </div>
+  </div>
+
+</div>
+
+<script src="tests.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

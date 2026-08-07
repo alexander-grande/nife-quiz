@@ -185,3 +185,23 @@
   .results-actions { display: flex; justify-content: center; gap: 12px; margin-top: 30px; flex-wrap: wrap; }
   .all-correct { text-align: center; color: var(--green); font-size: 16px; padding: 20px; }
   .toggle-row { text-align: center; margin-bottom: 20px; }
+
+/* ---------- Landing page ---------- */
+a.topic-card { text-decoration: none; color: inherit; display: block; }
+.topic-card.disabled { opacity: .45; cursor: default; }
+.topic-card.disabled:hover { transform: none; border-color: var(--border); }
+.patch {
+  width: 130px; height: 130px;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+  margin: 0 auto 16px;
+}
+.back-link {
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 13px;
+  display: inline-block;
+  margin-bottom: 14px;
+}
+.back-link:hover { color: var(--accent); }
