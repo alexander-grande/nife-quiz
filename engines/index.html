@@ -45,6 +45,29 @@
 
   <p class="note">Each test offers Exam Mode (graded at the end, like the real test) or Practice Mode (instant feedback per question), with an optional 5-minute dump sheet.</p>
 
+  <h2 class="section-h">Chapter Reviews</h2>
+  <p class="note" style="margin-top:0;">30-question tests focused on specific chapters — drill one block of material at a time.</p>
+  <div class="test-cards">
+    <a class="test-card topic-card" href="test-ch1-3.html">
+      <div class="num">1&ndash;3</div>
+      <h2>Chapters 1&ndash;3</h2>
+      <p>Principles of Operation &middot; Engine Sections &middot; Compressor Stalls</p>
+      <p class="badge-line" id="badge-3"></p>
+    </a>
+    <a class="test-card topic-card" href="test-ch4-6.html">
+      <div class="num">4&ndash;6</div>
+      <h2>Chapters 4&ndash;6</h2>
+      <p>Engine Types &middot; Hydraulic Systems &middot; Electrical Systems</p>
+      <p class="badge-line" id="badge-4"></p>
+    </a>
+    <a class="test-card topic-card" href="test-ch6-9.html">
+      <div class="num">6&ndash;9</div>
+      <h2>Chapters 6&ndash;9</h2>
+      <p>Electrical &middot; Fuel &middot; Lubrication &middot; Accessory, Starter &amp; Ignition</p>
+      <p class="badge-line" id="badge-5"></p>
+    </a>
+  </div>
+
   <h2 class="section-h">System Diagrams</h2>
   <p class="note" style="margin-top:0;">Fill in the blanked-out part names on each system diagram, then check your answers. Word Bank Mode to learn, Recall Mode to test yourself.</p>
   <div class="test-cards">
@@ -84,7 +107,7 @@
 
 <script>
 // Best-score badges from this browser's attempt history
-[0, 1, 2].forEach(i => {
+[0, 1, 2, 3, 4, 5].forEach(i => {
   try {
     const arr = JSON.parse(localStorage.getItem("nife-hist-" + i) || "[]");
     if (!arr.length) return;
