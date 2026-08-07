@@ -1,53 +1,51 @@
 // ============================================================
 // APP STATE + LOGIC
+// Each test page defines PAGE_TEST (0=A, 1=B, 2=C) before this
+// script loads; tests.js defines TESTS.
+// Modes: "exam" (graded at the end) | "practice" (instant feedback)
 // ============================================================
+const TEST = TESTS[PAGE_TEST];
 const LETTERS = ["a", "b", "c", "d"];
 const DUMP_SECONDS = 5 * 60;
-let currentTest = null;   // index into TESTS
-let pendingTest = null;   // test awaiting dump-sheet choice
-let currentQ = 0;         // index 0-49
+let mode = "exam";
+let useDumpSheet = false;
+let currentQ = 0;
 let answers = [];         // user's picks (null = unanswered)
 let showAllResults = false;
 let timerInterval = null;
 
 const $ = id => document.getElementById(id);
-const startScreen = $("start-screen");
-const dumpPromptScreen = $("dump-prompt-screen");
+const setupScreen = $("setup-screen");
 const dumpTimerScreen = $("dump-timer-screen");
 const quizScreen = $("quiz-screen");
 const resultsScreen = $("results-screen");
 
 function show(screen) {
-  [startScreen, dumpPromptScreen, dumpTimerScreen, quizScreen, resultsScreen]
+  [setupScreen, dumpTimerScreen, quizScreen, resultsScreen]
     .forEach(s => s.classList.add("hidden"));
   screen.classList.remove("hidden");
   window.scrollTo(0, 0);
 }
 
-// ---------- Start screen ----------
-function buildStartScreen() {
-  const wrap = $("test-cards");
-  wrap.innerHTML = "";
-  TESTS.forEach((t, i) => {
-    const card = document.createElement("div");
-    card.className = "test-card";
-    card.innerHTML = `<div class="num">${["A","B","C"][i]}</div><h2>${t.name}</h2><p>${t.questions.length} questions</p><p style="margin-top:6px;">${t.desc}</p>`;
-    card.addEventListener("click", () => openDumpPrompt(i));
-    wrap.appendChild(card);
+// ---------- Setup screen ----------
+document.querySelectorAll("[data-mode]").forEach(btn => {
+  btn.addEventListener("click", () => {
+    mode = btn.dataset.mode;
+    document.querySelectorAll("[data-mode]").forEach(b => b.classList.toggle("selected", b === btn));
   });
-}
+});
+document.querySelectorAll("[data-dump]").forEach(btn => {
+  btn.addEventListener("click", () => {
+    useDumpSheet = btn.dataset.dump === "yes";
+    document.querySelectorAll("[data-dump]").forEach(b => b.classList.toggle("selected", b === btn));
+  });
+});
+$("btn-start").addEventListener("click", () => {
+  if (useDumpSheet) startDumpTimer();
+  else startTest();
+});
 
-// ---------- Dump sheet flow ----------
-function openDumpPrompt(idx) {
-  pendingTest = idx;
-  $("dump-prompt-title").textContent = TESTS[idx].name;
-  show(dumpPromptScreen);
-}
-
-$("btn-dump-yes").addEventListener("click", startDumpTimer);
-$("btn-dump-no").addEventListener("click", () => startTest(pendingTest));
-$("btn-dump-cancel").addEventListener("click", () => { pendingTest = null; show(startScreen); });
-
+// ---------- Dump sheet timer ----------
 function startDumpTimer() {
   stopDumpTimer();
   let remaining = DUMP_SECONDS;
@@ -78,22 +76,20 @@ function formatTime(s) {
   return Math.floor(s / 60) + ":" + String(s % 60).padStart(2, "0");
 }
 
-$("btn-timer-continue").addEventListener("click", () => startTest(pendingTest));
+$("btn-timer-continue").addEventListener("click", startTest);
 $("btn-timer-cancel").addEventListener("click", () => {
-  if (confirm("Cancel the dump sheet and return to the test list?")) {
+  if (confirm("Cancel the dump sheet and return to test setup?")) {
     stopDumpTimer();
-    pendingTest = null;
-    show(startScreen);
+    show(setupScreen);
   }
 });
 
 // ---------- Quiz screen ----------
-function startTest(idx) {
+function startTest() {
   stopDumpTimer();
-  currentTest = idx;
   currentQ = 0;
-  answers = new Array(TESTS[idx].questions.length).fill(null);
-  $("quiz-test-name").textContent = TESTS[idx].name;
+  answers = new Array(TEST.questions.length).fill(null);
+  $("quiz-mode-label").textContent = mode === "exam" ? "Exam Mode" : "Practice Mode";
   buildQGrid();
   show(quizScreen);
   renderQuestion();
@@ -102,7 +98,7 @@ function startTest(idx) {
 function buildQGrid() {
   const grid = $("qgrid");
   grid.innerHTML = "";
-  TESTS[currentTest].questions.forEach((_, i) => {
+  TEST.questions.forEach((_, i) => {
     const dot = document.createElement("button");
     dot.className = "qdot";
     dot.textContent = i + 1;
@@ -111,13 +107,26 @@ function buildQGrid() {
   });
 }
 
-function renderQuestion() {
-  const test = TESTS[currentTest];
-  const total = test.questions.length;
-  const q = test.questions[currentQ];
-  const answeredCount = answers.filter(a => a !== null).length;
+function answerCurrent(idx) {
+  // In practice mode an answer is locked in the moment it's made
+  if (mode === "practice" && answers[currentQ] !== null) return;
+  answers[currentQ] = idx;
+  renderQuestion();
+}
 
-  $("quiz-counter").textContent = `${answeredCount} of ${total} answered`;
+function renderQuestion() {
+  const total = TEST.questions.length;
+  const q = TEST.questions[currentQ];
+  const answeredCount = answers.filter(a => a !== null).length;
+  const userIdx = answers[currentQ];
+  const graded = mode === "practice" && userIdx !== null;
+
+  let counterText = `${answeredCount} of ${total} answered`;
+  if (mode === "practice") {
+    const correctSoFar = TEST.questions.reduce((n, qq, i) => n + (answers[i] === qq.a ? 1 : 0), 0);
+    counterText += ` · ${correctSoFar} correct`;
+  }
+  $("quiz-counter").textContent = counterText;
   $("progress-fill").style.width = (answeredCount / total * 100) + "%";
   $("q-number").textContent = `Question ${currentQ + 1} of ${total}`;
   $("q-text").textContent = q.q;
@@ -126,14 +135,32 @@ function renderQuestion() {
   optWrap.innerHTML = "";
   q.o.forEach((opt, i) => {
     const btn = document.createElement("button");
-    btn.className = "option" + (answers[currentQ] === i ? " selected" : "");
+    let cls = "option";
+    if (graded) {
+      cls += " locked";
+      if (i === q.a) cls += " correct-opt";
+      else if (i === userIdx) cls += " wrong-opt";
+    } else if (userIdx === i) {
+      cls += " selected";
+    }
+    btn.className = cls;
     btn.innerHTML = `<span class="letter">${LETTERS[i]}</span><span>${opt}</span>`;
-    btn.addEventListener("click", () => {
-      answers[currentQ] = i;
-      renderQuestion();
-    });
+    btn.addEventListener("click", () => answerCurrent(i));
     optWrap.appendChild(btn);
   });
+
+  // Instant feedback (practice mode only)
+  const fb = $("q-feedback");
+  if (graded) {
+    const right = userIdx === q.a;
+    fb.className = "feedback " + (right ? "good" : "bad");
+    fb.innerHTML =
+      `<div class="fb-verdict">${right ? "Correct!" : `Incorrect — the correct answer is ${LETTERS[q.a]}.`}</div>` +
+      `<div class="rationale"><span class="tag">Why:</span>${q.r}<span class="ref">${q.ref}</span></div>`;
+  } else {
+    fb.className = "hidden";
+    fb.innerHTML = "";
+  }
 
   $("btn-prev").disabled = currentQ === 0;
   const onLast = currentQ === total - 1;
@@ -141,17 +168,23 @@ function renderQuestion() {
   $("btn-submit").classList.toggle("hidden", !onLast);
 
   document.querySelectorAll(".qdot").forEach((dot, i) => {
-    dot.classList.toggle("answered", answers[i] !== null);
     dot.classList.toggle("current", i === currentQ);
+    dot.classList.remove("answered", "right-dot", "wrong-dot");
+    if (answers[i] === null) return;
+    if (mode === "practice") {
+      dot.classList.add(answers[i] === TEST.questions[i].a ? "right-dot" : "wrong-dot");
+    } else {
+      dot.classList.add("answered");
+    }
   });
 }
 
 $("btn-prev").addEventListener("click", () => { if (currentQ > 0) { currentQ--; renderQuestion(); } });
 $("btn-next").addEventListener("click", () => {
-  if (currentQ < TESTS[currentTest].questions.length - 1) { currentQ++; renderQuestion(); }
+  if (currentQ < TEST.questions.length - 1) { currentQ++; renderQuestion(); }
 });
 $("btn-quit").addEventListener("click", () => {
-  if (confirm("Exit this test? Your answers will be lost.")) show(startScreen);
+  if (confirm("Exit this test? Your answers will be lost.")) show(setupScreen);
 });
 $("btn-submit").addEventListener("click", () => {
   const unanswered = answers.reduce((n, a) => n + (a === null ? 1 : 0), 0);
@@ -164,9 +197,8 @@ $("btn-submit").addEventListener("click", () => {
 
 // ---------- Grading + results ----------
 function gradeTest() {
-  const test = TESTS[currentTest];
-  const total = test.questions.length;
-  const correct = test.questions.reduce((n, q, i) => n + (answers[i] === q.a ? 1 : 0), 0);
+  const total = TEST.questions.length;
+  const correct = TEST.questions.reduce((n, q, i) => n + (answers[i] === q.a ? 1 : 0), 0);
   const pct = Math.round(correct / total * 100);
   const passed = pct >= 80;
 
@@ -183,11 +215,10 @@ function gradeTest() {
 }
 
 function renderReview() {
-  const test = TESTS[currentTest];
   const list = $("miss-list");
   list.innerHTML = "";
 
-  const missed = test.questions
+  const missed = TEST.questions
     .map((q, i) => ({ q, i }))
     .filter(({ q, i }) => answers[i] !== q.a);
 
@@ -196,7 +227,7 @@ function renderReview() {
     ? "All Questions"
     : (missed.length ? `Questions You Missed (${missed.length})` : "");
 
-  const items = showAllResults ? test.questions.map((q, i) => ({ q, i })) : missed;
+  const items = showAllResults ? TEST.questions.map((q, i) => ({ q, i })) : missed;
 
   if (!showAllResults && missed.length === 0) {
     list.innerHTML = `<div class="all-correct">Perfect score — you answered every question correctly. Bravo Zulu!</div>`;
@@ -225,8 +256,8 @@ function renderReview() {
 }
 
 $("btn-toggle-all").addEventListener("click", () => { showAllResults = !showAllResults; renderReview(); });
-$("btn-retake").addEventListener("click", () => openDumpPrompt(currentTest));
-$("btn-home").addEventListener("click", () => show(startScreen));
+$("btn-retake").addEventListener("click", () => show(setupScreen));
+$("btn-home").addEventListener("click", () => { location.href = "./"; });
 
 // keyboard shortcuts: a/b/c/d or 1-4 to answer, arrows to navigate
 document.addEventListener("keydown", e => {
@@ -235,14 +266,12 @@ document.addEventListener("keydown", e => {
   const letterIdx = LETTERS.indexOf(key);
   const numIdx = ["1", "2", "3", "4"].indexOf(key);
   if (letterIdx !== -1 || numIdx !== -1) {
-    answers[currentQ] = letterIdx !== -1 ? letterIdx : numIdx;
-    renderQuestion();
-  } else if (e.key === "ArrowRight" && currentQ < TESTS[currentTest].questions.length - 1) {
+    answerCurrent(letterIdx !== -1 ? letterIdx : numIdx);
+  } else if (e.key === "ArrowRight" && currentQ < TEST.questions.length - 1) {
     currentQ++; renderQuestion();
   } else if (e.key === "ArrowLeft" && currentQ > 0) {
     currentQ--; renderQuestion();
   }
 });
 
-buildStartScreen();
-show(startScreen);
+show(setupScreen);

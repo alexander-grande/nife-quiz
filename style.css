@@ -205,3 +205,52 @@ a.topic-card { text-decoration: none; color: inherit; display: block; }
   margin-bottom: 14px;
 }
 .back-link:hover { color: var(--accent); }
+
+/* ---------- Test setup screen ---------- */
+.setup-group { margin-bottom: 24px; }
+.setup-label {
+  color: var(--muted);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-bottom: 10px;
+}
+.btn.toggle {
+  flex: 1 1 180px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px 16px;
+  text-align: center;
+}
+.btn.toggle span {
+  font-weight: 400;
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.35;
+}
+.btn.toggle.selected { border-color: var(--accent); background: #1a2b45; }
+.btn.toggle.selected span { color: var(--text); }
+#btn-start { margin-top: 4px; padding: 12px 40px; font-size: 16px; }
+
+/* ---------- Practice mode instant feedback ---------- */
+.option.locked { cursor: default; }
+.option.locked:hover { border-color: var(--border); }
+.option.correct-opt, .option.correct-opt:hover { border-color: var(--green); background: rgba(47, 191, 113, .12); }
+.option.correct-opt .letter { background: var(--green); border-color: var(--green); color: #0d1421; }
+.option.wrong-opt, .option.wrong-opt:hover { border-color: var(--red); background: rgba(229, 72, 77, .12); }
+.option.wrong-opt .letter { background: var(--red); border-color: var(--red); color: #0d1421; }
+.feedback {
+  margin-top: 16px;
+  border-radius: 10px;
+  padding: 14px 16px;
+  border: 1px solid var(--border);
+  background: var(--panel);
+}
+.feedback.good { border-left: 4px solid var(--green); }
+.feedback.bad { border-left: 4px solid var(--red); }
+.fb-verdict { font-weight: 700; margin-bottom: 8px; }
+.feedback.good .fb-verdict { color: var(--green); }
+.feedback.bad .fb-verdict { color: #ff9a9e; }
+.qdot.right-dot { background: rgba(47, 191, 113, .15); border-color: var(--green); color: #7fe3ae; }
+.qdot.wrong-dot { background: rgba(229, 72, 77, .15); border-color: var(--red); color: #ff9a9e; }
