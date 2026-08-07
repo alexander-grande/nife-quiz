@@ -40,13 +40,11 @@ const CARDS = [
   {c:"Fuel & Oil", f:"Fuel flow gauge reads in…", b:"Pounds per hour (PPH), from the transmitter at the FCU outlet"},
   {c:"Fuel & Oil", f:"The four inputs the FCU computing system senses", b:"Compressor Inlet Temperature (CIT)\nCompressor RPM\nTurbine temperature (ITT)\nPCL position"},
   {c:"Fuel & Oil", f:"At engine shutdown, what cuts off fuel and what drains the manifolds?", b:"The FCU cuts off fuel flow\nThe P&D valve drains the combustion manifolds (prevents fires, hot starts, and gum deposits)"},
-  {c:"Fuel & Oil", f:"Military jet engine oils", b:"MIL-L-23699: most commonly used\nMIL-L-7808: first developed, still in use\nMixing them is safe, but 23699 is downgraded to 7808 qualities"},
   {c:"Fuel & Oil", f:"The three subsystems of a dry sump lubrication system", b:"Pressure, scavenge, and breather pressurizing"},
 
   // ---- Electrical & Hydraulics ----
   {c:"Electrical & Hydraulics", f:"Transformer rectifier vs inverter", b:"TR: converts AC into DC\nInverter: converts DC into AC (the backup AC source if the generator fails)"},
   {c:"Electrical & Hydraulics", f:"Which equipment goes on which bus?", b:"Essential bus: flight safety (primary attitude gyro)\nPrimary bus: mission equipment (radar)\nMonitor/secondary bus: convenience (cabin lighting)\nThe DC essential bus charges the battery"},
-  {c:"Electrical & Hydraulics", f:"Aircraft electrical voltages", b:"AC: 115 volts\nDC: 28 volts"},
   {c:"Electrical & Hydraulics", f:"What does the constant speed drive (CSD) do?", b:"Provides a constant generator input RPM regardless of engine RPM — keeping AC voltage and frequency steady"},
   {c:"Electrical & Hydraulics", f:"Pressure regulator vs unloader valve", b:"Regulator: diverts EXCESS pump flow back to the reservoir to hold set pressure\nUnloader: diverts ALL pump flow back once preset pressure is reached\nRequired with constant displacement pumps"},
   {c:"Electrical & Hydraulics", f:"What does a hydraulic fuse do?", b:"Detects a rupture or leak and prevents excessive fluid loss while letting the remaining subsystems operate"},
