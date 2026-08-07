@@ -139,12 +139,22 @@ $("btn-timer-cancel").addEventListener("click", () => {
 });
 
 // ---------- Quiz screen ----------
+function optMapFor(q) {
+  // "All/None/Both of the above" options stay pinned at the bottom
+  const pinned = [], movable = [];
+  q.o.forEach((opt, i) => {
+    if (/\b(all|none|both) of the above\b/i.test(opt)) pinned.push(i);
+    else movable.push(i);
+  });
+  return shuffle(movable).concat(pinned);
+}
+
 function startTest() {
   stopDumpTimer();
   const pool = retakePool || TEST.questions.map((_, i) => i);
   retakePool = null;
   activeQ = shuffle(pool);
-  optMaps = activeQ.map(() => shuffle([0, 1, 2, 3]));
+  optMaps = activeQ.map(qi => optMapFor(TEST.questions[qi]));
   answers = new Array(activeQ.length).fill(null);
   currentQ = 0;
   const label = mode === "exam" ? "Exam Mode" : "Practice Mode";
