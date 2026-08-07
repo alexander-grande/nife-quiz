@@ -258,6 +258,45 @@ $("btn-submit").addEventListener("click", () => {
 });
 
 // ---------- Grading + results ----------
+const CHAPTERS = {
+  1: "Principles of Gas Turbine Operation",
+  2: "Engine Sections",
+  3: "Compressor Stalls",
+  4: "Engine Types",
+  5: "Hydraulic Systems",
+  6: "Electrical Systems",
+  7: "Fuel Systems",
+  8: "Lubrication",
+  9: "Accessory, Starter & Ignition"
+};
+
+function renderChapterBreakdown() {
+  const box = $("chapter-breakdown");
+  if (!box) return;
+  const byCh = {};
+  activeQ.forEach((qi, i) => {
+    const q = TEST.questions[qi];
+    const m = q.ref.match(/Ch (\d)/);
+    const ch = m ? +m[1] : 0;
+    byCh[ch] = byCh[ch] || { c: 0, n: 0 };
+    byCh[ch].n++;
+    if (answers[i] === q.a) byCh[ch].c++;
+  });
+  let html = `<div class="ch-head">Breakdown by chapter</div>`;
+  Object.keys(byCh).map(Number).sort((a, b) => a - b).forEach(ch => {
+    const { c, n } = byCh[ch];
+    const pct = Math.round(c / n * 100);
+    const weak = pct < 80;
+    html += `<div class="ch-row${weak ? " ch-weak" : ""}">` +
+      `<span class="ch-name">Ch ${ch} — ${CHAPTERS[ch] || "Other"}</span>` +
+      `<span class="ch-bar"><span class="ch-fill" style="width:${pct}%"></span></span>` +
+      `<span class="ch-score">${c}/${n}</span>` +
+      `<span class="ch-note">${weak ? "restudy" : ""}</span></div>`;
+  });
+  box.innerHTML = html;
+  box.classList.remove("hidden");
+}
+
 function gradeTest() {
   const total = activeQ.length;
   const correct = activeQ.reduce((n, qi, i) => n + (answers[i] === TEST.questions[qi].a ? 1 : 0), 0);
@@ -287,6 +326,7 @@ function gradeTest() {
     }
   }
 
+  renderChapterBreakdown();
   showAllResults = false;
   renderReview();
   show(resultsScreen);

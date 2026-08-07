@@ -388,3 +388,60 @@ a.topic-card { text-decoration: none; color: inherit; display: block; }
 .hist-pass { color: var(--green); font-weight: 700; }
 .hist-fail { color: var(--red); font-weight: 700; }
 .badge-line { color: var(--gold); font-size: 12px; font-weight: 700; margin-top: 8px; min-height: 1em; }
+
+/* ---------- Chapter breakdown ---------- */
+.chapter-breakdown {
+  max-width: 640px;
+  margin: 0 auto 26px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px 18px;
+}
+.ch-head { color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 10px; }
+.ch-row {
+  display: grid;
+  grid-template-columns: 1fr 90px 3em 4.5em;
+  gap: 10px;
+  align-items: center;
+  padding: 4px 0;
+  font-size: 13px;
+}
+.ch-bar { height: 7px; background: var(--panel2); border-radius: 4px; overflow: hidden; }
+.ch-fill { display: block; height: 100%; background: var(--green); }
+.ch-weak .ch-fill { background: var(--red); }
+.ch-score { text-align: right; font-weight: 700; }
+.ch-note { color: var(--red); font-size: 11px; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; }
+
+/* ---------- Flashcards ---------- */
+.fc-stage { max-width: 640px; margin: 0 auto 18px; }
+.fc-card { perspective: 1200px; cursor: pointer; }
+.fc-inner {
+  position: relative;
+  width: 100%;
+  min-height: 300px;
+  transform-style: preserve-3d;
+  transition: transform .45s;
+}
+.fc-inner.flipped { transform: rotateY(180deg); }
+.fc-face {
+  position: absolute; inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 28px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center;
+  gap: 14px;
+}
+.fc-front { background: var(--panel); }
+.fc-back { background: #1a2b45; border-color: var(--accent); transform: rotateY(180deg); }
+.fc-cat { color: var(--gold); font-size: 11px; text-transform: uppercase; letter-spacing: 2px; font-weight: 700; }
+.fc-front .fc-text { font-size: 24px; font-weight: 700; }
+.fc-back .fc-text { font-size: 16px; white-space: pre-line; line-height: 1.65; }
+.fc-hint { color: var(--muted); font-size: 12px; }
+.fc-controls {
+  display: flex; justify-content: center; align-items: center;
+  gap: 16px; margin-bottom: 12px;
+}
