@@ -57,8 +57,8 @@ const DIAGRAMS = {
     figure: "Figure 3.7-4",
     img: "img/fuel.png",
     blanks: [
-      {x:11.0, y:28.3, label:"Primary Manifold", accept:["primary"]},
-      {x:28.5, y:27.5, label:"Secondary Manifold", accept:["secondary"]},
+      {x:11.0, y:28.3, label:"Secondary Manifold", accept:["secondary"]},
+      {x:28.5, y:27.5, label:"Primary Manifold", accept:["primary"]},
       {x:44.5, y:22.0, label:"Spray Bars", accept:["spray bar"]},
       {x:21.0, y:37.0, label:"Pressurizing and Dump Valve", accept:["p and d valve","pd valve","pressurizing dump valve","p d valve"]},
       {x:17.5, y:52.0, label:"Fuel-Oil Heat Exchanger", accept:["fuel oil cooler","fuel oil heat exchanger"]},
