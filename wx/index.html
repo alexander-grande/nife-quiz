@@ -18,7 +18,7 @@
   <a href="../" class="back-link">&larr; All Topics</a>
   <header>
     <div class="eyebrow">Naval Introductory Flight Evaluation</div>
-    <h1>Unit 4 of 5 — Aviation Weather</h1>
+    <h1>Unit 5 of 5 — Aviation Weather</h1>
     <div class="sub">Student Guide Jan 2025 (CIN Q-9B-0178) &middot; 50 questions per test &middot; Passing score 80% (40 of 50)</div>
   </header>
 
@@ -46,13 +46,42 @@
     </a>
   </div>
 
-  <p class="note">Each test offers Exam Mode (graded at the end, like the real test) or Practice Mode (instant feedback per question), with an optional 5-minute dump sheet. Results include a breakdown across Topics 1&ndash;4 (Theory, Mechanics, Hazards, Planning &amp; Resources).</p>
+    <h2 class="section-h">Topic Reviews</h2>
+  <p class="note" style="margin-top:0;">30-question tests focused on one topic at a time.</p>
+  <div class="test-cards">
+    <a class="test-card topic-card" href="test-topic1.html">
+      <div class="num">1</div>
+      <h2>Theory</h2>
+      <p>Atmosphere, pressure, altimetry, lapse rates, moisture, air masses</p>
+      <p class="badge-line" id="badge-3"></p>
+    </a>
+    <a class="test-card topic-card" href="test-topic2.html">
+      <div class="num">2</div>
+      <h2>Mechanics</h2>
+      <p>Winds, jet stream, clouds, lifting, stability, frontal systems</p>
+      <p class="badge-line" id="badge-4"></p>
+    </a>
+    <a class="test-card topic-card" href="test-topic3.html">
+      <div class="num">3</div>
+      <h2>Hazards</h2>
+      <p>Turbulence, icing, fog, thunderstorms, microbursts</p>
+      <p class="badge-line" id="badge-5"></p>
+    </a>
+    <a class="test-card topic-card" href="test-topic4.html">
+      <div class="num">4</div>
+      <h2>Planning &amp; Resources</h2>
+      <p>Visibility, METARs, TAFs, charts, radar, severe weather products</p>
+      <p class="badge-line" id="badge-6"></p>
+    </a>
+  </div>
+
+<p class="note">Each test offers Exam Mode (graded at the end, like the real test) or Practice Mode (instant feedback per question), with an optional 5-minute dump sheet. Results include a breakdown across Topics 1&ndash;4 (Theory, Mechanics, Hazards, Planning &amp; Resources).</p>
 
 </div>
 
 <script>
 // Best-score badges from this browser's attempt history
-[0, 1, 2].forEach(i => {
+[0, 1, 2, 3, 4, 5, 6].forEach(i => {
   try {
     const arr = JSON.parse(localStorage.getItem("nife-wx-hist-" + i) || "[]");
     if (!arr.length) return;
