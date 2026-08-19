@@ -149,11 +149,34 @@ function optMapFor(q) {
   return shuffle(movable).concat(pinned);
 }
 
+function buildRun(pool) {
+  // Questions sharing a g (group) value form an ordered chain: they are
+  // shuffled as one unit, always adjacent and in original order, and a
+  // retake that includes any member includes the whole chain.
+  const qs = TEST.questions;
+  const inPool = new Set(pool);
+  pool.forEach(i => {
+    if (qs[i].g !== undefined) {
+      qs.forEach((q2, j) => { if (q2.g === qs[i].g) inPool.add(j); });
+    }
+  });
+  const seenGroups = new Set();
+  const units = [];
+  [...inPool].sort((a, b) => a - b).forEach(i => {
+    const g = qs[i].g;
+    if (g === undefined) { units.push([i]); return; }
+    if (seenGroups.has(g)) return;
+    seenGroups.add(g);
+    units.push([...inPool].filter(j => qs[j].g === g).sort((a, b) => a - b));
+  });
+  return shuffle(units).flat();
+}
+
 function startTest() {
   stopDumpTimer();
   const pool = retakePool || TEST.questions.map((_, i) => i);
   retakePool = null;
-  activeQ = shuffle(pool);
+  activeQ = buildRun(pool);
   optMaps = activeQ.map(qi => optMapFor(TEST.questions[qi]));
   answers = new Array(activeQ.length).fill(null);
   currentQ = 0;
