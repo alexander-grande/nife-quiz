@@ -139,6 +139,45 @@ $("btn-timer-cancel").addEventListener("click", () => {
 });
 
 // ---------- Quiz screen ----------
+
+function optSnippet(q, idx) {
+  let t = q.o[idx];
+  if (t.length > 60) t = t.slice(0, 57).replace(/\s+\S*$/, "") + "\u2026";
+  return "[" + t + "]";
+}
+
+function translateRationale(q, text, perm) {
+  // Rationale letter references describe the ORIGINAL a-d order. Rewrite
+  // them for the current shuffle: to the displayed letter in practice
+  // mode (perm given), or to a snippet of the option's text in the
+  // review, where options are shown without letters.
+  // First pass replaces references with placeholders so a rewritten
+  // letter can never be matched again by a later pattern.
+  const rep = (letter) => {
+    const idx = "abcd".indexOf(letter.toLowerCase());
+    return idx < 0 ? null : "\u0000" + idx + "\u0000";
+  };
+  const final = (idx) => {
+    if (perm) {
+      const pos = perm.indexOf(idx);
+      return pos >= 0 ? LETTERS[pos].toUpperCase() : "abcd"[idx].toUpperCase();
+    }
+    return optSnippet(q, idx);
+  };
+  let out = text;
+  // "options a/c/d" slash lists
+  out = out.replace(/\b([a-d](?:\/[a-d])+)\b/g, m => m.split("/").map(L => rep(L) || L).join(" / "));
+  // "option A", "Choice (b)", "answer C"
+  out = out.replace(/\b([Oo]ptions?|[Cc]hoices?|[Aa]nswers?)(\s+)\(?([A-Da-d])\)?(?![\w-])/g,
+    (m, word, sp, L) => { const r = rep(L); return r ? word + sp + r : m; });
+  // parenthesized bare letters: "(a) describes ..."
+  out = out.replace(/\(([A-Da-d])\)/g, (m, L) => rep(L) || m);
+  // bare capital letter followed by a verb: "A is dew point; B describes ..."
+  out = out.replace(/(?<!\u00b0)(?<!\u00b0\s)\b([A-D])\b(?=\s+(?:is|are|was|describes|defines|reverses|belongs|fails|adds|mixes|matches|swaps|equals|gives|puts|borrows|uses|applies|refers|remains|holds|comes|would))/g,
+    (m, L) => rep(L) || m);
+  return out.replace(/\u0000(\d)\u0000/g, (m, d) => final(+d));
+}
+
 function optMapFor(q) {
   // "All/None/Both of the above" options stay pinned at the bottom
   const pinned = [], movable = [];
@@ -251,7 +290,7 @@ function renderQuestion() {
     fb.className = "feedback " + (right ? "good" : "bad");
     fb.innerHTML =
       `<div class="fb-verdict">${right ? "Correct!" : `Incorrect — the correct answer is ${rightLetter}.`}</div>` +
-      `<div class="rationale"><span class="tag">Why:</span>${q.r}<span class="ref">${q.ref}</span></div>`;
+      `<div class="rationale"><span class="tag">Why:</span>${translateRationale(q, q.r, perm)}<span class="ref">${q.ref}</span></div>`;
   } else {
     fb.className = "hidden";
     fb.innerHTML = "";
@@ -399,7 +438,7 @@ function renderReview() {
     html += `<div class="ans yours${isRight ? " right" : ""}"><span class="tag">Your answer:</span>${yourAnswer}</div>`;
     if (!isRight) {
       html += `<div class="ans correct"><span class="tag">Correct answer:</span>${q.o[q.a]}</div>`;
-      html += `<div class="rationale"><span class="tag">Why:</span>${q.r}<span class="ref">${q.ref}</span></div>`;
+      html += `<div class="rationale"><span class="tag">Why:</span>${translateRationale(q, q.r, null)}<span class="ref">${q.ref}</span></div>`;
     }
     card.innerHTML = html;
     list.appendChild(card);
