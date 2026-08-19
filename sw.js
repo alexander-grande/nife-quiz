@@ -2,7 +2,7 @@
 // Strategy: precache everything at install; serve cache-first with
 // background revalidation, so the site works fully offline and still
 // picks up new content on the next online visit.
-const CACHE = "nife-690bea4f3f";
+const CACHE = "nife-77f95ce5f3";
 const PRECACHE = [
   "./",
   "./analytics.js",
@@ -82,20 +82,30 @@ self.addEventListener("fetch", e => {
   const url = new URL(e.request.url);
   if (e.request.method !== "GET" || url.origin !== location.origin) return;
   const key = url.origin + url.pathname;   // one cache entry per path, ?v= ignored
+  const isPage = e.request.mode === "navigate" ||
+    url.pathname.endsWith(".html") || url.pathname.endsWith("/");
+  const isScript = url.pathname.endsWith(".js");
   e.respondWith((async () => {
     const cache = await caches.open(CACHE);
     const cached = await cache.match(key);
-    const revalidate = fetch(e.request)
+    const fetchFresh = () => fetch(e.request)
       .then(resp => {
         if (resp && resp.ok) cache.put(key, resp.clone());
         return resp;
       })
       .catch(() => null);
+    if (isPage || isScript) {
+      // network-first: always current when online, cached copy offline
+      const net = await fetchFresh();
+      if (net) return net;
+      return cached || new Response("Offline and not cached", { status: 503 });
+    }
+    // images/styles: cache-first with background revalidation
     if (cached) {
-      e.waitUntil(revalidate);
+      e.waitUntil(fetchFresh());
       return cached;
     }
-    const net = await revalidate;
+    const net = await fetchFresh();
     return net || new Response("Offline and not cached", { status: 503 });
   })());
 });
