@@ -2,7 +2,7 @@
 // Strategy: precache everything at install; serve cache-first with
 // background revalidation, so the site works fully offline and still
 // picks up new content on the next online visit.
-const CACHE = "nife-77f95ce5f3";
+const CACHE = "nife-46fd8dff7f";
 const PRECACHE = [
   "./",
   "./analytics.js",
@@ -49,6 +49,8 @@ const PRECACHE = [
   "./style.css",
   "./sw.js",
   "./wx/app.js",
+  "./wx/flashcards.html",
+  "./wx/flashcards.js",
   "./wx/index.html",
   "./wx/test-1.html",
   "./wx/test-2.html",
