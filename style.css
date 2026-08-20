@@ -445,3 +445,6 @@ a.topic-card { text-decoration: none; color: inherit; display: block; }
   display: flex; justify-content: center; align-items: center;
   gap: 16px; margin-bottom: 12px;
 }
+
+/* multi-line question stems (embedded METAR/TAF reports) */
+.question-text { white-space: pre-line; }
