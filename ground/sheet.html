@@ -3,15 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Lubrication System Diagram — Fill in every blanked-out part name · SG-200 Ch 8">
-<meta property="og:title" content="Lubrication System Diagram | MIF Master">
-<meta property="og:description" content="Lubrication System Diagram — Fill in every blanked-out part name · SG-200 Ch 8">
+<meta name="description" content="The NIFE Cessna Limits/EPs quiz sheet, fillable and self-grading.">
+<meta property="og:title" content="Limits / EPs Sheet | MIF Master">
+<meta property="og:description" content="The NIFE Cessna Limits/EPs quiz sheet, fillable and self-grading.">
 <meta property="og:type" content="website">
 <meta property="og:image" content="https://mifmaster.com/og-image.png">
-<link rel="canonical" href="https://mifmaster.com/engines/system-lubrication.html">
+<link rel="canonical" href="https://mifmaster.com/ground/sheet.html">
 <meta property="og:site_name" content="MIF Master">
 <meta name="twitter:card" content="summary_large_image">
-<title>Lubrication System Diagram | MIF Master</title>
+<title>Limits / EPs Sheet | MIF Master</title>
 <link rel="icon" type="image/png" href="../favicon.png">
 <link rel="apple-touch-icon" href="../apple-touch-icon.png">
 <link rel="stylesheet" href="../style.css?v=r9">
@@ -49,55 +49,41 @@
 </nav>
 <main class="wrap wide" id="main">
 
-  <a href="./" class="back-link">&larr; All Engines Tests</a>
+  <a href="./" class="back-link">&larr; Ground School</a>
   <header class="page-head">
-    <div class="eyebrow">Engines &middot; Unit 2 of 5 &middot; System Diagrams</div>
-    <h1>Lubrication System</h1>
-    <div class="sub">Fill in every blanked-out part name &middot; SG-200 Ch 8</div>
+    <div class="eyebrow">Ground School &middot; NIFE Cessna</div>
+    <h1>Limits / EPs Sheet</h1>
+    <div class="sub">Fill in every box, then check the sheet. Wrong boxes show the answer. Nothing is saved until you check.</div>
   </header>
 
-  <!-- SETUP SCREEN -->
-  <div id="setup-screen">
-    <div class="center-box">
-      <h2>How do you want to practice?</h2>
-      <div class="setup-group">
-        <div class="choice-row">
-          <button class="btn toggle selected" data-mode="bank">Word Bank Mode<span>All part names shown scrambled &mdash; tap a name, then tap its blank. Good for learning the diagram.</span></button>
-          <button class="btn toggle" data-mode="recall">Recall Mode<span>Type each part name from memory &mdash; like the real fill-in. Spelling is graded leniently.</span></button>
-        </div>
-      </div>
-      <button class="btn submit" id="btn-start">Start</button>
-    </div>
+  <div class="gs-toolbar">
+    <button class="btn submit" id="btn-check">Check Sheet</button>
+    <button class="btn" id="btn-reveal">Show Answers</button>
+    <button class="btn" id="btn-clear">Clear</button>
+    <span class="report-status" id="sheet-score" aria-live="polite"></span>
   </div>
 
-  <!-- EXERCISE SCREEN -->
-  <div id="exercise-screen" class="hidden">
-    <div class="quiz-top">
-      <span class="test-name" id="exercise-mode-label"></span>
-      <span class="counter" id="score-line"></span>
-    </div>
+  <h2 class="gs-h">Limits</h2>
+  <div class="gs-scroll">
+  <table class="gs-table" id="limits-table" aria-label="Instrument limits">
+    <thead><tr><th>Instrument</th><th>Min</th><th>Normal</th><th>Caution</th><th>Max</th></tr></thead>
+    <tbody id="inst-body"></tbody>
+  </table>
+  </div>
+  <table class="gs-table gs-single" id="single-table" aria-label="Aircraft limits and V-speeds"><tbody id="single-body"></tbody></table>
 
-    <div class="diagram-frame">
-      <img src="img/lubrication.png" alt="Lubrication System diagram with blanked part names" class="diagram-img">
-      <div class="chip-layer" id="chip-layer"></div>
-    </div>
+  <h2 class="gs-h">Emergency Procedures</h2>
+  <p class="note tight">* critical memory item &nbsp;&middot;&nbsp; &bull; decision continuation</p>
+  <div class="gs-eps" id="eps"></div>
 
-    <div class="word-bank hidden" id="word-bank"></div>
-
-    <div id="answer-rows" class="answer-rows"></div>
-
-    <div class="nav-row center">
-      <button class="btn submit" id="btn-check">Check Answers</button>
-      <button class="btn primary hidden" id="btn-reset">Try Again</button>
-      <button class="btn" id="btn-mode">Change Mode</button>
-    </div>
+  <div class="gs-toolbar">
+    <button class="btn submit" id="btn-check2">Check Sheet</button>
+    <button class="btn" id="btn-top">Back to top</button>
   </div>
 
 </main>
-
-<script>const SYSTEM_ID = "lubrication";</script>
-<script src="diagrams.js?v=2"></script>
-<script src="diagram-app.js?v=2"></script>
+<script src="data.js?v=r9"></script>
+<script src="sheet.js?v=r9"></script>
 <script src="../site.js?v=r9" defer></script>
 </body>
 </html>

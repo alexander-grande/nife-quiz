@@ -2,7 +2,7 @@
 // Strategy: precache everything at install; serve cache-first with
 // background revalidation, so the site works fully offline and still
 // picks up new content on the next online visit.
-const CACHE = "nife-9e626a1ee1";
+const CACHE = "nife-ec0633e05c";
 const PRECACHE = [
   "./",
   "./aero/flashcards.html",
@@ -55,6 +55,14 @@ const PRECACHE = [
   "./frr/test-ch5-3.html",
   "./frr/tests.js",
   "./frr/unit.js",
+  "./ground/data.js",
+  "./ground/ep-drill.html",
+  "./ground/ep.js",
+  "./ground/index.html",
+  "./ground/limits-drill.html",
+  "./ground/limits.js",
+  "./ground/sheet.html",
+  "./ground/sheet.js",
   "./hub.js",
   "./icon-192.png",
   "./icon-512.png",
@@ -83,7 +91,8 @@ const PRECACHE = [
   "./aero/",
   "./engines/",
   "./frr/",
-  "./wx/"
+  "./wx/",
+  "./ground/"
 ];
 
 self.addEventListener("install", e => {

@@ -3,15 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Lubrication System Diagram — Fill in every blanked-out part name · SG-200 Ch 8">
-<meta property="og:title" content="Lubrication System Diagram | MIF Master">
-<meta property="og:description" content="Lubrication System Diagram — Fill in every blanked-out part name · SG-200 Ch 8">
+<meta name="description" content="Recite a random Cessna emergency procedure verbatim and get graded step by step.">
+<meta property="og:title" content="EP Drill | MIF Master">
+<meta property="og:description" content="Recite a random Cessna emergency procedure verbatim and get graded step by step.">
 <meta property="og:type" content="website">
 <meta property="og:image" content="https://mifmaster.com/og-image.png">
-<link rel="canonical" href="https://mifmaster.com/engines/system-lubrication.html">
+<link rel="canonical" href="https://mifmaster.com/ground/ep-drill.html">
 <meta property="og:site_name" content="MIF Master">
 <meta name="twitter:card" content="summary_large_image">
-<title>Lubrication System Diagram | MIF Master</title>
+<title>EP Drill | MIF Master</title>
 <link rel="icon" type="image/png" href="../favicon.png">
 <link rel="apple-touch-icon" href="../apple-touch-icon.png">
 <link rel="stylesheet" href="../style.css?v=r9">
@@ -47,57 +47,32 @@
     </div>
   </div>
 </nav>
-<main class="wrap wide" id="main">
+<main class="wrap" id="main">
 
-  <a href="./" class="back-link">&larr; All Engines Tests</a>
+  <a href="./" class="back-link">&larr; Ground School</a>
   <header class="page-head">
-    <div class="eyebrow">Engines &middot; Unit 2 of 5 &middot; System Diagrams</div>
-    <h1>Lubrication System</h1>
-    <div class="sub">Fill in every blanked-out part name &middot; SG-200 Ch 8</div>
+    <div class="eyebrow">Ground School &middot; NIFE Cessna</div>
+    <h1>EP Drill</h1>
+    <div class="sub">A random EP. Type the whole procedure from memory &mdash; one line per step, decision lines included. Graded line by line, in order.</div>
   </header>
 
-  <!-- SETUP SCREEN -->
-  <div id="setup-screen">
-    <div class="center-box">
-      <h2>How do you want to practice?</h2>
-      <div class="setup-group">
-        <div class="choice-row">
-          <button class="btn toggle selected" data-mode="bank">Word Bank Mode<span>All part names shown scrambled &mdash; tap a name, then tap its blank. Good for learning the diagram.</span></button>
-          <button class="btn toggle" data-mode="recall">Recall Mode<span>Type each part name from memory &mdash; like the real fill-in. Spelling is graded leniently.</span></button>
-        </div>
-      </div>
-      <button class="btn submit" id="btn-start">Start</button>
+  <div class="ws-panel gs-drill">
+    <div class="setup-label" id="ep-progress"></div>
+    <div class="gs-ep-title" id="ep-title"></div>
+    <label class="sr-only" for="ep-input">Type the procedure, one step per line</label>
+    <textarea id="ep-input" rows="10" spellcheck="false" placeholder="1. Airspeed 68 KIAS&#10;2. Turn towards nearest suitable landing site&#10;…&#10;&#10;Decision lines too — e.g. &quot;If restart will be attempted&quot;"></textarea>
+    <div class="btn-group gs-center">
+      <button class="btn submit" id="ep-submit">Grade It</button>
+      <button class="btn" id="ep-show">Show EP</button>
+      <button class="btn primary hidden" id="ep-next">Next EP &rarr;</button>
     </div>
-  </div>
-
-  <!-- EXERCISE SCREEN -->
-  <div id="exercise-screen" class="hidden">
-    <div class="quiz-top">
-      <span class="test-name" id="exercise-mode-label"></span>
-      <span class="counter" id="score-line"></span>
-    </div>
-
-    <div class="diagram-frame">
-      <img src="img/lubrication.png" alt="Lubrication System diagram with blanked part names" class="diagram-img">
-      <div class="chip-layer" id="chip-layer"></div>
-    </div>
-
-    <div class="word-bank hidden" id="word-bank"></div>
-
-    <div id="answer-rows" class="answer-rows"></div>
-
-    <div class="nav-row center">
-      <button class="btn submit" id="btn-check">Check Answers</button>
-      <button class="btn primary hidden" id="btn-reset">Try Again</button>
-      <button class="btn" id="btn-mode">Change Mode</button>
-    </div>
+    <div id="ep-result" class="hidden"></div>
+    <p class="report-hint" id="ep-stats"></p>
   </div>
 
 </main>
-
-<script>const SYSTEM_ID = "lubrication";</script>
-<script src="diagrams.js?v=2"></script>
-<script src="diagram-app.js?v=2"></script>
+<script src="data.js?v=r9"></script>
+<script src="ep.js?v=r9"></script>
 <script src="../site.js?v=r9" defer></script>
 </body>
 </html>

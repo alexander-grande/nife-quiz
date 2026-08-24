@@ -3,15 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Lubrication System Diagram — Fill in every blanked-out part name · SG-200 Ch 8">
-<meta property="og:title" content="Lubrication System Diagram | MIF Master">
-<meta property="og:description" content="Lubrication System Diagram — Fill in every blanked-out part name · SG-200 Ch 8">
+<meta name="description" content="Cessna limits and emergency procedures drills — the fillable Limits/EPs sheet, a one-limit-at-a-time drill, and verbatim EP recall.">
+<meta property="og:title" content="Ground School | MIF Master">
+<meta property="og:description" content="Cessna limits and emergency procedures drills — the fillable Limits/EPs sheet, a one-limit-at-a-time drill, and verbatim EP recall.">
 <meta property="og:type" content="website">
 <meta property="og:image" content="https://mifmaster.com/og-image.png">
-<link rel="canonical" href="https://mifmaster.com/engines/system-lubrication.html">
+<link rel="canonical" href="https://mifmaster.com/ground/">
 <meta property="og:site_name" content="MIF Master">
 <meta name="twitter:card" content="summary_large_image">
-<title>Lubrication System Diagram | MIF Master</title>
+<title>Ground School | MIF Master</title>
 <link rel="icon" type="image/png" href="../favicon.png">
 <link rel="apple-touch-icon" href="../apple-touch-icon.png">
 <link rel="stylesheet" href="../style.css?v=r9">
@@ -47,57 +47,50 @@
     </div>
   </div>
 </nav>
-<main class="wrap wide" id="main">
+<main class="wrap" id="main">
 
-  <a href="./" class="back-link">&larr; All Engines Tests</a>
+  <a href="../" class="back-link">&larr; All Units</a>
   <header class="page-head">
-    <div class="eyebrow">Engines &middot; Unit 2 of 5 &middot; System Diagrams</div>
-    <h1>Lubrication System</h1>
-    <div class="sub">Fill in every blanked-out part name &middot; SG-200 Ch 8</div>
+    <div class="eyebrow">Ground School &middot; NIFE Cessna</div>
+    <h1>Ground School</h1>
+    <div class="sub">The NIFE Cessna Limits/EPs quiz, drilled three ways &mdash; type every box, get asked one limit cold, or recite an EP verbatim.</div>
   </header>
 
-  <!-- SETUP SCREEN -->
-  <div id="setup-screen">
-    <div class="center-box">
-      <h2>How do you want to practice?</h2>
-      <div class="setup-group">
-        <div class="choice-row">
-          <button class="btn toggle selected" data-mode="bank">Word Bank Mode<span>All part names shown scrambled &mdash; tap a name, then tap its blank. Good for learning the diagram.</span></button>
-          <button class="btn toggle" data-mode="recall">Recall Mode<span>Type each part name from memory &mdash; like the real fill-in. Spelling is graded leniently.</span></button>
-        </div>
-      </div>
-      <button class="btn submit" id="btn-start">Start</button>
-    </div>
+  <h2 class="section-h first">Limits &amp; EPs</h2>
+  <div class="test-cards">
+    <a class="test-card topic-card" href="sheet.html">
+      <div class="num">&#9998;</div>
+      <h3>Limits / EPs Sheet</h3>
+      <p>The full quiz sheet, fillable</p>
+      <p class="card-desc">Type every limit and every EP step, then check the whole sheet at once &mdash; the same layout as the paper quiz.</p>
+      <p class="badge-line" id="badge-sheet"></p>
+    </a>
+    <a class="test-card topic-card" href="limits-drill.html">
+      <div class="num">&#9202;</div>
+      <h3>Limits Drill</h3>
+      <p>One box at a time</p>
+      <p class="card-desc">"What's V<sub>A</sub>?" &mdash; a single limit, cold, like an instructor would ask. Type it, submit, next.</p>
+      <p class="badge-line" id="badge-limits"></p>
+    </a>
+    <a class="test-card topic-card" href="ep-drill.html">
+      <div class="num">&#9888;</div>
+      <h3>EP Drill</h3>
+      <p>One procedure, verbatim</p>
+      <p class="card-desc">A random EP title. Type the whole procedure from memory, in order, with the decision lines. Graded step by step.</p>
+      <p class="badge-line" id="badge-ep"></p>
+    </a>
   </div>
-
-  <!-- EXERCISE SCREEN -->
-  <div id="exercise-screen" class="hidden">
-    <div class="quiz-top">
-      <span class="test-name" id="exercise-mode-label"></span>
-      <span class="counter" id="score-line"></span>
-    </div>
-
-    <div class="diagram-frame">
-      <img src="img/lubrication.png" alt="Lubrication System diagram with blanked part names" class="diagram-img">
-      <div class="chip-layer" id="chip-layer"></div>
-    </div>
-
-    <div class="word-bank hidden" id="word-bank"></div>
-
-    <div id="answer-rows" class="answer-rows"></div>
-
-    <div class="nav-row center">
-      <button class="btn submit" id="btn-check">Check Answers</button>
-      <button class="btn primary hidden" id="btn-reset">Try Again</button>
-      <button class="btn" id="btn-mode">Change Mode</button>
-    </div>
-  </div>
+  <p class="note">Answers are graded on the numbers and the words that matter &mdash; "60 to 90 psi" and "60-90 PSI" are both right. Critical memory items are graded in order; punctuation and step numbers are not.</p>
 
 </main>
-
-<script>const SYSTEM_ID = "lubrication";</script>
-<script src="diagrams.js?v=2"></script>
-<script src="diagram-app.js?v=2"></script>
+<script>
+(function () {
+  const set = (id, key, fmt) => { try { const s = JSON.parse(localStorage.getItem(key) || "null"); if (s) document.getElementById(id).textContent = fmt(s); } catch (e) {} };
+  set("badge-sheet", "nife-ground-sheet", s => "Best: " + s.best + "% · " + s.n + " attempt" + (s.n > 1 ? "s" : ""));
+  set("badge-limits", "nife-ground-limits", s => s.asked + " asked · " + Math.round(s.right / Math.max(1, s.asked) * 100) + "% right");
+  set("badge-ep", "nife-ground-ep", s => s.n + " EP" + (s.n > 1 ? "s" : "") + " recited · " + s.perfect + " perfect");
+})();
+</script>
 <script src="../site.js?v=r9" defer></script>
 </body>
 </html>
