@@ -16,10 +16,11 @@ ASSETS = sorted(
     + glob.glob("*.png") + glob.glob("*/img/*.png") + glob.glob("*/img/*.jpg")
     + ["manifest.webmanifest"]
 )
-ASSETS = [a for a in ASSETS if a != "gen-sw.py"]
+ASSETS = [a for a in ASSETS if a != "gen-sw.py"
+          and "test-figures" not in a and "/img/fig-" not in a]  # figure drills unpublished for now
 # cache directory URLs for the index pages too
 urls = ["./"] + ["./" + a for a in ASSETS]
-urls += ["./engines/", "./frr/"]
+urls += ["./aero/", "./engines/", "./frr/", "./wx/"]
 
 # Bump SW_REV to force a new cache even when the asset list is unchanged
 # (e.g. after changing the service worker strategy itself).
