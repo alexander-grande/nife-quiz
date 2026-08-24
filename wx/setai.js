@@ -82,7 +82,7 @@ function checkWork() {
   $("verdict-line").textContent = all
     ? "All 5 correct — nicely done."
     : right + " of 5 correct — fix the red rows and check again, or show the solution.";
-  $("verdict-line").style.color = all ? "var(--green)" : "var(--red)";
+  $("verdict-line").style.color = all ? "var(--green-text)" : "var(--red-text)";
   if (all && !solved) { solved = true; bumpStats(true); renderStats(); }
   return all;
 }

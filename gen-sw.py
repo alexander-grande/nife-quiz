@@ -14,10 +14,11 @@ ASSETS = sorted(
     + glob.glob("*.css")
     + glob.glob("*.js") + glob.glob("*/*.js")
     + glob.glob("*.png") + glob.glob("*/img/*.png") + glob.glob("*/img/*.jpg")
-    + ["manifest.webmanifest"]
+    + glob.glob("fonts/*.woff2") + ["manifest.webmanifest"]
 )
 ASSETS = [a for a in ASSETS if a != "gen-sw.py"
-          and "test-figures" not in a and "/img/fig-" not in a]  # figure drills unpublished for now
+          and "test-figures" not in a and "/img/fig-" not in a and a not in ("patch-full.png", "patch-56.png", "patch-260.png", "og-image.png")]  # figure drills unpublished for now
+# (CNAME is a GitHub Pages config file, not an asset)
 # cache directory URLs for the index pages too
 urls = ["./"] + ["./" + a for a in ASSETS]
 urls += ["./aero/", "./engines/", "./frr/", "./wx/"]

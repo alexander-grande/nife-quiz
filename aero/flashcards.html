@@ -3,26 +3,58 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Aero Flashcards | NIFE 2642</title>
+<meta name="description" content="Aero Flashcards — The lift equation, stalls, stability, load factor, and must-know numbers · tap a card to flip · space/enter flips, arrows navigate">
+<meta property="og:title" content="Aero Flashcards | MIF Master">
+<meta property="og:description" content="Aero Flashcards — The lift equation, stalls, stability, load factor, and must-know numbers · tap a card to flip · space/enter flips, arrows navigate">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://mifmaster.com/og-image.png">
+<link rel="canonical" href="https://mifmaster.com/aero/flashcards.html">
+<meta property="og:site_name" content="MIF Master">
+<meta name="twitter:card" content="summary_large_image">
+<title>Aero Flashcards | MIF Master</title>
 <link rel="icon" type="image/png" href="../favicon.png">
 <link rel="apple-touch-icon" href="../apple-touch-icon.png">
-<link rel="stylesheet" href="../style.css?v=r2">
+<link rel="stylesheet" href="../style.css?v=r8">
+<script>(function(){try{var t=localStorage.getItem("nife-theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}})();</script>
 <script src="../analytics.js"></script>
 <link rel="manifest" href="../manifest.webmanifest">
-<meta name="theme-color" content="#0d1421">
+<meta name="theme-color" content="#0b111c">
 <script>if ("serviceWorker" in navigator) navigator.serviceWorker.register("../sw.js");</script>
 </head>
 <body>
-<div class="wrap">
+<a class="skip-link" href="#main">Skip to content</a>
+<nav class="site-bar" aria-label="Site">
+  <div class="site-bar-in">
+    <a class="brand" href="../"><img class="logo-dark" src="../logo-dark.png" alt="" height="30"><img class="logo-light" src="../logo-light.png" alt="" height="30"><span class="wordmark"><b>MIF</b> <span>Master</span></span></a>
+    <div class="site-links">
+      <details class="menu">
+        <summary>NIFE &ndash; Academics</summary>
+        <ul class="menu-list">
+          <li class="menu-home"><a href="../#academics">All units <small>overview</small></a></li>
+          <li><a href="../aero/">Aero <small>Unit 1</small></a></li>
+          <li><a href="../engines/">Engines <small>Unit 2</small></a></li>
+          <li><a href="../frr/">FR&amp;R <small>Unit 3</small></a></li>
+          <li><span class="menu-disabled">NAV <small>coming soon</small></span></li>
+          <li><a href="../wx/">Weather <small>Unit 5</small></a></li>
+        </ul>
+      </details>
+      <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch between dark and light mode">
+        <svg class="ico-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+        <svg class="ico-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+      </button>
+    </div>
+  </div>
+</nav>
+<main class="wrap" id="main">
 
   <a href="./" class="back-link">&larr; All Aero Tests</a>
-  <header>
+  <header class="page-head">
     <div class="eyebrow">Aerodynamics &middot; Unit 1 of 5</div>
     <h1>Flashcards</h1>
     <div class="sub">The lift equation, stalls, stability, load factor, and must-know numbers &middot; tap a card to flip &middot; space/enter flips, arrows navigate</div>
   </header>
 
-  <div class="word-bank" id="cat-bar" style="justify-content:center;"></div>
+  <div class="word-bank center" id="cat-bar"></div>
 
   <div class="fc-stage">
     <div class="fc-card" id="fc-card" title="Tap to flip">
@@ -48,8 +80,9 @@
     <button class="btn" id="btn-fc-shuffle">Reshuffle Deck</button>
   </div>
 
-</div>
+</main>
 
-<script src="flashcards.js?v=r2"></script>
+<script src="flashcards.js?v=r8"></script>
+<script src="../site.js?v=r8" defer></script>
 </body>
 </html>

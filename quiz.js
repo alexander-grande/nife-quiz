@@ -16,6 +16,41 @@ const DUMP_SECONDS = 5 * 60;
 const HIST_KEY = UNIT.histPrefix + PAGE_TEST;
 const HIST_MAX = 30;
 const PASS_PCT = 80;
+// "Flag this question" — sent silently to the author's feedback sheet via
+// window.mifFeedback (site.js). Includes enough context to find the question.
+function reportFields(q, qi, note, name) {
+  return {
+    type: "Bad question",
+    location: `${UNIT.name || ""} · ${TEST.name} · Q${qi + 1} (index ${qi}) · ${q.ref} · ${location.pathname}`,
+    question: q.q + "\n" + q.o.map((o, i) => `${i === q.a ? "[correct] " : ""}${"ABCD"[i]}. ${o}`).join("\n"),
+    details: note, name,
+  };
+}
+function reportRowHTML(qi) {
+  return `<div class="report-row"><button type="button" class="report-btn" data-qi="${qi}">&#9873; Flag this question</button>` +
+    `<div class="report-box hidden"><label class="sr-only" for="report-note-${qi}">What's wrong with this question?</label>` +
+    `<textarea id="report-note-${qi}" rows="2" placeholder="What's wrong? (wrong answer, typo, not in the Student Guide, two right answers…)"></textarea>` +
+    `<input type="text" class="report-name" maxlength="40" placeholder="Name (optional)" aria-label="Name (optional)">` +
+    `<div class="btn-group"><button type="button" class="btn small primary report-send" data-qi="${qi}">Send report</button>` +
+    `<button type="button" class="btn small report-cancel">Cancel</button><span class="report-status" aria-live="polite"></span></div></div></div>`;
+}
+document.addEventListener("click", e => {
+  const open = e.target.closest(".report-btn");
+  if (open) { const box = open.parentElement.querySelector(".report-box"); box.classList.toggle("hidden"); if (!box.classList.contains("hidden")) box.querySelector("textarea").focus(); return; }
+  if (e.target.closest(".report-cancel")) { e.target.closest(".report-box").classList.add("hidden"); return; }
+  const send = e.target.closest(".report-send");
+  if (send) {
+    const box = send.closest(".report-box"), qi = +send.dataset.qi;
+    const note = box.querySelector("textarea").value.trim(), name = box.querySelector(".report-name").value.trim();
+    const status = box.querySelector(".report-status");
+    if (!note) { status.textContent = "Add a note first."; return; }
+    send.disabled = true; status.textContent = "Sending…";
+    window.mifFeedback(reportFields(TEST.questions[qi], qi, note, name))
+      .then(() => { status.textContent = "Reported — thanks."; setTimeout(() => box.classList.add("hidden"), 1200); })
+      .catch(() => { status.textContent = "Couldn't send — check your connection."; })
+      .finally(() => { send.disabled = false; });
+  }
+});
 
 let mode = "exam";
 let useDumpSheet = false;
@@ -239,6 +274,8 @@ function buildQGrid() {
     const dot = document.createElement("button");
     dot.className = "qdot";
     dot.textContent = i + 1;
+    dot.tabIndex = -1;   // keep the 50-button grid out of the Tab order; arrow keys navigate
+    dot.setAttribute("aria-label", "Go to question " + (i + 1));
     dot.addEventListener("click", () => { currentQ = i; renderQuestion(); });
     grid.appendChild(dot);
   });
@@ -253,7 +290,7 @@ function answerCurrent(origIdx) {
 
 function figureHTML(q) {
   if (!q.img) return "";
-  return `<figure class="q-figure"><img src="${q.img}" alt="Student Guide figure">` +
+  return `<figure class="q-figure"><img src="${q.img}" alt="Student Guide figure" loading="lazy" decoding="async">` +
     (q.imgCap ? `<figcaption>${q.imgCap}</figcaption>` : "") + `</figure>`;
 }
 
@@ -318,6 +355,8 @@ function renderQuestion() {
     fb.className = "hidden";
     fb.innerHTML = "";
   }
+  const rr = $("q-report");
+  if (rr) rr.innerHTML = reportRowHTML(activeQ[currentQ]);
 
   $("btn-prev").disabled = currentQ === 0;
   const onLast = currentQ === total - 1;
@@ -458,6 +497,7 @@ function renderReview() {
       html += `<div class="ans correct"><span class="tag">Correct answer:</span>${q.o[q.a]}</div>`;
       html += `<div class="rationale"><span class="tag">Why:</span>${translateRationale(q, q.r, null)}<span class="ref">${q.ref}</span></div>`;
     }
+    html += reportRowHTML(activeQ[i]);
     card.innerHTML = html;
     card.querySelector(".mq").textContent = `${i + 1}. ${q.q}`;
     list.appendChild(card);

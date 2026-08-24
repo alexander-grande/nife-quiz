@@ -1,5 +1,6 @@
 // Per-unit quiz configuration — consumed by ../quiz.js
 const UNIT = {
+  name: "Weather",
   histPrefix: "nife-wx-hist-",
   chRe: /Topic (\d)/,
   chPrefix: "Topic ",

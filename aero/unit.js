@@ -1,5 +1,6 @@
 // Per-unit quiz configuration — consumed by ../quiz.js
 const UNIT = {
+  name: "Aero",
   histPrefix: "nife-aero-hist-",
   chRe: /Ch (\d)/,
   chPrefix: "Ch ",

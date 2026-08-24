@@ -2,7 +2,7 @@
 // Strategy: precache everything at install; serve cache-first with
 // background revalidation, so the site works fully offline and still
 // picks up new content on the next online visit.
-const CACHE = "nife-aeeea76151";
+const CACHE = "nife-9e626a1ee1";
 const PRECACHE = [
   "./",
   "./aero/flashcards.html",
@@ -38,6 +38,12 @@ const PRECACHE = [
   "./engines/tests.js",
   "./engines/unit.js",
   "./favicon.png",
+  "./fonts/ibm-plex-mono-500.woff2",
+  "./fonts/ibm-plex-mono-600.woff2",
+  "./fonts/ibm-plex-sans-400.woff2",
+  "./fonts/ibm-plex-sans-500.woff2",
+  "./fonts/ibm-plex-sans-600.woff2",
+  "./fonts/ibm-plex-sans-700.woff2",
   "./frr/flashcards.html",
   "./frr/flashcards.js",
   "./frr/index.html",
@@ -53,9 +59,11 @@ const PRECACHE = [
   "./icon-192.png",
   "./icon-512.png",
   "./index.html",
+  "./logo-dark.png",
+  "./logo-light.png",
   "./manifest.webmanifest",
-  "./patch-full.png",
   "./quiz.js",
+  "./site.js",
   "./style.css",
   "./sw.js",
   "./wx/flashcards.html",
