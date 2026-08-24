@@ -36,7 +36,7 @@ function markAll(reveal) {
     const line = ep.lines[+inp.dataset.i]; const expected = epLineText(line);
     inp.disabled = true;
     if (reveal) { inp.value = expected; return; }
-    const good = similarity(normEP(inp.value), normEP(expected)) >= 0.8; n++; if (good) ok++;
+    const good = epMatch(inp.value, expected); n++; if (good) ok++;
     inp.classList.add(good ? "gs-ok" : "gs-bad");
     if (!good) { const k = document.createElement("span"); k.className = "gs-key"; k.textContent = expected; inp.parentElement.appendChild(k); }
   });

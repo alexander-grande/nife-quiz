@@ -49,11 +49,11 @@ function checkSheet() {
     if (l.type === "note") return;
     const k = `${ep.id}:${i}`;
     if (l.type === "decision") {
-      const inp = document.querySelector(`input[data-ep="${k}"]`); const ok = similarity(normEP(inp.value), normEP(l.text)) >= 0.8; eN++; if (ok) eOK++; mark(inp, ok, l.text); return;
+      const inp = document.querySelector(`input[data-ep="${k}"]`); const ok = epMatch(inp.value, l.text); eN++; if (ok) eOK++; mark(inp, ok, l.text); return;
     }
     const item = document.querySelector(`input[data-ep="${k}"][data-part="item"]`), act = document.querySelector(`input[data-ep="${k}"][data-part="action"]`);
-    const okI = similarity(normEP(item.value), normEP(l.item)) >= 0.8;
-    const okA = l.action ? similarity(normEP(act.value), normEP(l.action)) >= 0.8 : normEP(act.value) === "";
+    const okI = epMatch(item.value, l.item);
+    const okA = l.action ? epMatch(act.value, l.action) : normEP(act.value) === "";
     eN++; if (okI && okA) eOK++;
     mark(item, okI, l.item); mark(act, okA, l.action || "(nothing)");
   }));

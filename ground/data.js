@@ -153,7 +153,15 @@ function normEP(s) {
     .replace(/\bdegrees?\b/g, "")
     .replace(/\btowards\b/g, "toward")
     .replace(/[^a-z0-9/ ]+/g, " ")
+    .replace(/\b(the|a|an|is|are|to|and)\b/g, " ")     // filler words don't count
     .replace(/\s+/g, " ").trim();
+}
+// One EP line vs. its key. Short lines ("Mags OFF") need a close match;
+// longer spoken-style lines get a little more room for paraphrase.
+function epMatch(given, expected) {
+  const g = normEP(given), e = normEP(expected);
+  if (!e) return g === "";
+  return similarity(g, e) >= (e.length > 30 ? 0.72 : 0.8);
 }
 function epLineText(line) {
   if (line.type === "step") return (line.item + " " + line.action).trim();
@@ -190,6 +198,6 @@ function gradeEP(ep, text) {
   return ep.lines.map((line, k) => {
     const gi = match[k];
     const sim = gi === null ? 0 : similarity(exp[k], got[gi]);
-    return { line, expected: epLineText(line), given: gi === null ? "" : rawLines[gi], sim, ok: sim >= 0.8, graded: line.type !== "note" };
+    return { line, expected: epLineText(line), given: gi === null ? "" : rawLines[gi], sim, ok: gi !== null && epMatch(rawLines[gi], epLineText(line)), graded: line.type !== "note" };
   });
 }
