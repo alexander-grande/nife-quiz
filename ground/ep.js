@@ -24,8 +24,7 @@ function show() {
   $("ep-lines").innerHTML = ep.lines.map((l, i) => {
     if (l.type === "note") return `<div class="gs-step note">${l.text}</div>`;
     const marker = l.type === "decision" ? "&bull;" : `*${l.n}.`;
-    const ph = l.type === "decision" ? "Decision line…" : (l.action ? "Item … action" : "Item");
-    return `<div class="gs-step decision"><span class="gs-n">${marker}</span><span class="gs-field"><input type="text" data-i="${i}" placeholder="${ph}" aria-label="${ep.title} line ${i + 1}" autocomplete="off" spellcheck="false"></span></div>`;
+    return `<div class="gs-step decision"><span class="gs-n">${marker}</span><span class="gs-field"><input type="text" data-i="${i}" aria-label="${ep.title} line ${i + 1}" autocomplete="off" spellcheck="false"></span></div>`;
   }).join("");
   $("ep-result").className = "hidden"; $("ep-result").innerHTML = "";
   $("ep-submit").classList.remove("hidden"); $("ep-show").classList.remove("hidden"); $("ep-next").classList.add("hidden");
