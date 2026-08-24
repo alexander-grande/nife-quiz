@@ -448,3 +448,62 @@ a.topic-card { text-decoration: none; color: inherit; display: block; }
 
 /* multi-line question stems (embedded METAR/TAF reports) */
 .question-text { white-space: pre-line; }
+
+/* ---------- Figures attached to questions (Figure Drills) ---------- */
+.q-figure {
+  margin: 0 0 20px;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.q-figure img { display: block; width: 100%; max-height: 420px; object-fit: contain; }
+.q-figure figcaption {
+  background: var(--panel);
+  color: var(--muted);
+  font-size: 12px;
+  padding: 7px 12px;
+  border-top: 1px solid var(--border);
+}
+
+/* ---------- Worksheet drills (SET AI) ---------- */
+.ws-panel {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 22px;
+  margin-top: 20px;
+}
+.ws-given { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin-bottom: 20px; }
+.ws-given .gv { background: var(--panel2); border: 1px solid var(--border); border-radius: 10px; padding: 10px 14px; }
+.ws-given .gv .gl { color: var(--muted); font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; }
+.ws-given .gv .gvv { font-size: 20px; font-weight: 700; font-variant-numeric: tabular-nums; color: var(--gold); margin-top: 2px; }
+.ws-steps { display: grid; gap: 10px; }
+.ws-step {
+  display: grid;
+  grid-template-columns: 1fr 130px 24px;
+  gap: 12px;
+  align-items: center;
+  background: var(--panel2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 14px;
+}
+.ws-step .sl { font-size: 14px; }
+.ws-step .sl small { display: block; color: var(--muted); font-size: 11px; }
+.ws-step input {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  padding: 8px 10px;
+  font-size: 15px;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+  width: 100%;
+  font-family: inherit;
+}
+.ws-step input:focus { outline: none; border-color: var(--accent); }
+.ws-step.row-right { border-color: var(--green); }
+.ws-step.row-wrong { border-color: var(--red); }
+.ws-note { color: var(--muted); font-size: 13px; margin-top: 14px; }

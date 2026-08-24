@@ -94,6 +94,12 @@
       <h2>Lubrication</h2>
       <p>13 parts to name</p>
     </a>
+    <a class="test-card topic-card" href="test-figures.html">
+      <div class="num">&#128444;</div>
+      <h2>Figure Drill</h2>
+      <p>Student Guide figures with blacked-out labels</p>
+      <p class="badge-line" id="badge-7"></p>
+    </a>
   </div>
 
   <h2 class="section-h">Quick Reference</h2>
@@ -112,7 +118,7 @@
 
 <script>
 // Best-score badges from this browser's attempt history
-[0, 1, 2, 3, 4, 5].forEach(i => {
+[0, 1, 2, 3, 4, 5, 7].forEach(i => {
   try {
     const arr = JSON.parse(localStorage.getItem("nife-hist-" + i) || "[]");
     if (!arr.length) return;

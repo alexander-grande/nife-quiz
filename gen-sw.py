@@ -13,7 +13,7 @@ ASSETS = sorted(
     glob.glob("*.html") + glob.glob("*/*.html")
     + glob.glob("*.css")
     + glob.glob("*.js") + glob.glob("*/*.js")
-    + glob.glob("*.png") + glob.glob("*/img/*.png")
+    + glob.glob("*.png") + glob.glob("*/img/*.png") + glob.glob("*/img/*.jpg")
     + ["manifest.webmanifest"]
 )
 ASSETS = [a for a in ASSETS if a != "gen-sw.py"]
@@ -23,7 +23,7 @@ urls += ["./engines/", "./frr/"]
 
 # Bump SW_REV to force a new cache even when the asset list is unchanged
 # (e.g. after changing the service worker strategy itself).
-SW_REV = "2"
+SW_REV = "3"
 # version = hash of the asset list + revision, so the precache re-runs when
 # pages are added/removed or the strategy changes
 version = hashlib.sha1((SW_REV + "|" + "|".join(urls)).encode()).hexdigest()[:10]
@@ -57,7 +57,7 @@ self.addEventListener("fetch", e => {{
   const key = url.origin + url.pathname;   // one cache entry per path, ?v= ignored
   const isPage = e.request.mode === "navigate" ||
     url.pathname.endsWith(".html") || url.pathname.endsWith("/");
-  const isScript = url.pathname.endsWith(".js");
+  const isScript = url.pathname.endsWith(".js") || url.pathname.endsWith(".css");
   e.respondWith((async () => {{
     const cache = await caches.open(CACHE);
     const cached = await cache.match(key);

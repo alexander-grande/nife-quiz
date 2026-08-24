@@ -6,7 +6,7 @@
 <title>Engines Chapters 1–3 | NIFE 2642</title>
 <link rel="icon" type="image/png" href="../favicon.png">
 <link rel="apple-touch-icon" href="../apple-touch-icon.png">
-<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../style.css?v=r2">
 <script src="../analytics.js"></script>
 <link rel="manifest" href="../manifest.webmanifest">
 <meta name="theme-color" content="#0d1421">
@@ -30,7 +30,7 @@
       <div class="setup-group">
         <div class="setup-label">Test mode</div>
         <div class="choice-row">
-          <button class="btn toggle selected" data-mode="exam">Exam Mode<span>All 50 questions, graded at the end &mdash; like the real test</span></button>
+          <button class="btn toggle selected" data-mode="exam">Exam Mode<span>Every question, graded at the end &mdash; like the real test</span></button>
           <button class="btn toggle" data-mode="practice">Practice Mode<span>Each question graded on the spot, with the correct answer and rationale</span></button>
         </div>
       </div>
@@ -72,6 +72,7 @@
 
     <div class="section-label" id="q-number"></div>
     <div class="question-text" id="q-text"></div>
+    <div id="q-figure-box" class="hidden"></div>
     <div class="options" id="q-options"></div>
     <div id="q-feedback" class="hidden"></div>
 
@@ -96,7 +97,7 @@
         <div class="frac" id="score-frac"></div>
       </div>
       <div class="verdict" id="score-verdict"></div>
-      <div class="verdict-sub">Passing score is 80% (24 of 30 correct)</div>
+      <div class="verdict-sub">Passing score is 80%</div>
     </div>
 
     <div class="chapter-breakdown hidden" id="chapter-breakdown"></div>
@@ -118,7 +119,8 @@
 </div>
 
 <script>const PAGE_TEST = 3;</script>
-<script src="tests.js?v=6"></script>
-<script src="app.js?v=10"></script>
+<script src="unit.js?v=r2"></script>
+<script src="tests.js?v=r2"></script>
+<script src="../quiz.js?v=r2"></script>
 </body>
 </html>

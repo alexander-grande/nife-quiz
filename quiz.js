@@ -1,16 +1,21 @@
 // ============================================================
-// APP STATE + LOGIC
-// Each test page defines PAGE_TEST (0=A, 1=B, 2=C) before this
-// script loads; tests.js defines TESTS.
+// SHARED QUIZ ENGINE
+// Each test page defines, before this script loads:
+//   PAGE_TEST — index into TESTS (from the unit's tests.js)
+//   UNIT      — per-unit config (from the unit's unit.js):
+//     { histPrefix, chapters: {n: name}, chRe, chPrefix }
 // Modes: "exam" (graded at the end) | "practice" (instant feedback)
 // Each attempt shuffles question order and answer positions.
 // Attempt history is kept in localStorage (this browser only).
+// Questions may carry img/imgCap — a Student Guide figure shown
+// above the options (and again in the results review).
 // ============================================================
 const TEST = TESTS[PAGE_TEST];
 const LETTERS = ["a", "b", "c", "d"];
 const DUMP_SECONDS = 5 * 60;
-const HIST_KEY = "nife-wx-hist-" + PAGE_TEST;
+const HIST_KEY = UNIT.histPrefix + PAGE_TEST;
 const HIST_MAX = 30;
+const PASS_PCT = 80;
 
 let mode = "exam";
 let useDumpSheet = false;
@@ -74,7 +79,7 @@ function renderHistory() {
     const pct = Math.round(a.c / a.n * 100);
     const tag = a.f ? (a.m === "exam" ? "Exam" : "Practice") : "Missed-only";
     html += `<div class="hist-row"><span>${date}</span><span>${tag}</span>` +
-      `<span>${a.c}/${a.n}</span><span class="${pct >= 80 ? "hist-pass" : "hist-fail"}">${pct}%</span></div>`;
+      `<span>${a.c}/${a.n}</span><span class="${pct >= PASS_PCT ? "hist-pass" : "hist-fail"}">${pct}%</span></div>`;
   });
   box.innerHTML = html;
   box.classList.remove("hidden");
@@ -142,7 +147,7 @@ $("btn-timer-cancel").addEventListener("click", () => {
 
 function optSnippet(q, idx) {
   let t = q.o[idx];
-  if (t.length > 60) t = t.slice(0, 57).replace(/\s+\S*$/, "") + "\u2026";
+  if (t.length > 60) t = t.slice(0, 57).replace(/\s+\S*$/, "") + "…";
   return "[" + t + "]";
 }
 
@@ -173,7 +178,7 @@ function translateRationale(q, text, perm) {
   // parenthesized bare letters: "(a) describes ..."
   out = out.replace(/\(([A-Da-d])\)/g, (m, L) => rep(L) || m);
   // bare capital letter followed by a verb: "A is dew point; B describes ..."
-  out = out.replace(/(?<!\u00b0)(?<!\u00b0\s)\b([A-D])\b(?=\s+(?:is|are|was|describes|defines|reverses|belongs|fails|adds|mixes|matches|swaps|equals|gives|puts|borrows|uses|applies|refers|remains|holds|comes|would))/g,
+  out = out.replace(/(?<!°)(?<!°\s)\b([A-D])\b(?=\s+(?:is|are|was|describes|defines|reverses|belongs|fails|adds|mixes|matches|swaps|equals|gives|puts|borrows|uses|applies|refers|remains|holds|comes|would))/g,
     (m, L) => rep(L) || m);
   return out.replace(/\u0000(\d)\u0000/g, (m, d) => final(+d));
 }
@@ -246,6 +251,12 @@ function answerCurrent(origIdx) {
   renderQuestion();
 }
 
+function figureHTML(q) {
+  if (!q.img) return "";
+  return `<figure class="q-figure"><img src="${q.img}" alt="Student Guide figure">` +
+    (q.imgCap ? `<figcaption>${q.imgCap}</figcaption>` : "") + `</figure>`;
+}
+
 function renderQuestion() {
   const total = activeQ.length;
   const q = TEST.questions[activeQ[currentQ]];
@@ -264,6 +275,13 @@ function renderQuestion() {
   $("q-number").textContent = `Question ${currentQ + 1} of ${total}`;
   $("q-text").textContent = q.q;
 
+  // Optional Student Guide figure
+  const figBox = $("q-figure-box");
+  if (figBox) {
+    figBox.innerHTML = figureHTML(q);
+    figBox.classList.toggle("hidden", !q.img);
+  }
+
   const optWrap = $("q-options");
   optWrap.innerHTML = "";
   perm.forEach((origIdx, j) => {
@@ -277,7 +295,12 @@ function renderQuestion() {
       cls += " selected";
     }
     btn.className = cls;
-    btn.innerHTML = `<span class="letter">${LETTERS[j]}</span><span>${q.o[origIdx]}</span>`;
+    const letter = document.createElement("span");
+    letter.className = "letter";
+    letter.textContent = LETTERS[j];
+    const text = document.createElement("span");
+    text.textContent = q.o[origIdx];
+    btn.append(letter, text);
     btn.addEventListener("click", () => answerCurrent(origIdx));
     optWrap.appendChild(btn);
   });
@@ -330,12 +353,6 @@ $("btn-submit").addEventListener("click", () => {
 });
 
 // ---------- Grading + results ----------
-const CHAPTERS = {
-  1: "Theory",
-  2: "Mechanics",
-  3: "Hazards",
-  4: "Planning & Resources"
-};
 
 function renderChapterBreakdown() {
   const box = $("chapter-breakdown");
@@ -343,7 +360,7 @@ function renderChapterBreakdown() {
   const byCh = {};
   activeQ.forEach((qi, i) => {
     const q = TEST.questions[qi];
-    const m = q.ref.match(/Topic (\d)/);
+    const m = q.ref.match(UNIT.chRe);
     const ch = m ? +m[1] : 0;
     byCh[ch] = byCh[ch] || { c: 0, n: 0 };
     byCh[ch].n++;
@@ -353,9 +370,10 @@ function renderChapterBreakdown() {
   Object.keys(byCh).map(Number).sort((a, b) => a - b).forEach(ch => {
     const { c, n } = byCh[ch];
     const pct = Math.round(c / n * 100);
-    const weak = pct < 80;
+    const weak = pct < PASS_PCT;
+    const name = UNIT.chapters[ch];
     html += `<div class="ch-row${weak ? " ch-weak" : ""}">` +
-      `<span class="ch-name">Topic ${ch} — ${CHAPTERS[ch] || "Other"}</span>` +
+      `<span class="ch-name">${UNIT.chPrefix}${ch}${name ? " — " + name : ""}</span>` +
       `<span class="ch-bar"><span class="ch-fill" style="width:${pct}%"></span></span>` +
       `<span class="ch-score">${c}/${n}</span>` +
       `<span class="ch-note">${weak ? "restudy" : ""}</span></div>`;
@@ -368,17 +386,21 @@ function gradeTest() {
   const total = activeQ.length;
   const correct = activeQ.reduce((n, qi, i) => n + (answers[i] === TEST.questions[qi].a ? 1 : 0), 0);
   const pct = Math.round(correct / total * 100);
-  const passed = pct >= 80;
+  const passed = pct >= PASS_PCT;
   const isFull = total === TEST.questions.length;
 
   saveAttempt(correct, total);
 
   $("score-pct").textContent = pct + "%";
-  $("score-frac").textContent = `${correct} of ${total} correct` + (isFull ? "" : " (missed-only retake)");
-  $("score-circle").classList.toggle("fail", !passed);
+  $("score-frac").textContent = `${correct} of ${total}` + (isFull ? "" : " · missed-only");
+  const circle = $("score-circle");
+  circle.classList.toggle("fail", !passed);
+  circle.style.setProperty("--p", pct);
   const verdict = $("score-verdict");
   verdict.textContent = passed ? "PASS" : "FAIL";
   verdict.className = "verdict " + (passed ? "pass" : "fail");
+  const sub = document.querySelector(".verdict-sub");
+  if (sub) sub.textContent = `Passing score is ${PASS_PCT}% (${Math.ceil(total * PASS_PCT / 100)} of ${total} correct)`;
 
   // Retake-missed button
   const missedIdx = activeQ.filter((qi, i) => answers[i] !== TEST.questions[qi].a);
@@ -429,13 +451,15 @@ function renderReview() {
       ? "<em>No answer given</em>"
       : q.o[userIdx];
 
-    let html = `<div class="mq">${i + 1}. ${q.q}</div>`;
+    let html = `<div class="mq"></div>`;
+    html += figureHTML(q);
     html += `<div class="ans yours${isRight ? " right" : ""}"><span class="tag">Your answer:</span>${yourAnswer}</div>`;
     if (!isRight) {
       html += `<div class="ans correct"><span class="tag">Correct answer:</span>${q.o[q.a]}</div>`;
       html += `<div class="rationale"><span class="tag">Why:</span>${translateRationale(q, q.r, null)}<span class="ref">${q.ref}</span></div>`;
     }
     card.innerHTML = html;
+    card.querySelector(".mq").textContent = `${i + 1}. ${q.q}`;
     list.appendChild(card);
   });
 }

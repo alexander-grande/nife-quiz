@@ -73,12 +73,24 @@
       <p>Visibility, METARs, TAFs, charts, radar, severe weather products</p>
       <p class="badge-line" id="badge-6"></p>
     </a>
+    <a class="test-card topic-card" href="test-figures.html">
+      <div class="num">&#128444;</div>
+      <h2>Figure Drill</h2>
+      <p>Student Guide figures with blacked-out labels &mdash; fronts, storms, hazards</p>
+      <p class="badge-line" id="badge-7"></p>
+    </a>
   </div>
 
 <p class="note">Each test offers Exam Mode (graded at the end, like the real test) or Practice Mode (instant feedback per question), with an optional 5-minute dump sheet. Results include a breakdown across Topics 1&ndash;4 (Theory, Mechanics, Hazards, Planning &amp; Resources).</p>
 
-  <h2 class="section-h">Quick Reference</h2>
-  <div class="test-cards" style="grid-template-columns: minmax(230px, 420px); justify-content: center;">
+  <h2 class="section-h">Drills &amp; Quick Reference</h2>
+  <div class="test-cards">
+    <a class="test-card topic-card" href="setai.html">
+      <div class="num">&#9662;&#9652;</div>
+      <h2>SET AI Altimetry Drill</h2>
+      <p>Unlimited generated pressure problems</p>
+      <p style="margin-top:6px;">Departure and arrival altimeter settings, indicated vs. actual altitude &mdash; work the worksheet, check each step, see the solution.</p>
+    </a>
     <a class="test-card topic-card" href="flashcards.html">
       <div class="num">&#127183;</div>
       <h2>Flashcards</h2>
@@ -91,7 +103,7 @@
 
 <script>
 // Best-score badges from this browser's attempt history
-[0, 1, 2, 3, 4, 5, 6].forEach(i => {
+[0, 1, 2, 3, 4, 5, 6, 7].forEach(i => {
   try {
     const arr = JSON.parse(localStorage.getItem("nife-wx-hist-" + i) || "[]");
     if (!arr.length) return;

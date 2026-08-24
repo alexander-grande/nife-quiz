@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SET AI Altimetry Drill | NIFE 2642</title>
+<link rel="icon" type="image/png" href="../favicon.png">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="stylesheet" href="../style.css?v=r2">
+<script src="../analytics.js"></script>
+<link rel="manifest" href="../manifest.webmanifest">
+<meta name="theme-color" content="#0d1421">
+<script>if ("serviceWorker" in navigator) navigator.serviceWorker.register("../sw.js");</script>
+</head>
+<body>
+<div class="wrap">
+
+  <a href="./" class="back-link">&larr; All Weather Tests</a>
+  <header>
+    <div class="eyebrow">Aviation Weather &middot; Unit 5 of 5</div>
+    <h1>SET AI Altimetry Drill</h1>
+    <div class="sub">You fly at a constant indicated altitude from the departure field's altimeter setting into the arrival field's pressure &mdash; without resetting the Kollsman window. Work the SET AI sheet, then check each step. New numbers every problem.</div>
+  </header>
+
+  <div class="ws-panel">
+    <div class="ws-given">
+      <div class="gv"><div class="gl">Departure altimeter</div><div class="gvv" id="gv-dep"></div></div>
+      <div class="gv"><div class="gl">Arrival altimeter</div><div class="gvv" id="gv-arr"></div></div>
+      <div class="gv"><div class="gl">Assigned altitude (ft)</div><div class="gvv" id="gv-alt"></div></div>
+      <div class="gv"><div class="gl">Arrival field elev (ft)</div><div class="gvv" id="gv-field"></div></div>
+    </div>
+
+    <div class="ws-steps">
+      <div class="ws-step" id="sit-row" style="grid-template-columns: 1fr;">
+        <div class="sl"><b>S</b> &mdash; Situation<small>Which way is the pressure going?</small>
+          <div class="choice-row" style="justify-content:flex-start; margin-top:10px;">
+            <button class="btn toggle" data-sit="hl" style="flex:0 1 auto;">High &rarr; Low<span>Look Out Below</span></button>
+            <button class="btn toggle" data-sit="lh" style="flex:0 1 auto;">Low &rarr; High<span>Plenty of Sky</span></button>
+          </div>
+        </div>
+      </div>
+      <div class="ws-step">
+        <div class="sl"><b>E</b> &mdash; Error<small>1.00 in-Hg = 1,000 ft</small></div>
+        <input id="row-err" inputmode="numeric" placeholder="ft">
+        <span class="row-mark"></span>
+      </div>
+      <div class="ws-step">
+        <div class="sl"><b>T</b> &mdash; True / MSL altitude<small>Assigned &plusmn; error</small></div>
+        <input id="row-msl" inputmode="numeric" placeholder="ft MSL">
+        <span class="row-mark"></span>
+      </div>
+      <div class="ws-step">
+        <div class="sl"><b>A</b> &mdash; Absolute / AGL altitude<small>MSL &minus; field elevation</small></div>
+        <input id="row-agl" inputmode="numeric" placeholder="ft AGL">
+        <span class="row-mark"></span>
+      </div>
+      <div class="ws-step">
+        <div class="sl"><b>I</b> &mdash; Indicated altitude on deck<small>Field elevation &plusmn; error</small></div>
+        <input id="row-deck" inputmode="numeric" placeholder="ft">
+        <span class="row-mark"></span>
+      </div>
+    </div>
+
+    <div class="nav-row" style="justify-content:center; flex-wrap:wrap;">
+      <button class="btn submit" id="btn-check">Check My Work</button>
+      <button class="btn" id="btn-solve">Show Solution</button>
+      <button class="btn primary" id="btn-new">New Problem</button>
+    </div>
+    <p class="ws-note" style="text-align:center; font-weight:650;" id="verdict-line"></p>
+
+    <div id="solution" class="feedback hidden" style="margin-top:18px;"></div>
+  </div>
+
+  <p class="note" id="drill-stats"></p>
+  <p class="note">From the Student Guide, Topic 1: a 0.10 in-Hg pressure change moves the altimeter reading 100 ft. Flying high&nbsp;&rarr;&nbsp;low pressure without an update, you are LOWER than indicated; low&nbsp;&rarr;&nbsp;high, HIGHER than indicated. Commit SET AI to your dump sheet.</p>
+
+</div>
+
+<script src="setai.js?v=r2"></script>
+</body>
+</html>

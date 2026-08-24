@@ -1,1 +1,5 @@
-engines/style.css
+# local reference material — never publish
+student guides/
+nifegouge/
+.DS_Store
+.playwright-mcp/

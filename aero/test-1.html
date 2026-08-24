@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aero Test 1 — Easy | NIFE 2642</title>
+<link rel="icon" type="image/png" href="../favicon.png">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="stylesheet" href="../style.css?v=r2">
+<script src="../analytics.js"></script>
+<link rel="manifest" href="../manifest.webmanifest">
+<meta name="theme-color" content="#0d1421">
+<script>if ("serviceWorker" in navigator) navigator.serviceWorker.register("../sw.js");</script>
+</head>
+<body>
+<div class="wrap">
+
+  <a href="./" class="back-link">&larr; All Aero Tests</a>
+  <header>
+    <div class="eyebrow">Aerodynamics &middot; Unit 1 of 5</div>
+    <h1>Test 1 — Easy</h1>
+    <div class="sub">Single-concept recall drawn directly from Student Guide language.</div>
+  </header>
+
+  <!-- SETUP SCREEN -->
+  <div id="setup-screen">
+    <div class="center-box">
+      <h2>Test Setup</h2>
+
+      <div class="setup-group">
+        <div class="setup-label">Test mode</div>
+        <div class="choice-row">
+          <button class="btn toggle selected" data-mode="exam">Exam Mode<span>Every question, graded at the end &mdash; like the real test</span></button>
+          <button class="btn toggle" data-mode="practice">Practice Mode<span>Each question graded on the spot, with the correct answer and rationale</span></button>
+        </div>
+      </div>
+
+      <div class="setup-group">
+        <div class="setup-label">Start with a dump sheet?</div>
+        <div class="choice-row">
+          <button class="btn toggle" data-dump="yes">Yes<span>5-minute timer to write down what you remember first</span></button>
+          <button class="btn toggle selected" data-dump="no">No<span>Go straight to the test</span></button>
+        </div>
+      </div>
+
+      <button class="btn submit" id="btn-start">Start Test</button>
+    </div>
+    <div class="history-box hidden" id="history-box"></div>
+  </div>
+
+  <!-- DUMP SHEET TIMER -->
+  <div id="dump-timer-screen" class="hidden">
+    <div class="center-box">
+      <h2>Dump Sheet</h2>
+      <p>Write down everything you want to remember &mdash; formulas, mnemonics, temperatures, percentages. The test will be available when the timer runs out.</p>
+      <div class="timer-display" id="timer-display">5:00</div>
+      <div class="timer-sub" id="timer-sub">Time remaining</div>
+      <button class="btn submit hidden" id="btn-timer-continue">Continue to Test</button>
+      <div style="margin-top:18px;">
+        <button class="btn" id="btn-timer-cancel" style="font-size:13px; padding:6px 14px;">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- QUIZ SCREEN -->
+  <div id="quiz-screen" class="hidden">
+    <div class="quiz-top">
+      <span class="test-name" id="quiz-mode-label"></span>
+      <span class="counter" id="quiz-counter"></span>
+    </div>
+    <div class="progress"><div class="fill" id="progress-fill"></div></div>
+
+    <div class="section-label" id="q-number"></div>
+    <div class="question-text" id="q-text"></div>
+    <div id="q-figure-box" class="hidden"></div>
+    <div class="options" id="q-options"></div>
+    <div id="q-feedback" class="hidden"></div>
+
+    <div class="nav-row">
+      <button class="btn" id="btn-prev">&larr; Previous</button>
+      <div style="display:flex; gap:12px;">
+        <button class="btn" id="btn-quit">Exit Test</button>
+        <button class="btn submit hidden" id="btn-submit">Submit Test</button>
+        <button class="btn primary" id="btn-next">Next &rarr;</button>
+      </div>
+    </div>
+
+    <div class="qgrid-label">Question navigator</div>
+    <div class="qgrid" id="qgrid"></div>
+  </div>
+
+  <!-- RESULTS SCREEN -->
+  <div id="results-screen" class="hidden">
+    <div class="score-box">
+      <div class="score-circle" id="score-circle">
+        <div class="pct" id="score-pct"></div>
+        <div class="frac" id="score-frac"></div>
+      </div>
+      <div class="verdict" id="score-verdict"></div>
+      <div class="verdict-sub">Passing score is 80%</div>
+    </div>
+
+    <div class="chapter-breakdown hidden" id="chapter-breakdown"></div>
+
+    <div class="toggle-row">
+      <button class="btn" id="btn-toggle-all">Show All Questions</button>
+    </div>
+
+    <div class="review-h" id="review-heading"></div>
+    <div id="miss-list"></div>
+
+    <div class="results-actions">
+      <button class="btn submit hidden" id="btn-missed"></button>
+      <button class="btn primary" id="btn-retake">Retake This Test</button>
+      <button class="btn" id="btn-home">All Aero Tests</button>
+    </div>
+  </div>
+
+</div>
+
+<script>const PAGE_TEST = 0;</script>
+<script src="unit.js?v=r2"></script>
+<script src="tests.js?v=r2"></script>
+<script src="../quiz.js?v=r2"></script>
+</body>
+</html>
