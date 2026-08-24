@@ -28,8 +28,9 @@ function renderEPs() {
   $("eps").innerHTML = EPS.map(ep => `<section class="gs-ep" aria-label="${ep.title}"><h3>${ep.title}</h3>` +
     ep.lines.map((l, i) => {
       const k = `${ep.id}:${i}`;
+      // Decision lines and notes are printed on the real quiz sheet, so they are given here too.
       if (l.type === "note") return `<div class="gs-step note">${l.text}</div>`;
-      if (l.type === "decision") return `<div class="gs-step decision"><span class="gs-n">${l.plain ? "" : "&bull;"}</span><span class="gs-field"><input type="text" data-ep="${k}" data-part="text" placeholder="Decision line…" aria-label="${ep.title} decision line ${i + 1}"></span></div>`;
+      if (l.type === "decision") return `<div class="gs-step given"><span class="gs-n">${l.plain ? "" : "&bull;"}</span><span class="gs-given-text">${l.plain ? l.text : "<b>" + l.text + "</b>"}</span></div>`;
       return `<div class="gs-step"><span class="gs-n">*${l.n}.</span>` +
         `<span class="gs-field"><input type="text" data-ep="${k}" data-part="item" placeholder="Item" aria-label="${ep.title} step ${l.n} item"></span>` +
         `<span class="gs-field"><input type="text" data-ep="${k}" data-part="action" placeholder="${l.action ? "Action" : "(none)"}" aria-label="${ep.title} step ${l.n} action"></span></div>`;
@@ -46,11 +47,8 @@ function checkSheet() {
     const cell = byId[inp.dataset.limit]; const ok = gradeLimit(cell, inp.value); lN++; if (ok) lOK++; mark(inp, ok, cell.a);
   });
   EPS.forEach(ep => ep.lines.forEach((l, i) => {
-    if (l.type === "note") return;
+    if (l.type !== "step") return;   // decision lines are given, not graded
     const k = `${ep.id}:${i}`;
-    if (l.type === "decision") {
-      const inp = document.querySelector(`input[data-ep="${k}"]`); const ok = epMatch(inp.value, l.text); eN++; if (ok) eOK++; mark(inp, ok, l.text); return;
-    }
     const item = document.querySelector(`input[data-ep="${k}"][data-part="item"]`), act = document.querySelector(`input[data-ep="${k}"][data-part="action"]`);
     const okI = similarity(normEP(item.value), normEP(l.item)) >= 0.7;
     const okA = l.action ? similarity(normEP(act.value), normEP(l.action)) >= 0.85 : normEP(act.value) === "";
@@ -68,8 +66,7 @@ function reveal() {
   document.querySelectorAll("input[data-limit]").forEach(inp => { inp.value = byId[inp.dataset.limit].a; });
   EPS.forEach(ep => ep.lines.forEach((l, i) => {
     const k = `${ep.id}:${i}`;
-    if (l.type === "decision") { document.querySelector(`input[data-ep="${k}"]`).value = l.text; }
-    else if (l.type === "step") { document.querySelector(`input[data-ep="${k}"][data-part="item"]`).value = l.item; document.querySelector(`input[data-ep="${k}"][data-part="action"]`).value = l.action; }
+    if (l.type === "step") { document.querySelector(`input[data-ep="${k}"][data-part="item"]`).value = l.item; document.querySelector(`input[data-ep="${k}"][data-part="action"]`).value = l.action; }
   }));
   $("sheet-score").textContent = "Answer key shown — clear the sheet to try again.";
 }

@@ -647,6 +647,8 @@ button.btn.small { font-size: var(--fs-sm); padding: var(--sp-1) var(--sp-4); mi
 .gs-ep h3 { background: var(--red); color: #fff; font-size: var(--fs-sm); letter-spacing: 0.06em; text-align: center; padding: var(--sp-2); }
 .gs-step { display: grid; grid-template-columns: 2.2em 1fr 1fr; gap: var(--sp-2); align-items: start; padding: var(--sp-1) var(--sp-2); border-top: 1px solid var(--border); }
 .gs-step.decision { grid-template-columns: 2.2em 1fr; }
+.gs-step.given { grid-template-columns: 2.2em 1fr; align-items: center; }
+.gs-given-text { font-size: var(--fs-sm); padding: var(--sp-1) 0; }
 .gs-step.note { grid-template-columns: 1fr; color: var(--text-2); font-size: var(--fs-xs); font-style: italic; padding-left: calc(2.2em + var(--sp-3)); }
 .gs-step .gs-n { font-weight: 600; color: var(--text-2); font-size: var(--fs-xs); text-align: right; padding-top: 7px; }
 .gs-step input { width: 100%; background: var(--surface-2); color: var(--text); border: 1px solid var(--border); border-radius: var(--r-sm); padding: var(--sp-1) var(--sp-2); font-size: var(--fs-sm); }
