@@ -147,11 +147,16 @@ function gradeLimit(cell, given) {
 function normEP(s) {
   return String(s || "").toLowerCase()
     .replace(/[*•·]/g, " ")
-    .replace(/^\s*\d+[.):]?\s*/, "")            // leading step number
+    .replace(/^\s*\d+[.)]\s*/, "")              // a typed step number like "3." (not a value like "68")
     .replace(/\bas required\b/g, "as req")
     .replace(/\bkias\b/g, "")
     .replace(/\bdegrees?\b/g, "")
     .replace(/\btowards\b/g, "toward")
+    .replace(/\bmagnetos?\b/g, "mags")
+    .replace(/\bcut[ -]off\b/g, "cutoff")
+    .replace(/\bsec(ond)?s?\b/g, "sec")
+    .replace(/\bmin(ute)?s?\b/g, "min")
+    .replace(/\bunlatch(ed)?\b/g, "unlatched")
     .replace(/[^a-z0-9/ ]+/g, " ")
     .replace(/\b(the|a|an|is|are|to|and)\b/g, " ")     // filler words don't count
     .replace(/\s+/g, " ").trim();
