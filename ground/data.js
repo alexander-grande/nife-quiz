@@ -56,7 +56,7 @@ const INSTRUMENT_ROWS = [
 // ---- Emergency procedures. Lines are graded in order. ----
 // type "step": numbered critical memory item (item + action, action may be "")
 // type "decision": bullet decision-continuation line
-// type "note": explanatory line printed on the sheet (graded leniently, optional)
+// (plain: true on a decision line = no bullet marker, still a graded box)
 const EPS = [
   { id: "eng-fail-takeoff", title: "ENG FAIL AFTER TAKEOFF / FORCED LANDING", lines: [
     { type: "step", n: 1, item: "Airspeed", action: "68 KIAS" },
@@ -104,7 +104,7 @@ const EPS = [
   ]},
   { id: "eng-fire-start", title: "ENGINE FIRE DURING START", lines: [
     { type: "step", n: 1, item: "Cranking", action: "CONTINUE" },
-    { type: "note", text: "Continue until engine starts or until mags selected off." },
+    { type: "decision", text: "Continue until engine starts or until mags selected off.", plain: true },
     { type: "decision", text: "IF ENGINE STARTS" },
     { type: "step", n: 2, item: "Throttle", action: "1700 RPM (5 sec)" },
     { type: "step", n: 3, item: "Emergency Shutdown On Deck", action: "EXECUTE" },

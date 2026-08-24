@@ -29,7 +29,7 @@ function renderEPs() {
     ep.lines.map((l, i) => {
       const k = `${ep.id}:${i}`;
       if (l.type === "note") return `<div class="gs-step note">${l.text}</div>`;
-      if (l.type === "decision") return `<div class="gs-step decision"><span class="gs-n">&bull;</span><span class="gs-field"><input type="text" data-ep="${k}" data-part="text" placeholder="Decision line…" aria-label="${ep.title} decision line ${i + 1}"></span></div>`;
+      if (l.type === "decision") return `<div class="gs-step decision"><span class="gs-n">${l.plain ? "" : "&bull;"}</span><span class="gs-field"><input type="text" data-ep="${k}" data-part="text" placeholder="Decision line…" aria-label="${ep.title} decision line ${i + 1}"></span></div>`;
       return `<div class="gs-step"><span class="gs-n">*${l.n}.</span>` +
         `<span class="gs-field"><input type="text" data-ep="${k}" data-part="item" placeholder="Item" aria-label="${ep.title} step ${l.n} item"></span>` +
         `<span class="gs-field"><input type="text" data-ep="${k}" data-part="action" placeholder="${l.action ? "Action" : "(none)"}" aria-label="${ep.title} step ${l.n} action"></span></div>`;

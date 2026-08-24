@@ -23,7 +23,7 @@ function show() {
   $("ep-title").textContent = ep.title;
   $("ep-lines").innerHTML = ep.lines.map((l, i) => {
     if (l.type === "note") return `<div class="gs-step note">${l.text}</div>`;
-    const marker = l.type === "decision" ? "&bull;" : `*${l.n}.`;
+    const marker = l.type === "decision" ? (l.plain ? "" : "&bull;") : `*${l.n}.`;
     return `<div class="gs-step decision"><span class="gs-n">${marker}</span><span class="gs-field"><input type="text" data-i="${i}" aria-label="${ep.title} line ${i + 1}" autocomplete="off" spellcheck="false"></span></div>`;
   }).join("");
   $("ep-result").className = "hidden"; $("ep-result").innerHTML = "";
