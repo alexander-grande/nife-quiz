@@ -1,5 +1,6 @@
 // ============================================================
-// EP DRILL — random procedure, typed verbatim, graded line by line.
+// EP DRILL — random procedure; step numbers and decision bullets are
+// given, the student fills in each line. Graded line by line.
 // ============================================================
 const $ = id => document.getElementById(id);
 const STAT_KEY = "nife-ground-ep";
@@ -13,46 +14,63 @@ function renderStats() {
   $("ep-stats").textContent = `${s.n} recited · ${s.perfect} perfect` + (bests ? ` · best: ${bests}` : "");
 }
 function current() { return EPS[order[pos]]; }
+function inputs() { return [...document.querySelectorAll("#ep-lines input")]; }
+
 function show() {
   graded = false;
   const ep = current();
   $("ep-progress").textContent = `EP ${pos + 1} of ${order.length}`;
   $("ep-title").textContent = ep.title;
-  $("ep-input").value = ""; $("ep-input").disabled = false; $("ep-input").focus();
+  $("ep-lines").innerHTML = ep.lines.map((l, i) => {
+    if (l.type === "note") return `<div class="gs-step note">${l.text}</div>`;
+    const marker = l.type === "decision" ? "&bull;" : `*${l.n}.`;
+    const ph = l.type === "decision" ? "Decision line…" : (l.action ? "Item … action" : "Item");
+    return `<div class="gs-step decision"><span class="gs-n">${marker}</span><span class="gs-field"><input type="text" data-i="${i}" placeholder="${ph}" aria-label="${ep.title} line ${i + 1}" autocomplete="off" spellcheck="false"></span></div>`;
+  }).join("");
   $("ep-result").className = "hidden"; $("ep-result").innerHTML = "";
   $("ep-submit").classList.remove("hidden"); $("ep-show").classList.remove("hidden"); $("ep-next").classList.add("hidden");
+  const first = inputs()[0]; if (first) first.focus();
 }
-function renderLines(rows, reveal) {
-  return `<div class="gs-lines">` + rows.map(r => {
-    const cls = r.line.type === "decision" ? "dec" : "";
-    if (!r.graded) return `<div class="gs-line skip ${cls}"><span class="mark">·</span><span class="exp">${r.expected}</span><span class="got">${reveal ? "" : (r.given || "")}</span></div>`;
-    return `<div class="gs-line ${r.ok ? "ok" : "bad"} ${cls}"><span class="mark">${r.ok ? "✓" : "✗"}</span><span class="exp">${r.line.type === "step" ? "*" + r.line.n + ". " : "• "}${r.expected}</span><span class="got">${reveal ? "" : (r.given ? "you: " + r.given : "<em>missing</em>")}</span></div>`;
-  }).join("") + `</div>`;
+function markAll(reveal) {
+  const ep = current(); let ok = 0, n = 0;
+  inputs().forEach(inp => {
+    const line = ep.lines[+inp.dataset.i]; const expected = epLineText(line);
+    inp.disabled = true;
+    if (reveal) { inp.value = expected; return; }
+    const good = similarity(normEP(inp.value), normEP(expected)) >= 0.8; n++; if (good) ok++;
+    inp.classList.add(good ? "gs-ok" : "gs-bad");
+    if (!good) { const k = document.createElement("span"); k.className = "gs-key"; k.textContent = expected; inp.parentElement.appendChild(k); }
+  });
+  return { ok, n };
 }
 function grade() {
   if (graded) return;
-  const ep = current(), text = $("ep-input").value;
-  if (!text.trim()) { $("ep-input").focus(); return; }
+  if (!inputs().some(i => i.value.trim())) { inputs()[0].focus(); return; }
   graded = true;
-  const rows = gradeEP(ep, text);
-  const g = rows.filter(r => r.graded), ok = g.filter(r => r.ok).length, pct = Math.round(ok / g.length * 100);
+  const ep = current(), { ok, n } = markAll(false), pct = Math.round(ok / n * 100);
   const r = $("ep-result");
   r.className = "feedback " + (pct === 100 ? "good" : "bad");
-  r.innerHTML = `<div class="fb-verdict">${ok} of ${g.length} lines (${pct}%)${pct === 100 ? " — verbatim. Bravo Zulu." : ""}</div>` + renderLines(rows, false);
+  r.innerHTML = `<div class="fb-verdict">${ok} of ${n} lines (${pct}%)${pct === 100 ? " — verbatim. Bravo Zulu." : ""}</div>`;
   try { const s = stats(); s.n++; if (pct === 100) s.perfect++; s.best[ep.id] = Math.max(s.best[ep.id] || 0, pct); localStorage.setItem(STAT_KEY, JSON.stringify(s)); } catch (e) {}
   renderStats();
-  $("ep-input").disabled = true; $("ep-submit").classList.add("hidden"); $("ep-show").classList.add("hidden");
+  $("ep-submit").classList.add("hidden"); $("ep-show").classList.add("hidden");
   $("ep-next").classList.remove("hidden"); $("ep-next").focus();
 }
 function showEP() {
-  const ep = current(); graded = true;
-  const rows = ep.lines.map(l => ({ line: l, expected: epLineText(l), given: "", ok: true, graded: l.type !== "note" }));
-  const r = $("ep-result"); r.className = "feedback"; r.innerHTML = `<div class="fb-verdict">${ep.title}</div>` + renderLines(rows, true);
-  $("ep-input").disabled = true; $("ep-submit").classList.add("hidden"); $("ep-show").classList.add("hidden"); $("ep-next").classList.remove("hidden");
+  graded = true; markAll(true);
+  const r = $("ep-result"); r.className = "feedback"; r.innerHTML = `<div class="fb-verdict">Answer key shown — not scored.</div>`;
+  $("ep-submit").classList.add("hidden"); $("ep-show").classList.add("hidden"); $("ep-next").classList.remove("hidden"); $("ep-next").focus();
 }
 function next() { pos++; if (pos >= order.length) { order = shuffle(EPS.map((_, i) => i)); pos = 0; } show(); }
 $("ep-submit").addEventListener("click", grade);
 $("ep-show").addEventListener("click", showEP);
 $("ep-next").addEventListener("click", next);
-$("ep-input").addEventListener("keydown", e => { if ((e.metaKey || e.ctrlKey) && e.key === "Enter") grade(); });
+document.addEventListener("keydown", e => {
+  if (e.key !== "Enter") return;
+  if (e.target.matches("#ep-lines input")) {
+    e.preventDefault();
+    const all = inputs(), i = all.indexOf(e.target);
+    if (i < all.length - 1) all[i + 1].focus(); else grade();
+  } else if (graded && !$("ep-next").classList.contains("hidden") && e.target.tagName !== "BUTTON") { next(); }
+});
 order = shuffle(EPS.map((_, i) => i)); renderStats(); show();

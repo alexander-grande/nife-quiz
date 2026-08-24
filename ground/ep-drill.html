@@ -14,7 +14,7 @@
 <title>EP Drill | MIF Master</title>
 <link rel="icon" type="image/png" href="../favicon.png">
 <link rel="apple-touch-icon" href="../apple-touch-icon.png">
-<link rel="stylesheet" href="../style.css?v=r9">
+<link rel="stylesheet" href="../style.css?v=r10">
 <script>(function(){try{var t=localStorage.getItem("nife-theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}})();</script>
 <script src="../analytics.js"></script>
 <link rel="manifest" href="../manifest.webmanifest">
@@ -53,14 +53,14 @@
   <header class="page-head">
     <div class="eyebrow">Ground School &middot; NIFE Cessna</div>
     <h1>EP Drill</h1>
-    <div class="sub">A random EP. Type the whole procedure from memory &mdash; one line per step, decision lines included. Graded line by line, in order.</div>
+    <div class="sub">A random EP. Fill in every step from memory &mdash; the numbering and decision bullets are given, the words are on you. Graded line by line.</div>
   </header>
 
   <div class="ws-panel gs-drill">
     <div class="setup-label" id="ep-progress"></div>
     <div class="gs-ep-title" id="ep-title"></div>
-    <label class="sr-only" for="ep-input">Type the procedure, one step per line</label>
-    <textarea id="ep-input" rows="10" spellcheck="false" placeholder="1. Airspeed 68 KIAS&#10;2. Turn towards nearest suitable landing site&#10;…&#10;&#10;Decision lines too — e.g. &quot;If restart will be attempted&quot;"></textarea>
+    <p class="report-hint gs-ep-hint">Step numbers and decision bullets are given &mdash; type each line. Enter moves to the next box; Enter on the last box grades.</p>
+    <div class="gs-ep gs-ep-drill" id="ep-lines"></div>
     <div class="btn-group gs-center">
       <button class="btn submit" id="ep-submit">Grade It</button>
       <button class="btn" id="ep-show">Show EP</button>
@@ -72,7 +72,7 @@
 
 </main>
 <script src="data.js?v=r9"></script>
-<script src="ep.js?v=r9"></script>
+<script src="ep.js?v=r10"></script>
 <script src="../site.js?v=r9" defer></script>
 </body>
 </html>

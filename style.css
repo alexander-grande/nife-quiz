@@ -624,6 +624,10 @@ button.btn.small { font-size: var(--fs-sm); padding: var(--sp-1) var(--sp-4); mi
 }
 
 /* ---------- Ground School ---------- */
+.gs-ep-drill { margin-top: var(--sp-2); }
+.gs-ep-drill .gs-step { grid-template-columns: 2.6em 1fr; }
+.gs-ep-drill .gs-step input { font-family: var(--font-mono); min-height: 40px; }
+.gs-ep-hint { text-align: center; margin: 0 0 var(--sp-2); }
 .site-link { color: var(--text); text-decoration: none; font-weight: 600; font-size: var(--fs-sm); padding: var(--sp-2) var(--sp-3); min-height: 40px; display: inline-flex; align-items: center; border-radius: var(--r-sm); }
 .site-link:hover { background: var(--surface-2); }
 .gs-h { font-size: var(--fs-lg); color: var(--gold-text); margin: var(--sp-6) 0 var(--sp-3); text-align: center; }
