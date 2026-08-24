@@ -638,7 +638,7 @@ button.btn.small { font-size: var(--fs-sm); padding: var(--sp-1) var(--sp-4); mi
 .gs-table th { background: var(--surface-2); font-weight: 600; text-align: center; }
 .gs-table td.gs-label { font-weight: 600; white-space: nowrap; width: 1%; padding-right: var(--sp-4); }
 .gs-table td.gs-dead { background: repeating-linear-gradient(45deg, var(--surface-2) 0 6px, var(--surface) 6px 12px); }
-.gs-table input { width: 100%; min-width: 110px; background: var(--surface-2); color: var(--text); border: 1px solid var(--border); border-radius: var(--r-sm); padding: var(--sp-1) var(--sp-2); font-size: var(--fs-sm); font-family: var(--font-mono); }
+.gs-table input { width: 100%; min-width: 90px; background: var(--surface-2); color: var(--text); border: 1px solid var(--border); border-radius: var(--r-sm); padding: var(--sp-1) var(--sp-2); font-size: var(--fs-sm); font-family: var(--font-mono); }
 .gs-table input:focus { outline: 2px solid var(--accent); outline-offset: 0; border-color: var(--accent); }
 .gs-single { margin-top: var(--sp-3); max-width: 520px; }
 .gs-single td:last-child { width: 55%; }
@@ -656,6 +656,10 @@ button.btn.small { font-size: var(--fs-sm); padding: var(--sp-1) var(--sp-4); mi
 input.gs-ok { border-color: var(--green) !important; background: var(--green-soft) !important; }
 input.gs-bad { border-color: var(--red) !important; background: var(--red-soft) !important; }
 .gs-field { display: flex; flex-direction: column; min-width: 0; }
+.gs-field.gs-span2 { grid-column: 2 / span 2; }
+.gs-inrow { display: flex; align-items: center; gap: var(--sp-2); }
+.gs-unit { color: var(--text-2); font-size: var(--fs-xs); font-weight: 600; white-space: nowrap; }
+.gs-unit-big { font-size: var(--fs-base); align-self: center; }
 .gs-key { display: block; font-size: var(--fs-xs); color: var(--green-text); margin-top: 2px; font-family: var(--font-mono); line-height: 1.3; }
 .gs-drill { max-width: 640px; }
 .gs-ask { font-size: var(--fs-xl); font-weight: 700; margin: var(--sp-3) 0 var(--sp-4); line-height: 1.3; }

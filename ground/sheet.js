@@ -7,7 +7,7 @@ const byId = Object.fromEntries(LIMITS.map(l => [l.id, l]));
 const COLS = ["Min", "Normal", "Caution", "Max"];
 const STAT_KEY = "nife-ground-sheet";
 
-function limitInput(id) { return `<span class="gs-field"><input type="text" data-limit="${id}" aria-label="${byId[id].ask.replace(/<[^>]+>/g, "")}"></span>`; }
+function limitInput(id) { const c = byId[id]; return `<span class="gs-field"><span class="gs-inrow"><input type="text" data-limit="${id}" aria-label="${c.ask.replace(/<[^>]+>/g, "")}${c.unit ? " in " + c.unit : ""}">${c.unit ? `<span class="gs-unit">${c.unit}</span>` : ""}</span></span>`; }
 
 function renderLimits() {
   let rows = "";
@@ -31,14 +31,16 @@ function renderEPs() {
       // Decision lines and notes are printed on the real quiz sheet, so they are given here too.
       if (l.type === "note") return `<div class="gs-step note">${l.text}</div>`;
       if (l.type === "decision") return `<div class="gs-step given"><span class="gs-n">${l.plain ? "" : "&bull;"}</span><span class="gs-given-text">${l.plain ? l.text : "<b>" + l.text + "</b>"}</span></div>`;
+      if (!l.action) return `<div class="gs-step"><span class="gs-n">*${l.n}.</span>` +
+        `<span class="gs-field gs-span2"><input type="text" data-ep="${k}" data-part="item" aria-label="${ep.title} step ${l.n}"></span></div>`;
       return `<div class="gs-step"><span class="gs-n">*${l.n}.</span>` +
         `<span class="gs-field"><input type="text" data-ep="${k}" data-part="item" placeholder="Item" aria-label="${ep.title} step ${l.n} item"></span>` +
-        `<span class="gs-field"><input type="text" data-ep="${k}" data-part="action" placeholder="${l.action ? "Action" : "(none)"}" aria-label="${ep.title} step ${l.n} action"></span></div>`;
+        `<span class="gs-field"><input type="text" data-ep="${k}" data-part="action" placeholder="Action" aria-label="${ep.title} step ${l.n} action"></span></div>`;
     }).join("") + "</section>").join("");
 }
 
 function clearMarks() { document.querySelectorAll("input.gs-ok, input.gs-bad").forEach(i => i.classList.remove("gs-ok", "gs-bad")); document.querySelectorAll(".gs-key").forEach(k => k.remove()); }
-function mark(input, ok, key) { input.classList.add(ok ? "gs-ok" : "gs-bad"); if (!ok && key) { const s = document.createElement("span"); s.className = "gs-key"; s.textContent = key; input.parentElement.appendChild(s); } }
+function mark(input, ok, key) { input.classList.add(ok ? "gs-ok" : "gs-bad"); if (!ok && key) { const s = document.createElement("span"); s.className = "gs-key"; s.textContent = key; input.closest(".gs-field").appendChild(s); } }
 
 function checkSheet() {
   clearMarks();
@@ -51,9 +53,9 @@ function checkSheet() {
     const k = `${ep.id}:${i}`;
     const item = document.querySelector(`input[data-ep="${k}"][data-part="item"]`), act = document.querySelector(`input[data-ep="${k}"][data-part="action"]`);
     const okI = similarity(normEP(item.value), normEP(l.item)) >= 0.7;
-    const okA = l.action ? similarity(normEP(act.value), normEP(l.action)) >= 0.85 : normEP(act.value) === "";
+    const okA = act ? similarity(normEP(act.value), normEP(l.action)) >= 0.85 : true;
     eN++; if (okI && okA) eOK++;
-    mark(item, okI, l.item); mark(act, okA, l.action || "(nothing)");
+    mark(item, okI, l.item); if (act) mark(act, okA, l.action);
   }));
   const pct = Math.round((lOK + eOK) / (lN + eN) * 100);
   $("sheet-score").textContent = `Limits ${lOK}/${lN} · EP steps ${eOK}/${eN} · ${pct}%`;
@@ -66,7 +68,7 @@ function reveal() {
   document.querySelectorAll("input[data-limit]").forEach(inp => { inp.value = byId[inp.dataset.limit].a; });
   EPS.forEach(ep => ep.lines.forEach((l, i) => {
     const k = `${ep.id}:${i}`;
-    if (l.type === "step") { document.querySelector(`input[data-ep="${k}"][data-part="item"]`).value = l.item; document.querySelector(`input[data-ep="${k}"][data-part="action"]`).value = l.action; }
+    if (l.type === "step") { document.querySelector(`input[data-ep="${k}"][data-part="item"]`).value = l.item; const a = document.querySelector(`input[data-ep="${k}"][data-part="action"]`); if (a) a.value = l.action; }
   }));
   $("sheet-score").textContent = "Answer key shown — clear the sheet to try again.";
 }

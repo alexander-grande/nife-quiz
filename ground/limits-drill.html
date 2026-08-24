@@ -14,7 +14,7 @@
 <title>Limits Drill | MIF Master</title>
 <link rel="icon" type="image/png" href="../favicon.png">
 <link rel="apple-touch-icon" href="../apple-touch-icon.png">
-<link rel="stylesheet" href="../style.css?v=r9">
+<link rel="stylesheet" href="../style.css?v=r18">
 <script>(function(){try{var t=localStorage.getItem("nife-theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}})();</script>
 <script src="../analytics.js"></script>
 <link rel="manifest" href="../manifest.webmanifest">
@@ -53,14 +53,14 @@
   <header class="page-head">
     <div class="eyebrow">Ground School &middot; NIFE Cessna</div>
     <h1>Limits Drill</h1>
-    <div class="sub">One limit, asked cold. Type the value and press Enter. The deck shuffles all 31 boxes and comes back around to what you missed.</div>
+    <div class="sub">One limit, asked cold. Units are given &mdash; type the number and press Enter. The deck shuffles all 31 boxes and comes back around to what you missed.</div>
   </header>
 
   <div class="center-box gs-drill">
     <div class="setup-label" id="drill-progress">Question 1 of 31</div>
     <div class="gs-ask" id="drill-ask"></div>
     <form id="drill-form" class="gs-answer" autocomplete="off">
-      <input id="drill-input" type="text" inputmode="text" placeholder="Type the limit…" aria-label="Your answer" autofocus>
+      <input id="drill-input" type="text" inputmode="text" placeholder="Number…" aria-label="Your answer" autofocus><span class="gs-unit gs-unit-big" id="drill-unit"></span>
       <button type="submit" class="btn primary" id="drill-submit">Submit</button>
     </form>
     <div id="drill-result" class="feedback hidden"></div>
@@ -80,8 +80,8 @@
   </div>
 
 </main>
-<script src="data.js?v=r16"></script>
-<script src="limits.js?v=r9"></script>
-<script src="../site.js?v=r9" defer></script>
+<script src="data.js?v=r18"></script>
+<script src="limits.js?v=r18"></script>
+<script src="../site.js?v=r18" defer></script>
 </body>
 </html>

@@ -20,6 +20,8 @@ function show() {
   const cell = deck[pos];
   $("drill-progress").textContent = `Question ${pos + 1} of ${deck.length}`;
   $("drill-ask").innerHTML = cell.ask + "?";
+  $("drill-unit").textContent = cell.unit || "";
+  $("drill-input").placeholder = cell.unit ? "Number…" : "Type the limit…";
   $("drill-input").value = ""; $("drill-input").disabled = false; $("drill-submit").disabled = false;
   $("drill-result").className = "feedback hidden"; $("drill-result").innerHTML = "";
   $("drill-next").classList.add("hidden");
