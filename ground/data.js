@@ -156,13 +156,24 @@ function normEP(s) {
     .replace(/\b(the|a|an|is|are|to|and)\b/g, " ")     // filler words don't count
     .replace(/\s+/g, " ").trim();
 }
-// One EP line vs. its key. Short lines ("Mags OFF") need a close match;
-// longer spoken-style lines get a little more room for paraphrase.
-function epMatch(given, expected) {
+// One EP line vs. its key. The ACTION (OFF / BOTH / IDLE CUTOFF…) must match
+// closely — that word is the whole point. The item wording and decision
+// lines are fuzzier so spoken phrasing ("turn toward the nearest field") passes.
+function epMatchText(given, expected, loose) {
   const g = normEP(given), e = normEP(expected);
   if (!e) return g === "";
-  return similarity(g, e) >= (e.length > 30 ? 0.72 : 0.8);
+  return similarity(g, e) >= (loose && e.length > 30 ? 0.72 : loose ? 0.8 : 0.85);
 }
+function epMatchLine(given, line) {
+  if (line.type !== "step") return epMatchText(given, line.text, true);
+  const g = normEP(given);
+  if (!line.action) return similarity(g, normEP(line.item)) >= 0.75;
+  const act = normEP(line.action).split(" "), gt = g.split(" ");
+  if (gt.length < act.length) return false;
+  const tail = gt.slice(-act.length).join(" "), head = gt.slice(0, -act.length).join(" ");
+  return similarity(tail, act.join(" ")) >= 0.85 && similarity(head, normEP(line.item)) >= 0.7;
+}
+function epMatch(given, expected) { return epMatchText(given, expected, true); }   // decision lines / sheet text fields
 function epLineText(line) {
   if (line.type === "step") return (line.item + " " + line.action).trim();
   return line.text;
@@ -198,6 +209,6 @@ function gradeEP(ep, text) {
   return ep.lines.map((line, k) => {
     const gi = match[k];
     const sim = gi === null ? 0 : similarity(exp[k], got[gi]);
-    return { line, expected: epLineText(line), given: gi === null ? "" : rawLines[gi], sim, ok: gi !== null && epMatch(rawLines[gi], epLineText(line)), graded: line.type !== "note" };
+    return { line, expected: epLineText(line), given: gi === null ? "" : rawLines[gi], sim, ok: gi !== null && epMatchLine(rawLines[gi], line), graded: line.type !== "note" };
   });
 }

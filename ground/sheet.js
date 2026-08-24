@@ -52,8 +52,8 @@ function checkSheet() {
       const inp = document.querySelector(`input[data-ep="${k}"]`); const ok = epMatch(inp.value, l.text); eN++; if (ok) eOK++; mark(inp, ok, l.text); return;
     }
     const item = document.querySelector(`input[data-ep="${k}"][data-part="item"]`), act = document.querySelector(`input[data-ep="${k}"][data-part="action"]`);
-    const okI = epMatch(item.value, l.item);
-    const okA = l.action ? epMatch(act.value, l.action) : normEP(act.value) === "";
+    const okI = similarity(normEP(item.value), normEP(l.item)) >= 0.7;
+    const okA = l.action ? similarity(normEP(act.value), normEP(l.action)) >= 0.85 : normEP(act.value) === "";
     eN++; if (okI && okA) eOK++;
     mark(item, okI, l.item); mark(act, okA, l.action || "(nothing)");
   }));
