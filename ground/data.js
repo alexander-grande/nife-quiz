@@ -157,8 +157,8 @@ function normEP(s) {
     .replace(/\bsec(ond)?s?\b/g, "sec")
     .replace(/\bmin(ute)?s?\b/g, "min")
     .replace(/\bunlatch(ed)?\b/g, "unlatched")
-    .replace(/[^a-z0-9/ ]+/g, " ")
-    .replace(/\b(the|a|an|is|are|to|and)\b/g, " ")     // filler words don't count
+    .replace(/[^a-z0-9 ]+/g, " ")                        // slashes count as spaces: IN/LOCKED = in locked
+    .replace(/\b(the|a|an|is|are|to|and|or)\b/g, " ")   // filler words don't count
     .replace(/\s+/g, " ").trim();
 }
 // One EP line vs. its key. The ACTION (OFF / BOTH / IDLE CUTOFF…) must match
