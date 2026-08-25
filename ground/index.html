@@ -80,11 +80,30 @@
       <p class="badge-line" id="badge-ep"></p>
     </a>
   </div>
+  <h2 class="section-h">Ground School Test &amp; Flashcards</h2>
+  <p class="note tight">CRM, mishaps and investigations, reporting programs, ORM, IMSAFE, and G-tolerance &mdash; from the class study set.</p>
+  <div class="test-cards">
+    <a class="test-card topic-card" href="test-1.html">
+      <div class="num">40</div>
+      <h3>Ground School Test</h3>
+      <p>40 questions &middot; Exam or Practice mode</p>
+      <p class="card-desc">The seven CRM skills, Class A&ndash;E mishaps, investigation types, Anymouse/ASAP/HAZREP/SITREP, ORM, IMSAFE, GLOC.</p>
+      <p class="badge-line" id="badge-0"></p>
+    </a>
+    <a class="test-card topic-card" href="flashcards.html">
+      <div class="num">&#127183;</div>
+      <h3>Flashcards</h3>
+      <p>Every term from the study set</p>
+      <p class="card-desc">Definitions, lists, and thresholds &mdash; tap to flip, arrows to move, reshuffle anytime.</p>
+    </a>
+  </div>
+
   <p class="note">Answers are graded on the numbers and the words that matter &mdash; "60 to 90 psi" and "60-90 PSI" are both right. Critical memory items are graded in order; punctuation and step numbers are not.</p>
 
 </main>
 <script>
 (function () {
+  try { const arr = JSON.parse(localStorage.getItem("nife-ground-hist-0") || "[]"); if (arr.length) { const full = arr.filter(a => a.f); const best = full.length ? Math.max(...full.map(a => Math.round(a.c / a.n * 100))) : null; document.getElementById("badge-0").textContent = (best !== null ? "Best: " + best + "% · " : "") + arr.length + " attempt" + (arr.length > 1 ? "s" : ""); } } catch (e) {}
   const set = (id, key, fmt) => { try { const s = JSON.parse(localStorage.getItem(key) || "null"); if (s) document.getElementById(id).textContent = fmt(s); } catch (e) {} };
   set("badge-sheet", "nife-ground-sheet", s => "Best: " + s.best + "% · " + s.n + " attempt" + (s.n > 1 ? "s" : ""));
   set("badge-limits", "nife-ground-limits", s => s.asked + " asked · " + Math.round(s.right / Math.max(1, s.asked) * 100) + "% right");

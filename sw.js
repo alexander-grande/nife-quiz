@@ -2,7 +2,7 @@
 // Strategy: precache everything at install; serve cache-first with
 // background revalidation, so the site works fully offline and still
 // picks up new content on the next online visit.
-const CACHE = "nife-ec0633e05c";
+const CACHE = "nife-a4738c14dc";
 const PRECACHE = [
   "./",
   "./aero/flashcards.html",
@@ -58,11 +58,16 @@ const PRECACHE = [
   "./ground/data.js",
   "./ground/ep-drill.html",
   "./ground/ep.js",
+  "./ground/flashcards.html",
+  "./ground/flashcards.js",
   "./ground/index.html",
   "./ground/limits-drill.html",
   "./ground/limits.js",
   "./ground/sheet.html",
   "./ground/sheet.js",
+  "./ground/test-1.html",
+  "./ground/tests.js",
+  "./ground/unit.js",
   "./hub.js",
   "./icon-192.png",
   "./icon-512.png",
