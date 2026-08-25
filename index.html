@@ -14,7 +14,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" type="image/png" href="favicon.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<link rel="stylesheet" href="style.css?v=r9">
+<link rel="stylesheet" href="style.css?v=r19">
 <script>(function(){try{var t=localStorage.getItem("nife-theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}})();</script>
 <script src="analytics.js"></script>
 <link rel="manifest" href="manifest.webmanifest">
@@ -31,7 +31,7 @@
       <details class="menu">
         <summary>NIFE &ndash; Academics</summary>
         <ul class="menu-list">
-          <li class="menu-home"><a href="#academics">All units <small>overview</small></a></li>
+          <li class="menu-home"><a href="academics.html">All units <small>overview</small></a></li>
           <li class="menu-home"><a href="ground/">Ground School <small>limits &amp; EPs</small></a></li>
           <li><a href="aero/">Aero <small>Unit 1</small></a></li>
           <li><a href="engines/">Engines <small>Unit 2</small></a></li>
@@ -59,6 +59,17 @@
     <p class="lede"><strong>Every line above MIF.</strong> Practice tests, drills, and flashcards for NIFE academics — written from the Student Guides, checked against them, and free for anyone in the pipeline.</p>
   </section>
 
+  <nav class="hub-links" aria-label="Sections">
+    <a class="hub-link" href="academics.html">
+      <span class="hub-k">NIFE &ndash; Academics</span>
+      <span class="hub-d">Aero &middot; Engines &middot; FR&amp;R &middot; Weather &mdash; tests, reviews, drills, flashcards</span>
+    </a>
+    <a class="hub-link" href="ground/">
+      <span class="hub-k">Ground School</span>
+      <span class="hub-d">Limits &amp; EPs sheet and drills &middot; ground school test &middot; flashcards</span>
+    </a>
+  </nav>
+
   <div class="prose">
     <div class="callout" role="note">
       <span class="tag">Read this first</span>
@@ -77,7 +88,7 @@
 
     <h2 id="how-to">How to use the site</h2>
     <ol class="steps">
-      <li><b>Pick a unit</b> from the NIFE &ndash; Academics menu at the top, or from the cards below.</li>
+      <li><b>Pick a section</b> &mdash; NIFE &ndash; Academics for the unit tests, or Ground School for limits and EPs &mdash; from the links at the top of this page or the menu in the header.</li>
       <li><b>Choose a test.</b> Tests 1–3 (A–C) run Easy → Medium → Hard on the full unit, 50 questions each. Chapter and topic reviews are 30-question drills on one block of material.</li>
       <li><b>Choose a mode.</b> <strong>Exam Mode</strong> grades at the end, like the real test. <strong>Practice Mode</strong> grades each question on the spot and shows the rationale right away.</li>
       <li><b>Optional dump sheet.</b> Start with a 5-minute timer to write down formulas, mnemonics, and numbers from memory before the questions appear — good rehearsal for test day.</li>
@@ -87,71 +98,9 @@
     <p>Questions and answer choices shuffle every attempt. Your scores are saved in this browser only — nothing is sent anywhere, and switching devices starts fresh. The site works offline once you have visited it.</p>
   </div>
 
-  <h2 class="section-h" id="academics">NIFE &ndash; Academics</h2>
-  <p class="note tight">Units in course order. Passing score on every test is 80%.</p>
-  <div class="test-cards">
-    <a class="test-card topic-card" href="aero/">
-      <div class="num">1</div>
-      <h3>Aero</h3>
-      <p>Unit 1 of 5 &middot; Fundamentals of Aerodynamics</p>
-      <p class="card-desc">Three practice tests plus flashcards</p>
-    </a>
-    <a class="test-card topic-card" href="engines/">
-      <div class="num">2</div>
-      <h3>Engines</h3>
-      <p>Unit 2 of 5 &middot; NAVAVSCOLSCOM-SG-200</p>
-      <p class="card-desc">Practice tests, system diagrams, and flashcards</p>
-    </a>
-    <a class="test-card topic-card" href="frr/">
-      <div class="num">3</div>
-      <h3>FR&amp;R</h3>
-      <p>Unit 3 of 5 &middot; Flight Rules &amp; Regulations</p>
-      <p class="card-desc">Practice tests, chapter reviews, and flashcards</p>
-    </a>
-    <div class="test-card topic-card disabled" aria-disabled="true">
-      <div class="num">4</div>
-      <h3>NAV</h3>
-      <p>Unit 4 of 5 &middot; Coming soon</p>
-    </div>
-    <a class="test-card topic-card" href="wx/">
-      <div class="num">5</div>
-      <h3>Weather</h3>
-      <p>Unit 5 of 5 &middot; Aviation Weather</p>
-      <p class="card-desc">Practice tests, SET AI drill, and flashcards</p>
-    </a>
-  </div>
 
 
 
-  <h2 class="section-h" id="ground">Ground School</h2>
-  <p class="note tight">The Cessna Limits/EPs quiz you have to know cold, plus the ground school study set.</p>
-  <div class="test-cards">
-    <a class="test-card topic-card" href="ground/sheet.html">
-      <div class="num">&#9998;</div>
-      <h3>Limits / EPs Sheet</h3>
-      <p>Fill in the whole quiz sheet and check it</p>
-    </a>
-    <a class="test-card topic-card" href="ground/limits-drill.html">
-      <div class="num">&#9202;</div>
-      <h3>Limits Drill</h3>
-      <p>One limit at a time, asked cold</p>
-    </a>
-    <a class="test-card topic-card" href="ground/ep-drill.html">
-      <div class="num">&#9888;</div>
-      <h3>EP Drill</h3>
-      <p>Recite a random EP verbatim</p>
-    </a>
-    <a class="test-card topic-card" href="ground/test-1.html">
-      <div class="num">40</div>
-      <h3>Ground School Test</h3>
-      <p>CRM, mishaps, ORM, IMSAFE, G-tolerance</p>
-    </a>
-    <a class="test-card topic-card" href="ground/flashcards.html">
-      <div class="num">&#127183;</div>
-      <h3>Ground School Flashcards</h3>
-      <p>Every term from the class study set</p>
-    </a>
-  </div>
 
   <h2 class="section-h" id="suggest">Suggest a feature</h2>
   <p class="note tight">Want a drill, a unit, or a fix? Tell the author.</p>
