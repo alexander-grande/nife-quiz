@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Cessna limits and emergency procedures drills — the fillable Limits/EPs sheet, a one-limit-at-a-time drill, and verbatim EP recall.">
+<meta name="description" content="Cessna limits and emergency procedures drills, the ground school test, and the STAN exam practice test — all in one place.">
 <meta property="og:title" content="Ground School | MIF Master">
-<meta property="og:description" content="Cessna limits and emergency procedures drills — the fillable Limits/EPs sheet, a one-limit-at-a-time drill, and verbatim EP recall.">
+<meta property="og:description" content="Cessna limits and emergency procedures drills, the ground school test, and the STAN exam practice test — all in one place.">
 <meta property="og:type" content="website">
 <meta property="og:image" content="https://mifmaster.com/og-image.png">
 <link rel="canonical" href="https://mifmaster.com/ground/">
@@ -42,7 +42,7 @@
   <header class="page-head">
     <div class="eyebrow">Ground School &middot; NIFE Cessna</div>
     <h1>Ground School</h1>
-    <div class="sub">The NIFE Cessna Limits/EPs quiz, drilled three ways &mdash; type every box, get asked one limit cold, or recite an EP verbatim.</div>
+    <div class="sub">The NIFE Cessna Limits/EPs quiz drilled three ways &mdash; type every box, get asked one limit cold, or recite an EP verbatim &mdash; plus the ground school test and the STAN exam practice test.</div>
   </header>
 
   <h2 class="section-h first">Limits &amp; EPs</h2>
@@ -69,8 +69,8 @@
       <p class="badge-line" id="badge-ep"></p>
     </a>
   </div>
-  <h2 class="section-h">Ground School Test &amp; Flashcards</h2>
-  <p class="note tight">CRM, mishaps and investigations, reporting programs, ORM, IMSAFE, and G-tolerance &mdash; from the class study set.</p>
+  <h2 class="section-h">Tests &amp; Flashcards</h2>
+  <p class="note tight">Both class study sets, drilled &mdash; ground school academics and the STAN exam &mdash; plus every term as flashcards.</p>
   <div class="test-cards">
     <a class="test-card topic-card" href="test-1.html">
       <div class="num">40</div>
@@ -79,10 +79,17 @@
       <p class="card-desc">The seven CRM skills, Class A&ndash;E mishaps, investigation types, Anymouse/ASAP/HAZREP/SITREP, ORM, IMSAFE, GLOC.</p>
       <p class="badge-line" id="badge-0"></p>
     </a>
+    <a class="test-card topic-card" href="stan-test.html">
+      <div class="num">106</div>
+      <h3>STAN Exam Practice Test</h3>
+      <p>106 questions &middot; Exam or Practice mode</p>
+      <p class="card-desc">Weather and altitude minimums, runway distances, Class C, GOOSEAACAT and AROW, carb ice and mags, stalls, waveoffs, touch and goes, SAD CLAM, ORM, and the reporting programs.</p>
+      <p class="badge-line" id="badge-stan"></p>
+    </a>
     <a class="test-card topic-card" href="flashcards.html">
       <div class="num">&#127183;</div>
       <h3>Flashcards</h3>
-      <p>Every term from the study set</p>
+      <p>Every term from the ground school set</p>
       <p class="card-desc">Definitions, lists, and thresholds &mdash; tap to flip, arrows to move, reshuffle anytime.</p>
     </a>
   </div>
@@ -92,7 +99,9 @@
 </main>
 <script>
 (function () {
-  try { const arr = JSON.parse(localStorage.getItem("nife-ground-hist-0") || "[]"); if (arr.length) { const full = arr.filter(a => a.f); const best = full.length ? Math.max(...full.map(a => Math.round(a.c / a.n * 100))) : null; document.getElementById("badge-0").textContent = (best !== null ? "Best: " + best + "% · " : "") + arr.length + " attempt" + (arr.length > 1 ? "s" : ""); } } catch (e) {}
+  const hist = (id, key) => { try { const arr = JSON.parse(localStorage.getItem(key) || "[]"); if (!arr.length) return; const full = arr.filter(a => a.f); const best = full.length ? Math.max(...full.map(a => Math.round(a.c / a.n * 100))) : null; document.getElementById(id).textContent = (best !== null ? "Best: " + best + "% · " : "") + arr.length + " attempt" + (arr.length > 1 ? "s" : ""); } catch (e) {} };
+  hist("badge-0", "nife-ground-hist-0");
+  hist("badge-stan", "nife-stan-hist-0");
   const set = (id, key, fmt) => { try { const s = JSON.parse(localStorage.getItem(key) || "null"); if (s) document.getElementById(id).textContent = fmt(s); } catch (e) {} };
   set("badge-sheet", "nife-ground-sheet", s => "Best: " + s.best + "% · " + s.n + " attempt" + (s.n > 1 ? "s" : ""));
   set("badge-limits", "nife-ground-limits", s => s.asked + " asked · " + Math.round(s.right / Math.max(1, s.asked) * 100) + "% right");
