@@ -51,12 +51,22 @@
     <div class="prose">
       <div class="callout" role="note">
         <span class="tag">How to run it</span>
-        <p>Start the session, then go do something else &mdash; play a game, cook, fold laundry. Leave this tab open behind whatever you are doing and keep the volume up. When it calls an EP, recite the whole procedure out loud, exactly as you would to an instructor. <strong>The point is the divided attention.</strong> Reciting EPs in a quiet room is a different, easier skill than reciting them while your head is somewhere else.</p>
+        <p><strong>Turn your speakers up first.</strong> The whole drill is audio &mdash; if you cannot hear the callout over whatever else you are doing, you will sit through a session and get nothing from it. Use the speaker check below and set your volume before you start.</p>
+        <p>Then start the session and go do something else &mdash; play a game, cook, fold laundry. Leave this tab open behind whatever you are doing. When it calls an EP, recite the whole procedure out loud, exactly as you would to an instructor. <strong>The point is the divided attention.</strong> Reciting EPs in a quiet room is a different, easier skill than reciting them while your head is somewhere else.</p>
         <p class="note tight"><strong>It stops if your computer sleeps.</strong> Display-only sleep is fine and it keeps running, but a real sleep &mdash; lid closed, or left alone long enough to drop off &mdash; halts everything until you wake it. On a phone it needs the screen on and this tab in front; iOS suspends backgrounded tabs outright.</p>
       </div>
     </div>
 
     <div class="center-box fp-box">
+
+      <div class="setup-group">
+        <div class="setup-label">Speakers</div>
+        <p class="report-hint tight">Play a callout at the volume you will actually be sitting at. Adjust until you would catch it mid-game.</p>
+        <div class="choice-row">
+          <button class="btn toggle auto" id="fp-sound-test" type="button">Play a test callout</button>
+        </div>
+        <p class="report-status" id="fp-sound-status" aria-live="polite"></p>
+      </div>
 
       <div class="setup-group">
         <div class="setup-label">Pacing</div>
@@ -95,6 +105,12 @@
           <button class="btn toggle selected" data-mic="off" type="button">Off &mdash; check on screen<span>It calls the EP, you recite, then you press a button to see the answer. Works in every browser, offline.</span></button>
           <button class="btn toggle" data-mic="on" type="button" id="fp-mic-on">On &mdash; graded<span>It hears you finish, grades what you said, and reads back only the lines you missed. Fully hands-free.</span></button>
         </div>
+        <div class="fp-range" id="fp-pause-row">
+          <label for="fp-pause">Give me</label>
+          <input id="fp-pause" type="number" min="1" max="15" step="0.5" value="2.5" inputmode="decimal">
+          <span>seconds of silence before deciding I'm done</span>
+        </div>
+        <p class="report-hint tight" id="fp-pause-hint">How long you can go quiet <em>mid-procedure</em> without it cutting you off. Raise it if you think between steps; lower it if you want the next EP sooner.</p>
         <p class="report-hint" id="fp-mic-note"></p>
       </div>
 
@@ -159,7 +175,7 @@
 <script src="../ground/data.js?v=r21"></script>
 <script src="speech.js?v=r21"></script>
 <script src="spoken.js?v=r21"></script>
-<script src="sim.js?v=r21"></script>
+<script src="sim.js?v=r22"></script>
 <script src="../site.js?v=r21" defer></script>
 </body>
 </html>

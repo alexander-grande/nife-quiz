@@ -20,7 +20,7 @@ attention is somewhere else.
 | Loop, mic on | Ears only. It hears you stop, grades you, and **reads back only the lines you missed**. |
 | Loop, mic off | On-screen. **Check Answer** reveals the filled EP, **Done** advances. Not scored. |
 | Pacing | A mode, not a slider: **Rapid Fire** or **Random Interval** with a min/max range. |
-| Also on setup | Session length; which EPs are in the deck. No voice or rate controls. |
+| Also on setup | Session length; which EPs are in the deck; a speaker check; the mic pause window. No voice or rate controls. |
 | Architecture | Thin module + isolated speech layer (approach 3). |
 
 ## 2. Files
@@ -319,7 +319,15 @@ Doubles as the information screen. Contents:
 - `Session length` — `.btn.toggle` ×4: 5 / 10 / 20 / Until I stop. Default 10.
 - `Procedures` — seven `.btn.toggle.auto` chips, all selected, click to toggle.
   Reuses existing CSS; no checkbox styling needed. Refuse to start with none.
+- `Speakers` — a **Play a test callout** button. The whole drill is audio, so
+  hearing it at the volume you will actually sit at matters more than any other
+  control on the page. Reports whether sound genuinely came out.
 - `Microphone` — `.btn.toggle` ×2: **On — graded** / **Off — check on screen**.
+  When on, reveals **seconds of silence before deciding I'm done** (default
+  2.5, clamped 1–15) — the mid-procedure pause window, for people who think
+  between steps. Feeds `listen({ silenceMs })`; the lead-in before you start
+  talking scales with it (`max(7s, 2× pause)`) so a long pause setting cannot
+  be cut off before you begin.
   Default **off**: it works in every browser, offline, without a permission
   prompt. If `capabilities().recognition` is false the On button is disabled
   with the reason inline (Firefox has no support at all).

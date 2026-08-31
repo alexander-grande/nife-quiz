@@ -17,7 +17,7 @@ const STALE_MS = 120000;
 const RAPID_GAP = 1800;          // a breath between EPs in Rapid Fire
 
 const S = {
-  pace: "random", min: 2, max: 6, len: 10, mic: false,
+  pace: "random", min: 2, max: 6, len: 10, mic: false, silence: 2.5,
   micNow: false,          // mic for THIS session; a forced fallback must not rewrite the preference
   deck: EPS.map(e => e.id),
   running: false, paused: false, gen: 0,
@@ -35,12 +35,13 @@ function loadSettings() {
     if (typeof v.max === "number") S.max = v.max;
     if (typeof v.len === "number") S.len = v.len;
     if (typeof v.mic === "boolean") S.mic = v.mic;
+    if (typeof v.silence === "number") S.silence = Math.min(15, Math.max(1, v.silence));
     if (Array.isArray(v.deck) && v.deck.length) S.deck = v.deck.filter(id => EPS.some(e => e.id === id));
     if (!S.deck.length) S.deck = EPS.map(e => e.id);
   } catch (e) { /* defaults are fine */ }
 }
 function saveSettings() {
-  try { localStorage.setItem(SET_KEY, JSON.stringify({ pace: S.pace, min: S.min, max: S.max, len: S.len, mic: S.mic, deck: S.deck })); } catch (e) {}
+  try { localStorage.setItem(SET_KEY, JSON.stringify({ pace: S.pace, min: S.min, max: S.max, len: S.len, mic: S.mic, silence: S.silence, deck: S.deck })); } catch (e) {}
 }
 function stats() {
   try { return JSON.parse(localStorage.getItem(STAT_KEY) || "null") || { n: 0, perfect: 0, best: {} }; } catch (e) { return { n: 0, perfect: 0, best: {} }; }
@@ -73,6 +74,10 @@ function syncSetup() {
   pickGroup("[data-mic]", "mic", S.mic ? "on" : "off");
   $("fp-range").classList.toggle("hidden", S.pace !== "random");
   $("fp-min").value = S.min; $("fp-max").value = S.max;
+  // the pause window only means anything when something is listening
+  $("fp-pause-row").classList.toggle("hidden", !S.mic);
+  $("fp-pause-hint").classList.toggle("hidden", !S.mic);
+  $("fp-pause").value = S.silence;
   renderDeck();
 }
 
@@ -92,6 +97,27 @@ document.addEventListener("click", e => {
   const lo = Math.max(0, +$("fp-min").value || 0), hi = Math.max(lo, +$("fp-max").value || 0);
   S.min = lo; S.max = hi; $("fp-min").value = lo; $("fp-max").value = hi; saveSettings();
 }));
+$("fp-pause").addEventListener("change", () => {
+  S.silence = Math.min(15, Math.max(1, +$("fp-pause").value || 2.5));
+  $("fp-pause").value = S.silence; saveSettings();
+});
+
+// ---------- speaker check ----------
+// The drill is entirely audio, so hearing it at the volume you will actually
+// be sitting at matters more than any setting on this page.
+const SOUND_TEST = "Engine fire in flight. If you can hear this, your speakers are set.";
+$("fp-sound-test").addEventListener("click", async () => {
+  const b = $("fp-sound-test");
+  b.disabled = true;
+  $("fp-sound-status").textContent = "Playing…";
+  Speech.init();
+  let r = await Speech.say(SOUND_TEST);
+  if (!r.spoke) { Speech.reset(); await Speech.wait(400); r = await Speech.say(SOUND_TEST); }
+  $("fp-sound-status").textContent = r.spoke
+    ? "Played. Did not hear it? Turn the volume up and play it again."
+    : "No sound came out (" + (r.error || "unknown") + "). Quit the browser completely, reopen it, and try again.";
+  b.disabled = false;
+});
 
 // ---------- capability gating ----------
 function gateMic() {
@@ -208,6 +234,8 @@ async function runRound() {
 
   const announced = Speech.say(ep.title);
   const listening = S.micNow ? Speech.listen({
+    silenceMs: S.silence * 1000,
+    leadMs: Math.max(7000, S.silence * 2000),
     arm: announced.then(() => Speech.wait(250)),
     onArmed: () => { if (gen === S.gen) setPhase("listening"); },
     onPartial: t => { if (gen === S.gen) $("fp-live").textContent = t; },
