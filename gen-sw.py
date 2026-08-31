@@ -16,12 +16,12 @@ ASSETS = sorted(
     + glob.glob("*.png") + glob.glob("*/img/*.png") + glob.glob("*/img/*.jpg")
     + glob.glob("fonts/*.woff2") + ["manifest.webmanifest"]
 )
-ASSETS = [a for a in ASSETS if a != "gen-sw.py"
+ASSETS = [a for a in ASSETS if a != "gen-sw.py" and "probe" not in a
           and "test-figures" not in a and "/img/fig-" not in a and a not in ("patch-full.png", "patch-56.png", "patch-260.png", "og-image.png")]  # figure drills unpublished for now
 # (CNAME is a GitHub Pages config file, not an asset)
 # cache directory URLs for the index pages too
 urls = ["./"] + ["./" + a for a in ASSETS]
-urls += ["./aero/", "./engines/", "./frr/", "./wx/", "./ground/"]
+urls += ["./aero/", "./engines/", "./frr/", "./wx/", "./ground/", "./flight-phase/"]
 
 # Bump SW_REV to force a new cache even when the asset list is unchanged
 # (e.g. after changing the service worker strategy itself).

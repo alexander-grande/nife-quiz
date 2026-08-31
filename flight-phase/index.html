@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Emergency procedures called out loud while you do something else — recite each one from memory and hear exactly what you missed.">
+<meta property="og:title" content="EP Simulator | MIF Master">
+<meta property="og:description" content="Emergency procedures called out loud while you do something else — recite each one from memory and hear exactly what you missed.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://mifmaster.com/og-image.png">
+<link rel="canonical" href="https://mifmaster.com/flight-phase/">
+<meta property="og:site_name" content="MIF Master">
+<meta name="twitter:card" content="summary_large_image">
+<title>EP Simulator | MIF Master</title>
+<link rel="icon" type="image/png" href="../favicon.png">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="stylesheet" href="../style.css?v=r21">
+<script>(function(){try{var t=localStorage.getItem("nife-theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}})();</script>
+<script src="../analytics.js"></script>
+<link rel="manifest" href="../manifest.webmanifest">
+<meta name="theme-color" content="#0b111c">
+<script>if ("serviceWorker" in navigator) navigator.serviceWorker.register("../sw.js");</script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<nav class="site-bar" aria-label="Site">
+  <div class="site-bar-in">
+    <a class="brand" href="../"><img class="logo-dark" src="../logo-dark.png" alt="" height="30"><img class="logo-light" src="../logo-light.png" alt="" height="30"><span class="wordmark"><b>MIF</b> <span>Master</span></span></a>
+    <div class="site-links">
+      <a class="site-link" href="../academics.html">Academics</a>
+      <a class="site-link" href="../ground/">Ground School</a>
+      <a class="site-link" href="../flight-phase/" aria-current="page">Flight Phase</a>
+      <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch between dark and light mode">
+        <svg class="ico-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+        <svg class="ico-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+      </button>
+    </div>
+  </div>
+</nav>
+<main class="wrap" id="main">
+
+  <!-- ============================ SETUP ============================ -->
+  <div id="fp-setup">
+    <a href="../" class="back-link">&larr; All Units</a>
+    <header class="page-head">
+      <div class="eyebrow">Flight Phase &middot; NIFE Cessna</div>
+      <h1>EP Simulator</h1>
+      <div class="sub">Emergency procedures called out loud while you are doing something else. Recite the whole thing from memory, then hear exactly what you missed &mdash; and wait, not knowing when the next one is coming.</div>
+    </header>
+
+    <div class="prose">
+      <div class="callout" role="note">
+        <span class="tag">How to run it</span>
+        <p>Start the session, then go do something else &mdash; play a game, cook, fold laundry. Leave this tab open behind whatever you are doing and keep the volume up. When it calls an EP, recite the whole procedure out loud, exactly as you would to an instructor. <strong>The point is the divided attention.</strong> Reciting EPs in a quiet room is a different, easier skill than reciting them while your head is somewhere else.</p>
+        <p class="note tight"><strong>It stops if your computer sleeps.</strong> Display-only sleep is fine and it keeps running, but a real sleep &mdash; lid closed, or left alone long enough to drop off &mdash; halts everything until you wake it. On a phone it needs the screen on and this tab in front; iOS suspends backgrounded tabs outright.</p>
+      </div>
+    </div>
+
+    <div class="center-box fp-box">
+
+      <div class="setup-group">
+        <div class="setup-label">Pacing</div>
+        <div class="choice-row">
+          <button class="btn toggle selected" data-pace="random" type="button">Random Interval<span>A surprise every few minutes &mdash; the realistic one</span></button>
+          <button class="btn toggle" data-pace="rapid" type="button">Rapid Fire<span>Straight into the next one, no waiting</span></button>
+        </div>
+        <div class="fp-range" id="fp-range">
+          <label for="fp-min">Between</label>
+          <input id="fp-min" type="number" min="0" max="60" step="0.5" value="2" inputmode="decimal">
+          <label for="fp-max">and</label>
+          <input id="fp-max" type="number" min="0" max="60" step="0.5" value="6" inputmode="decimal">
+          <span>minutes</span>
+        </div>
+      </div>
+
+      <div class="setup-group">
+        <div class="setup-label">Session length</div>
+        <div class="choice-row">
+          <button class="btn toggle auto" data-len="5" type="button">5 EPs</button>
+          <button class="btn toggle auto selected" data-len="10" type="button">10 EPs</button>
+          <button class="btn toggle auto" data-len="20" type="button">20 EPs</button>
+          <button class="btn toggle auto" data-len="0" type="button">Until I stop</button>
+        </div>
+      </div>
+
+      <div class="setup-group">
+        <div class="setup-label">Procedures</div>
+        <div class="choice-row fp-deck" id="fp-deck"></div>
+        <p class="report-hint tight">Tap to drop one from the deck. They shuffle, and none repeats until every one has come up.</p>
+      </div>
+
+      <div class="setup-group">
+        <div class="setup-label">Microphone</div>
+        <div class="choice-row">
+          <button class="btn toggle selected" data-mic="off" type="button">Off &mdash; check on screen<span>It calls the EP, you recite, then you press a button to see the answer. Works in every browser, offline.</span></button>
+          <button class="btn toggle" data-mic="on" type="button" id="fp-mic-on">On &mdash; graded<span>It hears you finish, grades what you said, and reads back only the lines you missed. Fully hands-free.</span></button>
+        </div>
+        <p class="report-hint" id="fp-mic-note"></p>
+      </div>
+
+      <button class="btn submit" id="fp-start" type="button">Start Session</button>
+      <p class="report-status" id="fp-start-status" aria-live="polite"></p>
+      <p class="report-hint" id="fp-stats"></p>
+    </div>
+
+    <div class="prose">
+      <div class="callout" role="note">
+        <span class="tag">About the microphone</span>
+        <p>Mic mode is the one thing on this site that leaves your browser. To turn speech into text, Chrome and Safari send the audio to Google&rsquo;s and Apple&rsquo;s speech services &mdash; so mic mode needs a connection, and your voice goes to them. Everything else here, including every score, stays on your device. If that trade is not one you want to make, leave the mic off; the drill works without it.</p>
+        <p class="note tight">Firefox has no speech recognition at all, so mic mode is unavailable there.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================ RUNNING ============================ -->
+  <div id="fp-run" class="hidden">
+    <div class="quiz-top">
+      <span class="test-name" id="fp-mode-label"></span>
+      <span class="counter" id="fp-counter"></span>
+    </div>
+
+    <div class="fp-stage">
+      <div class="setup-label" id="fp-state">Standing by</div>
+      <div class="timer-display" id="fp-clock">&mdash;</div>
+      <div class="timer-sub" id="fp-clock-sub">until the next one</div>
+      <div class="gs-ep-title" id="fp-title"></div>
+      <div class="fp-live" id="fp-live" aria-live="polite"></div>
+    </div>
+
+    <div class="btn-group gs-center" id="fp-run-actions">
+      <button class="btn submit hidden" id="fp-check" type="button">Check Answer</button>
+      <button class="btn primary hidden" id="fp-done" type="button">Done &rarr;</button>
+      <button class="btn hidden" id="fp-skip" type="button">Call One Now</button>
+    </div>
+
+    <div id="fp-result"></div>
+
+    <div class="btn-group gs-center fp-controls">
+      <button class="btn" id="fp-pause" type="button">Pause</button>
+      <button class="btn" id="fp-stop" type="button">End Session</button>
+    </div>
+  </div>
+
+  <!-- ============================ SUMMARY ============================ -->
+  <div id="fp-done-screen" class="hidden">
+    <div class="center-box">
+      <h2>Session Complete</h2>
+      <div class="timer-display" id="fp-final"></div>
+      <div class="timer-sub" id="fp-final-sub"></div>
+      <div class="history-box" id="fp-breakdown"></div>
+      <div class="btn-group gs-center">
+        <button class="btn primary" id="fp-again" type="button">Run It Again</button>
+        <button class="btn" id="fp-back" type="button">Change Settings</button>
+      </div>
+    </div>
+  </div>
+
+</main>
+<script src="../ground/data.js?v=r21"></script>
+<script src="speech.js?v=r21"></script>
+<script src="spoken.js?v=r21"></script>
+<script src="sim.js?v=r21"></script>
+<script src="../site.js?v=r21" defer></script>
+</body>
+</html>

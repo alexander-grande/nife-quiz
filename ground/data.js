@@ -149,10 +149,12 @@ function normEP(s) {
     .replace(/[*•·]/g, " ")
     .replace(/^\s*\d+[.)]\s*/, "")              // a typed step number like "3." (not a value like "68")
     .replace(/\bas required\b/g, "as req")
-    .replace(/\bkias\b/g, "")
+    .replace(/\b(kias|knots?)\b/g, "")        // airspeeds: "68 KIAS" == "68 knots" == "68"
     .replace(/\bdegrees?\b/g, "")
     .replace(/\btowards\b/g, "toward")
     .replace(/\bmagnetos?\b/g, "mags")
+    .replace(/\bengines?\b/g, "eng")           // both directions: the sheet abbreviates,
+    .replace(/\bfail(s|ed|ing|ure|ures)?\b/g, "fail")   // people say it long ("engine failure")
     .replace(/\bcut[ -]off\b/g, "cutoff")
     .replace(/\bsec(ond)?s?\b/g, "sec")
     .replace(/\bmin(ute)?s?\b/g, "min")

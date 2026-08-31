@@ -2,7 +2,7 @@
 // Strategy: precache everything at install; serve cache-first with
 // background revalidation, so the site works fully offline and still
 // picks up new content on the next online visit.
-const CACHE = "nife-28898e3b4a";
+const CACHE = "nife-2233504e49";
 const PRECACHE = [
   "./",
   "./academics.html",
@@ -39,6 +39,11 @@ const PRECACHE = [
   "./engines/tests.js",
   "./engines/unit.js",
   "./favicon.png",
+  "./flight-phase/index.html",
+  "./flight-phase/selftest.js",
+  "./flight-phase/sim.js",
+  "./flight-phase/speech.js",
+  "./flight-phase/spoken.js",
   "./fonts/ibm-plex-mono-500.woff2",
   "./fonts/ibm-plex-mono-600.woff2",
   "./fonts/ibm-plex-sans-400.woff2",
@@ -101,7 +106,8 @@ const PRECACHE = [
   "./engines/",
   "./frr/",
   "./wx/",
-  "./ground/"
+  "./ground/",
+  "./flight-phase/"
 ];
 
 self.addEventListener("install", e => {
