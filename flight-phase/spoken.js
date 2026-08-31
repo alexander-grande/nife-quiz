@@ -39,6 +39,26 @@ function normSpoken(s) {
   for (const k in HOMOPHONE) t = t.replace(new RegExp("\\b" + k + "\\b", "g"), HOMOPHONE[k]);
   return t.replace(/\s+/g, " ").trim();
 }
+// The mic hears the callout through the speakers. Strip that echo off the FRONT
+// of the transcript by matching words, not by dropping whole results: when you
+// answer instantly the echo and your first line arrive fused into one result,
+// so any boundary based on result index takes your opening words with it.
+//
+// Safe when there is no echo at all (headphones): an EP title looks nothing
+// like its own first step, so nothing matches and nothing is removed.
+function stripEcho(text, announced) {
+  const words = String(text || "").split(/\s+/).filter(Boolean);
+  const target = normEP(announced || "");
+  if (!words.length || !target) return String(text || "");
+  const span = Math.min(words.length, target.split(" ").length + 4);
+  let bestLen = 0, bestSim = 0;
+  for (let len = 1; len <= span; len++) {
+    const sim = similarity(normEP(words.slice(0, len).join(" ")), target);
+    if (sim > bestSim) { bestSim = sim; bestLen = len; }
+  }
+  return bestSim >= 0.6 ? words.slice(bestLen).join(" ") : String(text || "");
+}
+
 // Recognition breaks the word stream at whatever pauses it noticed, which is
 // not where the EP's lines break. So we do the splitting: a DP that hands each
 // expected line the run of words that maximizes total similarity across the

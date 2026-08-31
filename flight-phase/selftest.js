@@ -75,6 +75,18 @@
     ok(`${ep.title} — every single skip and adjacent pair`, bad === 0);
   });
 
+  head("The callout echo is stripped, not wiped (first line survives)");
+  EPS.forEach(ep => {
+    const body = ep.lines.map(l => epLineText(l)).join(" ");
+    // fused: you answer instantly, so echo + your first line arrive as one result
+    const fused = scoreOf(ep, stripEcho(ep.title + " " + body, ep.title));
+    ok(`${ep.id} — echo fused with line 1 → ${fused.ok}/${fused.n}`, fused.ok === fused.n);
+    // headphones: no echo at all, nothing may be removed
+    ok(`${ep.id} — no echo, transcript untouched`, stripEcho(body, ep.title) === body);
+    // only the echo was heard: nothing left to grade
+    ok(`${ep.id} — echo only → empty`, stripEcho(ep.title, ep.title).trim() === "");
+  });
+
   head("Real recognition transcripts from the spike");
   [["eng-fail-takeoff", 8, ["AirSpeed 68 knots turn towards nearest suitable Landing site fuel selector off mixture idle cut off","flaps as required","mags off Master off","doors unlocked"]],
    ["eng-fail-flight",  9, ["speed 68 knots turn towards nearest suitable Landing site if restart will be attempted fuel selector both","mixture full Rich throttle full","car heat on mags both start if prop stopped","Master on","primer in and locked"]],

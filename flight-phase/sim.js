@@ -238,7 +238,7 @@ async function runRound() {
     leadMs: Math.max(7000, S.silence * 2000),
     arm: announced.then(() => Speech.wait(250)),
     onArmed: () => { if (gen === S.gen) setPhase("listening"); },
-    onPartial: t => { if (gen === S.gen) $("fp-live").textContent = t; },
+    onPartial: t => { if (gen === S.gen) $("fp-live").textContent = stripEcho(t, ep.title); },
   }) : null;
 
   const spoke = await announced;
@@ -268,7 +268,9 @@ async function runRound() {
   }
 
   setPhase("grading");
-  const graded = gradeEP(ep, segmentSpoken(normSpoken(heard.transcript), ep));
+  // Drop the callout the mic picked up off our own speakers before grading.
+  const youSaid = stripEcho(heard.transcript, ep.title);
+  const graded = gradeEP(ep, segmentSpoken(normSpoken(youSaid), ep));
   const scored = graded.filter(r => r.graded);
   const missed = scored.filter(r => !r.ok);
   const ok = scored.length - missed.length;
@@ -276,13 +278,13 @@ async function runRound() {
   $("fp-result").innerHTML =
     `<div class="feedback ${missed.length ? "bad" : "good"}"><div class="fb-verdict">${ok} of ${scored.length}${missed.length ? "" : " — verbatim. Good job."}</div></div>`
     + renderEP(ep, graded)
-    + `<p class="report-hint fp-heard">Heard: ${esc(heard.transcript) || "<em>nothing</em>"}</p>`;
+    + `<p class="report-hint fp-heard">Heard: ${esc(youSaid) || "<em>nothing</em>"}</p>`;
 
   S.results.push({ id: ep.id, title: ep.title, ok, n: scored.length });
   recordStat(ep, ok, scored.length);
 
   setPhase("reading");
-  if (!heard.transcript) {
+  if (!youSaid) {
     await Speech.say("Nothing heard. Here it is.");
     for (const l of ep.lines) { if (gen !== S.gen) return; await Speech.say(epLineText(l)); }
   }
@@ -390,7 +392,7 @@ window.addEventListener("pagehide", () => { Speech.cancel(); Speech.keepAlive(fa
 // ?selftest=1 runs the grading checks instead of the drill — see selftest.js.
 if (/[?&]selftest=1\b/.test(location.search)) {
   const t = document.createElement("script");
-  t.src = "selftest.js?v=r21";
+  t.src = "selftest.js?v=r23";
   document.body.appendChild(t);
 } else {
   loadSettings();

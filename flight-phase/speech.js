@@ -122,9 +122,13 @@ window.Speech = (function () {
         clearTimeout(silence);
         silence = setTimeout(() => finish(heard ? "silence" : "no-speech"), heard ? silenceMs : leadMs);
       }
+      // Arming starts the silence timers. It deliberately does NOT discard what
+      // was heard during the announcement: when you start reciting the instant
+      // the callout ends, Chrome never finalises a result at the boundary, so
+      // the echo and your first words arrive as ONE result and dropping it ate
+      // your opening line. The caller strips the announcement by text instead.
       function arm() {
         if (done || armed) return;
-        results.length = 0;                       // that was our own voice, not yours
         armed = true; armedAt = Date.now();
         hard = setTimeout(() => finish("maxtime"), maxMs);
         if (o.onArmed) o.onArmed();
@@ -160,7 +164,10 @@ window.Speech = (function () {
         } else finish("ended");
       };
       rec = r;
-      try { r.start(); } catch (e) { return finish("start-failed"); }
+      // Chrome throws if the previous recognition has not finished aborting.
+      // One retry, because losing a whole round to a race is not acceptable.
+      try { r.start(); }
+      catch (e) { setTimeout(() => { if (!done) { try { r.start(); } catch (e2) { finish("start-failed"); } } }, 250); }
       if (o.arm) Promise.resolve(o.arm).then(arm, arm); else { hard = setTimeout(() => finish("maxtime"), maxMs); bump(); }
     });
   }
