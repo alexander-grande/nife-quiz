@@ -149,7 +149,7 @@ function normEP(s) {
     .replace(/[*•·]/g, " ")
     .replace(/^\s*\d+[.)]\s*/, "")              // a typed step number like "3." (not a value like "68")
     .replace(/\bas required\b/g, "as req")
-    .replace(/\b(kias|knots?)\b/g, "")        // airspeeds: "68 KIAS" == "68 knots" == "68"
+    .replace(/\b(kias|knots?|rpm)\b/g, "")    // units are optional: "68 KIAS" == "68 knots", "1700 RPM" == "1700"
     .replace(/\bdegrees?\b/g, "")
     .replace(/\btowards\b/g, "toward")
     .replace(/\bmagnetos?\b/g, "mags")
@@ -160,7 +160,7 @@ function normEP(s) {
     .replace(/\bmin(ute)?s?\b/g, "min")
     .replace(/\bunlatch(ed)?\b/g, "unlatched")
     .replace(/[^a-z0-9 ]+/g, " ")                        // slashes count as spaces: IN/LOCKED = in locked
-    .replace(/\b(the|a|an|is|are|to|and|or)\b/g, " ")   // filler words don't count
+    .replace(/\b(the|a|an|is|are|to|and|or|for)\b/g, " ")   // filler words don't count
     .replace(/\s+/g, " ").trim();
 }
 // One EP line vs. its key. The ACTION (OFF / BOTH / IDLE CUTOFF…) must match
@@ -174,6 +174,11 @@ function epMatchText(given, expected, loose) {
 function epMatchLine(given, line) {
   if (line.type !== "step") return epMatchText(given, line.text, true);
   const g = normEP(given);
+  // Numbers are never "close enough". Similarity is Levenshtein, so in a long
+  // action one wrong digit scores 0.90 and sails past the threshold — 2700 RPM
+  // was being accepted for 1700 RPM. Same values, same order, or it is wrong.
+  const want = numsOf(normEP(epLineText(line))), got = numsOf(g);
+  if (want.length !== got.length || want.some((v, i) => v !== got[i])) return false;
   if (!line.action) return similarity(g, normEP(line.item)) >= 0.75;
   const act = normEP(line.action).split(" "), gt = g.split(" ");
   if (gt.length < act.length) return false;

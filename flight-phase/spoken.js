@@ -22,8 +22,13 @@ function words2num(s) {
   for (const t of s.split(/\s+/)) {
     const w = t.replace(/[^a-z0-9]/g, "");
     if (w in NUM) acc = (acc || 0) + NUM[w];
-    else if (w === "hundred") acc = (acc || 1) * 100;
-    else if (w === "thousand") { sum += (acc || 1) * 1000; acc = null; }
+    // "seventeen hundred" and "17 hundred" are the same thing to a listener,
+    // and now that numbers must match exactly, the digit form has to work too.
+    else if (w === "hundred" || w === "thousand") {
+      if (acc === null && out.length && /^\d+$/.test(out[out.length - 1])) acc = parseInt(out.pop(), 10);
+      if (w === "hundred") acc = (acc || 1) * 100;
+      else { sum += (acc || 1) * 1000; acc = null; }
+    }
     else { push(); out.push(t); }
   }
   push(); return out.join(" ");

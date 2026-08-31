@@ -87,6 +87,17 @@
     ok(`${ep.id} — echo only → empty`, stripEcho(ep.title, ep.title).trim() === "");
   });
 
+  head("Throttle 1700 RPM (5 sec) — natural phrasings, and only correct numbers");
+  const rpmLine = EPS.find(e => e.id === "eng-fire-start").lines.find(l => l.action && l.action.indexOf("1700") >= 0);
+  const rpm = (should, said) => ok((should ? "" : "rejects: ") + said, epMatchLine(normSpoken(said), rpmLine) === should);
+  ["throttle 1700 for 5 seconds", "throttle 1700 RPM for five secs", "throttle 1700 rpm 5 sec",
+   "throttle seventeen hundred for five seconds", "throttle 17 hundred rpm for 5 seconds",
+   "throttle 1700 rpm five seconds"].forEach(t => rpm(true, t));
+  // a wrong number must never scrape a pass on similarity alone
+  ["throttle 2700 rpm for 5 seconds", "throttle 1800 rpm for 5 sec",
+   "throttle 1700 for 10 seconds", "throttle 1700 rpm"].forEach(t => rpm(false, t));
+  ok("rejects: airspeed 78 knots", !epMatchLine(normSpoken("airspeed 78 knots"), EPS[0].lines[0]));
+
   head("Real recognition transcripts from the spike");
   [["eng-fail-takeoff", 8, ["AirSpeed 68 knots turn towards nearest suitable Landing site fuel selector off mixture idle cut off","flaps as required","mags off Master off","doors unlocked"]],
    ["eng-fail-flight",  9, ["speed 68 knots turn towards nearest suitable Landing site if restart will be attempted fuel selector both","mixture full Rich throttle full","car heat on mags both start if prop stopped","Master on","primer in and locked"]],
