@@ -392,7 +392,7 @@ window.addEventListener("pagehide", () => { Speech.cancel(); Speech.keepAlive(fa
 // ?selftest=1 runs the grading checks instead of the drill — see selftest.js.
 if (/[?&]selftest=1\b/.test(location.search)) {
   const t = document.createElement("script");
-  t.src = "selftest.js?v=r24";
+  t.src = "selftest.js?v=r25";
   document.body.appendChild(t);
 } else {
   loadSettings();

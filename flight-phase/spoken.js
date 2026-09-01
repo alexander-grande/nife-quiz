@@ -11,7 +11,13 @@ const NUM = { zero:0,one:1,two:2,three:3,four:4,five:5,six:6,seven:7,eight:8,nin
 // guessed. Recognition is good on this vocabulary; these are the exceptions.
 const HOMOPHONE = {
   "may day": "mayday",        // "Declare MAYDAY" came back as two words, every time
-  "unlocked": "unlatched",    // "Doors UNLATCHED" -> "doors unlocked"; unlatched is a rare word
+  // "unlocked" is ambiguous and only means something in context. After "doors"
+  // it is UNLATCHED (a rare word recognition reaches past). After "primer" it
+  // is recognition collapsing "in and locked" into one word. A bare word map
+  // fixed one of these and broke the other, so both are keyed on the item.
+  "doors unlocked": "doors unlatched",
+  "primer unlocked": "primer in locked",
+  "primer unlock": "primer in locked",
   "car heat": "carb heat",    // "Carb Heat ON" -> "car heat on" (scraped a pass at 0.92)
   "carburetor heat": "carb heat",
   "carburettor heat": "carb heat",

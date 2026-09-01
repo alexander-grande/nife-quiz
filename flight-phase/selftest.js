@@ -98,6 +98,18 @@
    "throttle 1700 for 10 seconds", "throttle 1700 rpm"].forEach(t => rpm(false, t));
   ok("rejects: airspeed 78 knots", !epMatchLine(normSpoken("airspeed 78 knots"), EPS[0].lines[0]));
 
+  head('"unlocked" resolves by context, not by a blanket word swap');
+  const primerLine = EPS.find(e => e.id === "eng-fail-flight").lines[9];
+  const doorsLine = EPS.find(e => e.id === "eng-fail-takeoff").lines[7];
+  // "primer in and locked" is heard as "primer unlocked"; "doors unlatched" as
+  // "doors unlocked". One bare mapping cannot serve both.
+  ["primer unlocked", "primer unlock", "primer in and locked", "primer in locked"]
+    .forEach(t => ok(t, epMatchLine(normSpoken(t), primerLine)));
+  ["doors unlocked", "doors unlatched"]
+    .forEach(t => ok(t, epMatchLine(normSpoken(t), doorsLine)));
+  ok("primer wording does not satisfy the doors line", !epMatchLine(normSpoken("primer unlocked"), doorsLine));
+  ok("doors wording does not satisfy the primer line", !epMatchLine(normSpoken("doors unlocked"), primerLine));
+
   head("Real recognition transcripts from the spike");
   [["eng-fail-takeoff", 8, ["AirSpeed 68 knots turn towards nearest suitable Landing site fuel selector off mixture idle cut off","flaps as required","mags off Master off","doors unlocked"]],
    ["eng-fail-flight",  9, ["speed 68 knots turn towards nearest suitable Landing site if restart will be attempted fuel selector both","mixture full Rich throttle full","car heat on mags both start if prop stopped","Master on","primer in and locked"]],
