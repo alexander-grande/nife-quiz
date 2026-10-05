@@ -5,7 +5,10 @@
 const $ = id => document.getElementById(id);
 const byId = Object.fromEntries(LIMITS.map(l => [l.id, l]));
 const COLS = ["Min", "Normal", "Caution", "Max"];
-const STAT_KEY = "nife-ground-sheet";
+// A page can point this at another EP set: const EP_PAGE = { eps, statKey, star }
+const CFG = typeof EP_PAGE !== "undefined" ? EP_PAGE : {};
+const EP_LIST = CFG.eps || EPS, STAR = CFG.star ?? "*";
+const STAT_KEY = CFG.statKey || "nife-ground-sheet";
 
 function limitInput(id) { const c = byId[id]; return `<span class="gs-field"><span class="gs-inrow"><input type="text" data-limit="${id}" aria-label="${c.ask.replace(/<[^>]+>/g, "")}${c.unit ? " in " + c.unit : ""}">${c.unit ? `<span class="gs-unit">${c.unit}</span>` : ""}</span></span>`; }
 
@@ -25,15 +28,15 @@ function renderLimits() {
 }
 
 function renderEPs() {
-  $("eps").innerHTML = EPS.map(ep => `<section class="gs-ep" aria-label="${ep.title}"><h3>${ep.title}</h3>` +
+  $("eps").innerHTML = EP_LIST.map(ep => `<section class="gs-ep" aria-label="${ep.title}"><h3>${ep.title}</h3>` +
     ep.lines.map((l, i) => {
       const k = `${ep.id}:${i}`;
       // Decision lines and notes are printed on the real quiz sheet, so they are given here too.
       if (l.type === "note") return `<div class="gs-step note">${l.text}</div>`;
       if (l.type === "decision") return `<div class="gs-step given"><span class="gs-n">${l.plain ? "" : "&bull;"}</span><span class="gs-given-text">${l.plain ? l.text : "<b>" + l.text + "</b>"}</span></div>`;
-      if (!l.action) return `<div class="gs-step"><span class="gs-n">*${l.n}.</span>` +
+      if (!l.action) return `<div class="gs-step"><span class="gs-n">${STAR}${l.n}.</span>` +
         `<span class="gs-field gs-span2"><input type="text" data-ep="${k}" data-part="item" aria-label="${ep.title} step ${l.n}"></span></div>`;
-      return `<div class="gs-step"><span class="gs-n">*${l.n}.</span>` +
+      return `<div class="gs-step"><span class="gs-n">${STAR}${l.n}.</span>` +
         `<span class="gs-field"><input type="text" data-ep="${k}" data-part="item" placeholder="Item" aria-label="${ep.title} step ${l.n} item"></span>` +
         `<span class="gs-field"><input type="text" data-ep="${k}" data-part="action" placeholder="Action" aria-label="${ep.title} step ${l.n} action"></span></div>`;
     }).join("") + "</section>").join("");
@@ -48,7 +51,7 @@ function checkSheet() {
   document.querySelectorAll("input[data-limit]").forEach(inp => {
     const cell = byId[inp.dataset.limit]; const ok = gradeLimit(cell, inp.value); lN++; if (ok) lOK++; mark(inp, ok, cell.a);
   });
-  EPS.forEach(ep => ep.lines.forEach((l, i) => {
+  EP_LIST.forEach(ep => ep.lines.forEach((l, i) => {
     if (l.type !== "step") return;   // decision lines are given, not graded
     const k = `${ep.id}:${i}`;
     const item = document.querySelector(`input[data-ep="${k}"][data-part="item"]`), act = document.querySelector(`input[data-ep="${k}"][data-part="action"]`);
@@ -58,7 +61,7 @@ function checkSheet() {
     mark(item, okI, l.item); if (act) mark(act, okA, l.action);
   }));
   const pct = Math.round((lOK + eOK) / (lN + eN) * 100);
-  $("sheet-score").textContent = `Limits ${lOK}/${lN} · EP steps ${eOK}/${eN} · ${pct}%`;
+  $("sheet-score").textContent = (lN ? `Limits ${lOK}/${lN} · ` : "") + `EP steps ${eOK}/${eN} · ${pct}%`;
   try { const s = JSON.parse(localStorage.getItem(STAT_KEY) || "null") || { best: 0, n: 0 }; s.n++; s.best = Math.max(s.best, pct); localStorage.setItem(STAT_KEY, JSON.stringify(s)); } catch (e) {}
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
@@ -66,7 +69,7 @@ function checkSheet() {
 function reveal() {
   clearMarks();
   document.querySelectorAll("input[data-limit]").forEach(inp => { inp.value = byId[inp.dataset.limit].a; });
-  EPS.forEach(ep => ep.lines.forEach((l, i) => {
+  EP_LIST.forEach(ep => ep.lines.forEach((l, i) => {
     const k = `${ep.id}:${i}`;
     if (l.type === "step") { document.querySelector(`input[data-ep="${k}"][data-part="item"]`).value = l.item; const a = document.querySelector(`input[data-ep="${k}"][data-part="action"]`); if (a) a.value = l.action; }
   }));
@@ -75,7 +78,8 @@ function reveal() {
 
 function clearSheet() { clearMarks(); document.querySelectorAll("input").forEach(i => { i.value = ""; }); $("sheet-score").textContent = ""; }
 
-renderLimits(); renderEPs();
+if ($("inst-body")) renderLimits();   // EP-only sheets have no limits table
+renderEPs();
 $("btn-check").addEventListener("click", checkSheet);
 $("btn-check2").addEventListener("click", checkSheet);
 $("btn-reveal").addEventListener("click", reveal);

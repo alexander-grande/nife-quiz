@@ -625,8 +625,10 @@ button.btn.small { font-size: var(--fs-sm); padding: var(--sp-1) var(--sp-4); mi
   /* Three sections no longer fit a phone bar at full size — keep each label on
      one line and let the row scroll rather than wrapping mid-word. */
   .site-bar-in { padding: 0 var(--sp-2); gap: var(--sp-1); }
-  .site-link { padding: var(--sp-2) var(--sp-1); font-size: var(--fs-xs); white-space: nowrap; }
-  .site-link[aria-current]::after { left: var(--sp-1); right: var(--sp-1); }
+  /* .site-links prefix: the base .site-link rule sits later in the file and
+     would otherwise win, leaving phone labels at full size. */
+  .site-links .site-link { padding: var(--sp-2) var(--sp-1); font-size: var(--fs-xs); white-space: nowrap; }
+  .site-links .site-link[aria-current]::after { left: var(--sp-1); right: var(--sp-1); }
   /* On the narrowest phones three labels still overrun the bar. Let them scroll,
      but keep the theme toggle stuck to the right edge so it never scrolls away. */
   .site-links { min-width: 0; overflow-x: auto; scrollbar-width: none; }

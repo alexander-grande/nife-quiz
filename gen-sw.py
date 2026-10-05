@@ -21,7 +21,7 @@ ASSETS = [a for a in ASSETS if a != "gen-sw.py" and "probe" not in a
 # (CNAME is a GitHub Pages config file, not an asset)
 # cache directory URLs for the index pages too
 urls = ["./"] + ["./" + a for a in ASSETS]
-urls += ["./aero/", "./engines/", "./frr/", "./wx/", "./ground/", "./flight-phase/"]
+urls += ["./aero/", "./engines/", "./frr/", "./wx/", "./ground/", "./flight-phase/", "./primary/"]
 
 # Bump SW_REV to force a new cache even when the asset list is unchanged
 # (e.g. after changing the service worker strategy itself).

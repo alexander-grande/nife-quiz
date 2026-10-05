@@ -31,6 +31,10 @@
   // keep the meta color honest if the saved theme was applied by the head script
   if (root.getAttribute("data-theme")) apply(root.getAttribute("data-theme"));
 
+  // On a phone the section links scroll sideways; start with the current one in view.
+  const links = document.querySelector(".site-links"), here = links && links.querySelector("[aria-current]");
+  if (here && links.scrollWidth > links.clientWidth) links.scrollLeft += Math.max(0, here.getBoundingClientRect().right - links.getBoundingClientRect().right + 48);   // 48: clear the sticky theme toggle
+
   // ---------- Feedback: bad-question reports + feature suggestions ----------
   // Submitted silently to a Google Form that feeds the author's spreadsheet.
   // Nobody leaves the page and no account is needed. Fields map to the form's

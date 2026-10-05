@@ -149,8 +149,17 @@ function normEP(s) {
     .replace(/[*•·]/g, " ")
     .replace(/^\s*\d+[.)]\s*/, "")              // a typed step number like "3." (not a value like "68")
     .replace(/\bas required\b/g, "as req")
-    .replace(/\b(kias|knots?|rpm)\b/g, "")    // units are optional: "68 KIAS" == "68 knots", "1700 RPM" == "1700"
+    .replace(/\b(kias|knots?|kts|rpm)\b/g, "")    // units are optional: "68 KIAS" == "68 knots", "1700 RPM" == "1700"
     .replace(/\bdegrees?\b/g, "")
+    .replace(/\bminimum\b/g, "min")            // T-6 sheet spellings vs. how people write them
+    .replace(/\bmaximum\b/g, "max")
+    .replace(/\bemergency\b/g, "emer")
+    .replace(/\blanding\b/g, "ldg")
+    .replace(/\bgear\b/g, "gr")
+    .replace(/\bbattery\b/g, "bat")
+    .replace(/\bgenerator\b/g, "gen")
+    .replace(/\bauxiliary\b/g, "aux")
+    .replace(/\bapprox(imately)?\b/g, "approx")
     .replace(/\btowards\b/g, "toward")
     .replace(/\bmagnetos?\b/g, "mags")
     .replace(/\bengines?\b/g, "eng")           // both directions: the sheet abbreviates,
