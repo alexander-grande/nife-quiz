@@ -160,6 +160,7 @@ function normEP(s) {
     .replace(/\bgenerator\b/g, "gen")
     .replace(/\bauxiliary\b/g, "aux")
     .replace(/\bapprox(imately)?\b/g, "approx")
+    .replace(/\b(counter[ -]?clockwise|ccw)\b/g, "counterclockwise")
     .replace(/\btowards\b/g, "toward")
     .replace(/\bmagnetos?\b/g, "mags")
     .replace(/\bengines?\b/g, "eng")           // both directions: the sheet abbreviates,

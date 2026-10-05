@@ -1,6 +1,6 @@
 // ============================================================
 // PRIMARY — T-6B EPs (boldface), part 1: EPs 1–7.
-// Transcribed from the class T-6B EPs and Limits study set. Grading
+// Transcribed from the T-6B EP & OP Limits Key (01 Aug 23, Change 2). Grading
 // helpers (normEP, epMatchLine, …) come from ../ground/data.js, so load
 // that first. Same line format as the Cessna EPs:
 // type "step": numbered item + action (action "" = one box for the line)
@@ -21,10 +21,11 @@ const T6_EPS = [
     { type: "step", n: 3, item: "Parking Brake", action: "AS REQUIRED" },
     { type: "step", n: 4, item: "Canopy", action: "OPEN" },
     { type: "decision", text: "IF CANOPY CANNOT BE OPENED OR SITUATION REQUIRES RIGHT SIDE EGRESS:" },
-    { type: "step", n: 5, item: "CFS Handle", action: "ROTATE AND PULL (BOTH)" },
-    { type: "step", n: 6, item: "Upper Fittings, Lower Fittings, and Leg Restraint Garters", action: "RELEASE (BOTH)" },
-    { type: "step", n: 7, item: "BAT, GEN, and AUX BAT Switches", action: "OFF" },
-    { type: "step", n: 8, item: "Evacuate Aircraft", action: "" },
+    { type: "step", n: 5, item: "CFS Handle Safety Pin", action: "REMOVE (BOTH)" },
+    { type: "step", n: 6, item: "CFS Handle", action: "ROTATE 90 DEGREES COUNTERCLOCKWISE AND PULL (BOTH)" },
+    { type: "step", n: 7, item: "Upper Fittings, Lower Fittings, and Leg Restraint Garters", action: "RELEASE (BOTH)" },
+    { type: "step", n: 8, item: "BAT, GEN, and AUX BAT Switches", action: "OFF" },
+    { type: "step", n: 9, item: "Evacuate Aircraft", action: "" },
   ]},
   { id: "abort", short: "Abort", title: "ABORT", lines: [
     { type: "step", n: 1, item: "PCL", action: "IDLE" },
