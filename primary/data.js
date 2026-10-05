@@ -1,5 +1,5 @@
 // ============================================================
-// PRIMARY — T-6B EPs (boldface), part 1: EPs 1–7.
+// PRIMARY — T-6B EPs (boldface), part 1: EPs 1–9.
 // Transcribed from the T-6B EP & OP Limits Key (01 Aug 23, Change 2). Grading
 // helpers (normEP, epMatchLine, …) come from ../ground/data.js, so load
 // that first. Same line format as the Cessna EPs:
@@ -58,5 +58,29 @@ const T6_EPS = [
     { type: "decision", text: "IF AIRSTART IS SUCCESSFUL:" },
     { type: "step", n: 8, item: "PCL", action: "AS REQUIRED AFTER N1 REACHES IDLE RPM (APPROXIMATELY 67% N1)" },
     { type: "step", n: 9, item: "PEL", action: "EXECUTE" },
+  ]},
+  { id: "uncommanded-power", short: "Uncommanded Power", title: "UNCOMMANDED POWER CHANGES / LOSS OF POWER / UNCOMMANDED PROPELLER FEATHER", lines: [
+    { type: "step", n: 1, item: "PCL", action: "MID RANGE" },
+    { type: "step", n: 2, item: "PMU Switch", action: "OFF" },
+    { type: "step", n: 3, item: "PROP SYS Circuit Breaker (Left Front Console)", action: "PULL, IF Np STABLE BELOW 40%" },
+    { type: "step", n: 4, item: "PCL", action: "AS REQUIRED" },
+    { type: "decision", text: "IF POWER IS SUFFICIENT FOR CONTINUED FLIGHT:" },
+    { type: "step", n: 5, item: "PEL", action: "EXECUTE" },
+    { type: "decision", text: "IF POWER IS INSUFFICIENT TO COMPLETE PEL:" },
+    { type: "step", n: 6, item: "PROP SYS Circuit Breaker", action: "RESET, AS REQUIRED" },
+    { type: "step", n: 7, item: "PCL", action: "OFF" },
+    { type: "step", n: 8, item: "Firewall Shutoff Handle", action: "PULL" },
+    { type: "step", n: 9, item: "Execute Forced Landing or Eject", action: "" },
+  ]},
+  { id: "compressor-stalls", short: "Compressor Stalls", title: "COMPRESSOR STALLS", lines: [
+    { type: "step", n: 1, item: "PCL", action: "SLOWLY RETARD BELOW STALL THRESHOLD" },
+    { type: "step", n: 2, item: "Defog Switch", action: "ON" },
+    { type: "step", n: 3, item: "PCL", action: "SLOWLY ADVANCE (AS REQUIRED)" },
+    { type: "decision", text: "IF POWER IS SUFFICIENT FOR CONTINUED FLIGHT:" },
+    { type: "step", n: 4, item: "PEL", action: "EXECUTE" },
+    { type: "decision", text: "IF POWER IS INSUFFICIENT TO COMPLETE PEL:" },
+    { type: "step", n: 5, item: "PCL", action: "OFF" },
+    { type: "step", n: 6, item: "Firewall Shutoff Handle", action: "PULL" },
+    { type: "step", n: 7, item: "Execute Forced Landing or Eject", action: "" },
   ]},
 ];

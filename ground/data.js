@@ -161,6 +161,9 @@ function normEP(s) {
     .replace(/\bauxiliary\b/g, "aux")
     .replace(/\bapprox(imately)?\b/g, "approx")
     .replace(/\b(counter[ -]?clockwise|ccw)\b/g, "counterclockwise")
+    .replace(/\bmidrange\b/g, "mid range")
+    .replace(/\bcircuit breakers?\b/g, "cb")
+    .replace(/\bpercent\b/g, "")
     .replace(/\btowards\b/g, "toward")
     .replace(/\bmagnetos?\b/g, "mags")
     .replace(/\bengines?\b/g, "eng")           // both directions: the sheet abbreviates,
