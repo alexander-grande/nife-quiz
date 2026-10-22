@@ -1,5 +1,5 @@
 // ============================================================
-// PRIMARY — T-6B EPs (boldface), part 1: EPs 1–12.
+// PRIMARY — T-6B EPs (boldface), part 1: EPs 1–17.
 // Transcribed from the T-6B EP & OP Limits Key (01 Aug 23, Change 2). Grading
 // helpers (normEP, epMatchLine, …) come from ../ground/data.js, so load
 // that first. Same line format as the Cessna EPs:
@@ -106,5 +106,29 @@ const T6_EPS = [
     { type: "step", n: "a", sub: true, item: "OBOGS Supply Lever", action: "ON" },
     { type: "step", n: "b", sub: true, item: "OBOGS Concentration Lever", action: "MAX" },
     { type: "step", n: "c", sub: true, item: "OBOGS Pressure Lever", action: "EMERGENCY" },
+  ]},
+  { id: "chip-detector", short: "Chip Detector", title: "CHIP DETECTOR WARNING", lines: [
+    { type: "step", n: 1, item: "PCL", action: "MINIMUM NECESSARY TO INTERCEPT ELP; AVOID UNNECESSARY PCL MOVEMENTS" },
+    { type: "step", n: 2, item: "PEL", action: "EXECUTE" },
+  ]},
+  { id: "low-oil-pressure", short: "Low Oil Press", title: "OIL SYSTEM MALFUNCTION OR LOW OIL PRESSURE", lines: [
+    { type: "decision", text: "IF ONLY AMBER OIL PX CAUTION ILLUMINATES:" },
+    { type: "step", n: 1, item: "Terminate Maneuver", action: "" },
+    { type: "step", n: 2, item: "Check Oil Pressure; if Oil Pressure Is Normal, Continue Operations", action: "" },
+    { type: "decision", text: "IF RED OIL PX WARNING ILLUMINATES AND/OR AMBER OIL PX CAUTION REMAINS ILLUMINATED FOR 5 SECONDS:" },
+    { type: "step", n: 3, item: "PCL", action: "MINIMUM NECESSARY TO INTERCEPT ELP; AVOID UNNECESSARY PCL MOVEMENTS" },
+    { type: "step", n: 4, item: "PEL", action: "EXECUTE" },
+  ]},
+  { id: "low-fuel-pressure", short: "Low Fuel Press", title: "LOW FUEL PRESSURE", lines: [
+    { type: "step", n: 1, item: "PEL", action: "EXECUTE" },
+    { type: "step", n: 2, item: "Boost Pump Switch", action: "ON" },
+  ]},
+  { id: "high-fuel-flow", short: "High Fuel Flow", title: "HIGH FUEL FLOW", lines: [
+    { type: "step", n: 1, item: "PEL", action: "EXECUTE" },
+  ]},
+  { id: "obogs-failure", short: "OBOGS Failure", title: "OBOGS FAILURE / OVERTEMP / PHYSIOLOGICAL SYMPTOMS", lines: [
+    { type: "step", n: 1, item: "Green Ring", action: "PULL (AS REQUIRED) (BOTH)" },
+    { type: "step", n: 2, item: "Descent Below 10,000 Feet MSL", action: "INITIATE" },
+    { type: "step", n: 3, item: "OBOGS Supply Lever", action: "OFF (BOTH)" },
   ]},
 ];

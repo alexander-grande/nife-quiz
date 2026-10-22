@@ -147,10 +147,12 @@ function gradeLimit(cell, given) {
 function normEP(s) {
   return String(s || "").toLowerCase()
     .replace(/[*•·]/g, " ")
+    .replace(/(\d),(?=\d{3}\b)/g, "$1")             // 10,000 == 10000 (the comma would split it into two numbers)
     .replace(/^\s*\d+[.)]\s*/, "")              // a typed step number like "3." (not a value like "68")
     .replace(/\bas required\b/g, "as req")
     .replace(/\b(kias|knots?|kts|rpm)\b/g, "")    // units are optional: "68 KIAS" == "68 knots", "1700 RPM" == "1700"
     .replace(/\bdegrees?\b/g, "")
+    .replace(/\b(feet|foot)\b/g, "ft")
     .replace(/\bminimum\b/g, "min")            // T-6 sheet spellings vs. how people write them
     .replace(/\bmaximum\b/g, "max")
     .replace(/\bemergency\b/g, "emer")
