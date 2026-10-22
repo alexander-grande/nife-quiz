@@ -1,5 +1,5 @@
 // ============================================================
-// PRIMARY — T-6B EPs (boldface), part 1: EPs 1–17.
+// PRIMARY — T-6B EPs (boldface): all 20, EPs 1–20.
 // Transcribed from the T-6B EP & OP Limits Key (01 Aug 23, Change 2). Grading
 // helpers (normEP, epMatchLine, …) come from ../ground/data.js, so load
 // that first. Same line format as the Cessna EPs:
@@ -130,5 +130,19 @@ const T6_EPS = [
     { type: "step", n: 1, item: "Green Ring", action: "PULL (AS REQUIRED) (BOTH)" },
     { type: "step", n: 2, item: "Descent Below 10,000 Feet MSL", action: "INITIATE" },
     { type: "step", n: 3, item: "OBOGS Supply Lever", action: "OFF (BOTH)" },
+  ]},
+  { id: "eject", short: "Eject", title: "EJECT", lines: [
+    { type: "step", n: 1, item: "Ejection Handle", action: "PULL (BOTH)" },
+  ]},
+  { id: "forced-landing", short: "Forced Landing", title: "FORCED LANDING", lines: [
+    { type: "step", n: 1, item: "Airspeed", action: "125 KIAS PRIOR TO EXTENDING LANDING GEAR" },
+    { type: "step", n: 2, item: "EMER LDG GR Handle", action: "PULL (AS REQUIRED)" },
+    { type: "step", n: 3, item: "Airspeed", action: "120 KIAS MINIMUM UNTIL INTERCEPTING FINAL; 110 KIAS MINIMUM ON FINAL" },
+    { type: "step", n: 4, item: "Flaps", action: "AS REQUIRED" },
+  ]},
+  { id: "pel", short: "PEL", title: "PRECAUTIONARY EMERGENCY LANDING (PEL)", lines: [
+    { type: "step", n: 1, item: "Turn to Nearest Suitable Field", action: "" },
+    { type: "step", n: 2, item: "Climb or Accelerate to Intercept ELP", action: "" },
+    { type: "step", n: 3, item: "Gear, Flaps, Speed Brake", action: "UP" },
   ]},
 ];
