@@ -14,7 +14,7 @@
 <title>T-6B EP Sheet | MIF Master</title>
 <link rel="icon" type="image/png" href="../favicon.png">
 <link rel="apple-touch-icon" href="../apple-touch-icon.png">
-<link rel="stylesheet" href="../style.css?v=r22">
+<link rel="stylesheet" href="../style.css?v=r23">
 <script>(function(){try{var t=localStorage.getItem("nife-theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}})();</script>
 <script src="../analytics.js"></script>
 <link rel="manifest" href="../manifest.webmanifest">
@@ -44,7 +44,7 @@
   <header class="page-head">
     <div class="eyebrow">Primary &middot; T-6B Texan II</div>
     <h1>T-6B EP Sheet</h1>
-    <div class="sub">EPs 1&ndash;9. Fill in every item and action, then check the sheet. The &ldquo;IF&hellip;&rdquo; lines are given. Wrong boxes show the answer.</div>
+    <div class="sub">EPs 1&ndash;9, laid out like the T-6B key. Write each step the way it reads &mdash; &ldquo;PCL &ndash; OFF&rdquo; or just &ldquo;PCL OFF,&rdquo; the dash is optional. The &ldquo;IF&hellip;&rdquo; lines are given. Wrong lines show the answer.</div>
   </header>
 
   <div class="gs-toolbar">
@@ -54,9 +54,11 @@
     <span class="report-status" id="sheet-score" aria-live="polite"></span>
   </div>
 
-  <h2 class="gs-h">Emergency Procedures</h2>
-  <p class="note tight">* critical action memory item &nbsp;&middot;&nbsp; &bull; decision line (given)</p>
-  <div class="gs-eps" id="eps"></div>
+  <div class="ep-doc">
+    <div class="ep-doc-title">T-6B EMERGENCY PROCEDURE CRITICAL ACTION MEMORY ITEMS</div>
+    <div class="ep-doc-sec">EMERGENCY PROCEDURE CRITICAL ACTION MEMORY ITEMS</div>
+    <div id="eps"></div>
+  </div>
 
   <div class="gs-toolbar">
     <button class="btn submit" id="btn-check2">Check Sheet</button>
@@ -66,8 +68,8 @@
 </main>
 <script src="../ground/data.js?v=r28"></script>
 <script src="data.js?v=r3"></script>
-<script>const EP_PAGE = { eps: T6_EPS, statKey: "nife-primary-sheet" };</script>
-<script src="../ground/sheet.js?v=r19"></script>
+<script>const EP_PAGE = { eps: T6_EPS, statKey: "nife-primary-sheet", oneLine: true };</script>
+<script src="../ground/sheet.js?v=r20"></script>
 <script src="../site.js?v=r22" defer></script>
 </body>
 </html>

@@ -41,6 +41,7 @@
   --red: #e5484d;
   --red-text: #ff9ea2;
   --red-soft: rgba(229, 72, 77, 0.14);
+  --blue-text: #8fb4ff;
   --on-green: #0b111c; --on-red: #0b111c;
   --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.35);
   --shadow-2: 0 10px 30px rgba(0, 0, 0, 0.40);
@@ -81,6 +82,7 @@
     --gold: #e0a020; --gold-text: #7d5a0e; --gold-soft: rgba(224, 160, 32, 0.14); --gold-line: rgba(224, 160, 32, 0.45);
     --green: #15803d; --green-text: #146e40; --green-soft: rgba(21, 128, 61, 0.13); --on-green: #ffffff;
     --red: #c8323a; --red-text: #a8262c; --red-soft: rgba(200, 50, 58, 0.12); --on-red: #ffffff;
+    --blue-text: #1f3fd1;
     --shadow-1: 0 1px 2px rgba(20, 32, 47, 0.08);
     --shadow-2: 0 10px 30px rgba(20, 32, 47, 0.10);
     color-scheme: light;
@@ -93,6 +95,7 @@
   --gold: #e0a020; --gold-text: #7d5a0e; --gold-soft: rgba(224, 160, 32, 0.14); --gold-line: rgba(224, 160, 32, 0.45);
   --green: #15803d; --green-text: #146e40; --green-soft: rgba(21, 128, 61, 0.13); --on-green: #ffffff;
   --red: #c8323a; --red-text: #a8262c; --red-soft: rgba(200, 50, 58, 0.12); --on-red: #ffffff;
+  --blue-text: #1f3fd1;
   --shadow-1: 0 1px 2px rgba(20, 32, 47, 0.08);
   --shadow-2: 0 10px 30px rgba(20, 32, 47, 0.10);
   color-scheme: light;
@@ -703,6 +706,21 @@ input.gs-bad { border-color: var(--red) !important; background: var(--red-soft) 
 .gs-line.dec .exp { color: var(--gold-text); font-weight: 600; }
 .gs-line.skip { opacity: 0.6; }
 @media (max-width: 600px) { .gs-line { grid-template-columns: 1.4em 1fr; } .gs-line .got { grid-column: 2; } .gs-step { grid-template-columns: 2.2em 1fr; } .gs-step .gs-field + .gs-field { grid-column: 2; } }
+
+/* ---------- Primary: T-6B EP sheet, laid out like the printed key ---------- */
+.ep-doc { --doc-serif: "Times New Roman", Times, Georgia, serif; max-width: 900px; margin: var(--sp-3) auto 0; background: var(--surface); border: 3px solid var(--text); }
+.ep-doc-title { color: var(--blue-text); font-size: var(--fs-lg); font-weight: 800; text-align: center; line-height: var(--lh-tight); padding: var(--sp-2) var(--sp-3); border-bottom: 2px solid var(--text); }
+.ep-doc-sec { color: var(--red); font-weight: 800; font-size: var(--fs-md); padding: var(--sp-1) var(--sp-3); border-bottom: 2px solid var(--text); }
+.ep-doc-ep { padding: var(--sp-2) var(--sp-3) var(--sp-4); }
+.ep-doc-ep + .ep-doc-ep { border-top: 1px solid var(--text); }
+.ep-doc-ep h3 { font-family: var(--doc-serif); font-weight: 400; font-size: var(--fs-sm); letter-spacing: 0; text-decoration: underline; text-underline-offset: 2px; margin-bottom: var(--sp-3); }
+.ep-doc-if { font-family: var(--doc-serif); font-size: var(--fs-sm); margin: var(--sp-4) 0 var(--sp-2); }
+.ep-doc-step { display: grid; grid-template-columns: 2.4em 1fr; gap: var(--sp-2); align-items: start; padding-left: var(--sp-4); font-family: var(--doc-serif); font-weight: 700; font-size: var(--fs-md); }
+.ep-doc-n { text-align: right; padding-top: 5px; white-space: nowrap; }
+.ep-doc-step input { width: 100%; background: transparent; color: var(--text); border: 0; border-bottom: 1px dashed var(--border-strong); border-radius: 0; padding: 4px 2px; font: inherit; text-transform: uppercase; }
+.ep-doc-step input:focus { outline: none; border-bottom: 2px solid var(--accent); background: var(--accent-soft); }
+.ep-doc .gs-key { color: var(--green-text); font-weight: 400; text-transform: uppercase; margin-bottom: var(--sp-1); }
+@media (max-width: 600px) { .ep-doc-title { font-size: var(--fs-base); } .ep-doc-sec { font-size: var(--fs-sm); } .ep-doc-ep { padding: var(--sp-2) var(--sp-2) var(--sp-3); } .ep-doc-step { padding-left: 0; font-size: var(--fs-base); grid-template-columns: 2.2em 1fr; } }
 
 /* ---------- Flight Phase: EP simulator ---------- */
 .fp-box { max-width: 720px; }

@@ -5,10 +5,13 @@
 const $ = id => document.getElementById(id);
 const byId = Object.fromEntries(LIMITS.map(l => [l.id, l]));
 const COLS = ["Min", "Normal", "Caution", "Max"];
-// A page can point this at another EP set: const EP_PAGE = { eps, statKey, star }
+// A page can point this at another EP set: const EP_PAGE = { eps, statKey, star, oneLine }
 const CFG = typeof EP_PAGE !== "undefined" ? EP_PAGE : {};
 const EP_LIST = CFG.eps || EPS, STAR = CFG.star ?? "*";
 const STAT_KEY = CFG.statKey || "nife-ground-sheet";
+// oneLine: one box per step, written the way it reads on the key ("PCL – OFF"; the dash is optional)
+const ONE_LINE = !!CFG.oneLine;
+function stepKey(l) { return l.action ? `${l.item} – ${l.action}` : l.item; }
 
 function limitInput(id) { const c = byId[id]; return `<span class="gs-field"><span class="gs-inrow"><input type="text" data-limit="${id}" aria-label="${c.ask.replace(/<[^>]+>/g, "")}${c.unit ? " in " + c.unit : ""}">${c.unit ? `<span class="gs-unit">${c.unit}</span>` : ""}</span></span>`; }
 
@@ -27,7 +30,17 @@ function renderLimits() {
   $("single-body").innerHTML = single;
 }
 
+function renderDocEPs() {
+  $("eps").innerHTML = EP_LIST.map(ep => `<section class="ep-doc-ep" aria-label="${ep.title}"><h3>${ep.title}</h3>` +
+    ep.lines.map((l, i) => {
+      if (l.type === "note" || l.type === "decision") return `<p class="ep-doc-if">${l.text}</p>`;
+      return `<div class="ep-doc-step"><span class="ep-doc-n">${STAR}${l.n}.</span>` +
+        `<span class="gs-field"><input type="text" data-ep="${ep.id}:${i}" data-part="line" aria-label="${ep.title} step ${l.n}" autocomplete="off" spellcheck="false"></span></div>`;
+    }).join("") + "</section>").join("");
+}
+
 function renderEPs() {
+  if (ONE_LINE) return renderDocEPs();
   $("eps").innerHTML = EP_LIST.map(ep => `<section class="gs-ep" aria-label="${ep.title}"><h3>${ep.title}</h3>` +
     ep.lines.map((l, i) => {
       const k = `${ep.id}:${i}`;
@@ -54,6 +67,7 @@ function checkSheet() {
   EP_LIST.forEach(ep => ep.lines.forEach((l, i) => {
     if (l.type !== "step") return;   // decision lines are given, not graded
     const k = `${ep.id}:${i}`;
+    if (ONE_LINE) { const inp = document.querySelector(`input[data-ep="${k}"]`), ok = epMatchLine(inp.value, l); eN++; if (ok) eOK++; mark(inp, ok, stepKey(l)); return; }
     const item = document.querySelector(`input[data-ep="${k}"][data-part="item"]`), act = document.querySelector(`input[data-ep="${k}"][data-part="action"]`);
     const okI = similarity(normEP(item.value), normEP(l.item)) >= 0.7;
     const okA = act ? similarity(normEP(act.value), normEP(l.action)) >= 0.85 : true;
@@ -71,7 +85,8 @@ function reveal() {
   document.querySelectorAll("input[data-limit]").forEach(inp => { inp.value = byId[inp.dataset.limit].a; });
   EP_LIST.forEach(ep => ep.lines.forEach((l, i) => {
     const k = `${ep.id}:${i}`;
-    if (l.type === "step") { document.querySelector(`input[data-ep="${k}"][data-part="item"]`).value = l.item; const a = document.querySelector(`input[data-ep="${k}"][data-part="action"]`); if (a) a.value = l.action; }
+    if (l.type === "step" && ONE_LINE) document.querySelector(`input[data-ep="${k}"]`).value = stepKey(l);
+    else if (l.type === "step") { document.querySelector(`input[data-ep="${k}"][data-part="item"]`).value = l.item; const a = document.querySelector(`input[data-ep="${k}"][data-part="action"]`); if (a) a.value = l.action; }
   }));
   $("sheet-score").textContent = "Answer key shown — clear the sheet to try again.";
 }
