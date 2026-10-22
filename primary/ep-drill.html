@@ -14,7 +14,7 @@
 <title>T-6B EP Drill | MIF Master</title>
 <link rel="icon" type="image/png" href="../favicon.png">
 <link rel="apple-touch-icon" href="../apple-touch-icon.png">
-<link rel="stylesheet" href="../style.css?v=r22">
+<link rel="stylesheet" href="../style.css?v=r24">
 <script>(function(){try{var t=localStorage.getItem("nife-theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}})();</script>
 <script src="../analytics.js"></script>
 <link rel="manifest" href="../manifest.webmanifest">
@@ -44,14 +44,16 @@
   <header class="page-head">
     <div class="eyebrow">Primary &middot; T-6B Texan II</div>
     <h1>T-6B EP Drill</h1>
-    <div class="sub">A random EP. Fill in every step from memory &mdash; the numbering and decision bullets are given, the words are on you. Graded line by line.</div>
+    <div class="sub">A random EP, laid out like the T-6B key. Fill in every line from memory &mdash; the step numbers are given, the words and the &ldquo;IF&hellip;&rdquo; lines are on you. Graded line by line.</div>
   </header>
 
-  <div class="ws-panel gs-drill">
+  <div class="ep-doc-drill">
     <div class="setup-label" id="ep-progress"></div>
-    <div class="gs-ep-title" id="ep-title"></div>
-    <p class="report-hint gs-ep-hint">Type each line how you would say it out loud &mdash; e.g. &ldquo;PCL off.&rdquo; Each box is graded against its numbered step, so the order is part of the answer. Capitals and punctuation don&rsquo;t matter. Enter moves to the next box; Enter on the last box grades.</p>
-    <div class="gs-ep gs-ep-drill" id="ep-lines"></div>
+    <p class="report-hint gs-ep-hint">Write each step the way it reads on the key &mdash; &ldquo;PCL &ndash; OFF&rdquo; or just &ldquo;PCL OFF,&rdquo; the dash is optional. Each line is graded against its own step, so the order is part of the answer. Enter moves to the next line; Enter on the last line grades.</p>
+    <div class="ep-doc">
+      <div class="ep-doc-sec">EMERGENCY PROCEDURE CRITICAL ACTION MEMORY ITEMS</div>
+      <section class="ep-doc-ep"><h3 id="ep-title"></h3><div id="ep-lines"></div></section>
+    </div>
     <div class="btn-group gs-center">
       <button class="btn submit" id="ep-submit">Grade It</button>
       <button class="btn" id="ep-show">Show EP</button>
@@ -62,10 +64,10 @@
   </div>
 
 </main>
-<script src="../ground/data.js?v=r28"></script>
-<script src="data.js?v=r3"></script>
-<script>const EP_PAGE = { eps: T6_EPS, statKey: "nife-primary-ep" };</script>
-<script src="../ground/ep.js?v=r19"></script>
+<script src="../ground/data.js?v=r29"></script>
+<script src="data.js?v=r4"></script>
+<script>const EP_PAGE = { eps: T6_EPS, statKey: "nife-primary-ep", doc: true };</script>
+<script src="../ground/ep.js?v=r20"></script>
 <script src="../site.js?v=r22" defer></script>
 </body>
 </html>

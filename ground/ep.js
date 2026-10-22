@@ -3,9 +3,11 @@
 // given, the student fills in each line. Graded line by line.
 // ============================================================
 const $ = id => document.getElementById(id);
-// A page can point this at another EP set: const EP_PAGE = { eps, statKey, star }
+// A page can point this at another EP set: const EP_PAGE = { eps, statKey, star, doc }
 const CFG = typeof EP_PAGE !== "undefined" ? EP_PAGE : {};
 const EP_LIST = CFG.eps || EPS, STAR = CFG.star ?? "*";
+// doc: laid out like the printed key — IF lines unnumbered, answers shown as "PCL – OFF"
+const DOC = !!CFG.doc;
 const STAT_KEY = CFG.statKey || "nife-ground-ep";
 let order = [], pos = 0, graded = false;
 
@@ -24,7 +26,7 @@ function show() {
   const ep = current();
   $("ep-progress").textContent = `EP ${pos + 1} of ${order.length}`;
   $("ep-title").textContent = ep.title;
-  $("ep-lines").innerHTML = ep.lines.map((l, i) => {
+  $("ep-lines").innerHTML = DOC ? docLines(ep) : ep.lines.map((l, i) => {
     if (l.type === "note") return `<div class="gs-step note">${l.text}</div>`;
     const marker = l.type === "decision" ? (l.plain ? "" : "&bull;") : `${STAR}${l.n}.`;
     return `<div class="gs-step decision"><span class="gs-n">${marker}</span><span class="gs-field"><input type="text" data-i="${i}" aria-label="${ep.title} line ${i + 1}" autocomplete="off" spellcheck="false"></span></div>`;
@@ -33,10 +35,17 @@ function show() {
   $("ep-submit").classList.remove("hidden"); $("ep-show").classList.remove("hidden"); $("ep-next").classList.add("hidden");
   const first = inputs()[0]; if (first) first.focus();
 }
+function docLines(ep) {
+  return ep.lines.map((l, i) => {
+    const input = `<span class="gs-field"><input type="text" data-i="${i}" aria-label="${ep.title} line ${i + 1}" autocomplete="off" spellcheck="false"${l.type === "step" ? "" : ' placeholder="IF …"'}></span>`;
+    if (l.type !== "step") return `<div class="ep-doc-step if">${input}</div>`;
+    return `<div class="ep-doc-step${l.sub ? " sub" : ""}"><span class="ep-doc-n">${l.sub ? "" : STAR}${l.n}.</span>${input}</div>`;
+  }).join("");
+}
 function markAll(reveal) {
   const ep = current(); let ok = 0, n = 0;
   inputs().forEach(inp => {
-    const line = ep.lines[+inp.dataset.i]; const expected = epLineText(line);
+    const line = ep.lines[+inp.dataset.i]; const expected = DOC ? epKeyText(line) : epLineText(line);
     inp.disabled = true;
     if (reveal) { inp.value = expected; return; }
     const good = epMatchLine(inp.value, line); n++; if (good) ok++;

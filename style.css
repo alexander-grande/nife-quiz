@@ -720,7 +720,14 @@ input.gs-bad { border-color: var(--red) !important; background: var(--red-soft) 
 .ep-doc-step input { width: 100%; background: transparent; color: var(--text); border: 0; border-bottom: 1px dashed var(--border-strong); border-radius: 0; padding: 4px 2px; font: inherit; text-transform: uppercase; }
 .ep-doc-step input:focus { outline: none; border-bottom: 2px solid var(--accent); background: var(--accent-soft); }
 .ep-doc .gs-key { color: var(--green-text); font-weight: 400; text-transform: uppercase; margin-bottom: var(--sp-1); }
-@media (max-width: 600px) { .ep-doc-title { font-size: var(--fs-base); } .ep-doc-sec { font-size: var(--fs-sm); } .ep-doc-ep { padding: var(--sp-2) var(--sp-2) var(--sp-3); } .ep-doc-step { padding-left: 0; font-size: var(--fs-base); grid-template-columns: 2.2em 1fr; } }
+.ep-doc-step.sub { padding-left: calc(var(--sp-4) + 2.4em); }
+.ep-doc-step.if { grid-template-columns: 1fr; padding-left: 0; margin: var(--sp-4) 0 var(--sp-1); font-size: var(--fs-sm); font-weight: 400; }
+.ep-doc-drill { margin-top: var(--sp-5); }
+.ep-doc-drill > * { max-width: 900px; margin-left: auto; margin-right: auto; }
+.ep-doc-drill > .setup-label, .ep-doc-drill > .gs-ep-hint { text-align: center; }
+.ep-doc-drill .ep-doc-ep h3 { font-size: var(--fs-base); }
+.ep-doc-drill .ep-doc-step input:disabled { opacity: 1; -webkit-text-fill-color: var(--text); }
+@media (max-width: 600px) { .ep-doc-title { font-size: var(--fs-base); } .ep-doc-sec { font-size: var(--fs-sm); } .ep-doc-ep { padding: var(--sp-2) var(--sp-2) var(--sp-3); } .ep-doc-step { padding-left: 0; font-size: var(--fs-base); grid-template-columns: 2.2em 1fr; } .ep-doc-step.sub { padding-left: 2.2em; } }
 
 /* ---------- Flight Phase: EP simulator ---------- */
 .fp-box { max-width: 720px; }

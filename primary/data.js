@@ -1,9 +1,10 @@
 // ============================================================
-// PRIMARY — T-6B EPs (boldface), part 1: EPs 1–9.
+// PRIMARY — T-6B EPs (boldface), part 1: EPs 1–12.
 // Transcribed from the T-6B EP & OP Limits Key (01 Aug 23, Change 2). Grading
 // helpers (normEP, epMatchLine, …) come from ../ground/data.js, so load
 // that first. Same line format as the Cessna EPs:
 // type "step": numbered item + action (action "" = one box for the line)
+//   sub: true = a lettered sub-step (a. b. c.) under the step above, no *
 // type "decision": given bold "IF …" line, not graded on the sheet
 // ============================================================
 const T6_EPS = [
@@ -82,5 +83,28 @@ const T6_EPS = [
     { type: "step", n: 5, item: "PCL", action: "OFF" },
     { type: "step", n: 6, item: "Firewall Shutoff Handle", action: "PULL" },
     { type: "step", n: 7, item: "Execute Forced Landing or Eject", action: "" },
+  ]},
+  { id: "departure", short: "Departure", title: "INADVERTENT DEPARTURE FROM CONTROLLED FLIGHT", lines: [
+    { type: "step", n: 1, item: "PCL", action: "IDLE" },
+    { type: "step", n: 2, item: "Controls", action: "NEUTRAL" },
+    { type: "step", n: 3, item: "Altitude", action: "CHECK" },
+    { type: "step", n: 4, item: "Recover from Unusual Attitude", action: "" },
+  ]},
+  { id: "fire-in-flight", short: "Fire in Flight", title: "FIRE IN FLIGHT", lines: [
+    { type: "decision", text: "IF FIRE IS CONFIRMED:" },
+    { type: "step", n: 1, item: "PCL", action: "OFF" },
+    { type: "step", n: 2, item: "Firewall Shutoff Handle", action: "PULL" },
+    { type: "decision", text: "IF FIRE IS EXTINGUISHED:" },
+    { type: "step", n: 3, item: "Forced Landing", action: "EXECUTE" },
+    { type: "decision", text: "IF FIRE DOES NOT EXTINGUISH OR FORCED LANDING IS IMPRACTICAL:" },
+    { type: "step", n: 4, item: "Eject (BOTH)", action: "" },
+    { type: "decision", text: "IF FIRE IS NOT CONFIRMED:" },
+    { type: "step", n: 5, item: "PEL", action: "EXECUTE" },
+  ]},
+  { id: "smoke-fume", short: "Smoke/Elec Fire", title: "SMOKE AND FUME ELIMINATION / ELECTRICAL FIRE", lines: [
+    { type: "step", n: 1, item: "OBOGS", action: "CHECK (BOTH)" },
+    { type: "step", n: "a", sub: true, item: "OBOGS Supply Lever", action: "ON" },
+    { type: "step", n: "b", sub: true, item: "OBOGS Concentration Lever", action: "MAX" },
+    { type: "step", n: "c", sub: true, item: "OBOGS Pressure Lever", action: "EMERGENCY" },
   ]},
 ];

@@ -203,6 +203,8 @@ function epLineText(line) {
   if (line.type === "step") return (line.item + " " + line.action).trim();
   return line.text;
 }
+// A line as printed on the key, "PCL – OFF" — how the T-6 sheet and drill show answers
+function epKeyText(line) { return line.type === "step" && line.action ? `${line.item} – ${line.action}` : epLineText(line); }
 // similarity 0..1 (Levenshtein on normalized strings)
 function similarity(a, b) {
   if (a === b) return 1; if (!a.length || !b.length) return 0;
