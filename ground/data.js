@@ -129,9 +129,10 @@ const EPS = [
 // the key (units and punctuation optional). Text-only keys also require their
 // key words. So "60 to 90", "60–90 psi", and "60-90" all match "60-90 PSI".
 function numsOf(s) {
-  return (String(s).replace(/[–—]/g, "-").replace(/,(?=\d{3})/g, "")
+  return (String(s).replace(/±|\+\s*\/?\s*-/g, " ")   // "100 ± 2" / "100+/-2": the 2 is a tolerance, not -2
+    .replace(/[–—]/g, "-").replace(/,(?=\d{3})/g, "")
     .replace(/(\d)\s*-\s*(?=\d)/g, "$1 ")       // a dash between digits is a range, not a sign
-    .match(/-?\d+(?:\.\d+)?/g) || []).map(Number);
+    .match(/-?(?:\d+(?:\.\d+)?|\.\d+)/g) || []).map(Number);   // ".67" is 0.67
 }
 function gradeLimit(cell, given) {
   const g = String(given || "").trim();

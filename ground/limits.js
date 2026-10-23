@@ -2,7 +2,10 @@
 // LIMITS DRILL — one box at a time, shuffled deck of all limits.
 // ============================================================
 const $ = id => document.getElementById(id);
-const STAT_KEY = "nife-ground-limits";
+// A page can point this at another limits set: const LIMITS_PAGE = { limits, statKey }
+const CFG = typeof LIMITS_PAGE !== "undefined" ? LIMITS_PAGE : {};
+const POOL = CFG.limits || LIMITS;
+const STAT_KEY = CFG.statKey || "nife-ground-limits";
 let deck = [], pos = 0, missed = [], right = 0, answered = false;
 
 function shuffle(a) { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
@@ -11,7 +14,7 @@ function bump(ok) { try { const s = stats(); s.asked++; if (ok) s.right++; local
 function renderStats() { const s = stats(); $("drill-stats").textContent = s.asked ? `All-time on this browser: ${s.right}/${s.asked} (${Math.round(s.right / s.asked * 100)}%)` : ""; }
 
 function start(pool) {
-  deck = shuffle(pool || LIMITS); pos = 0; missed = []; right = 0;
+  deck = shuffle(pool || POOL); pos = 0; missed = []; right = 0;
   $("drill-done").classList.add("hidden"); $("drill-form").closest(".center-box").classList.remove("hidden");
   show();
 }
@@ -19,7 +22,7 @@ function show() {
   answered = false;
   const cell = deck[pos];
   $("drill-progress").textContent = `Question ${pos + 1} of ${deck.length}`;
-  $("drill-ask").innerHTML = cell.ask + "?";
+  $("drill-ask").innerHTML = /[…?]$/.test(cell.ask) ? cell.ask : cell.ask + "?";
   $("drill-unit").textContent = cell.unit || "";
   $("drill-input").placeholder = cell.unit ? "Number…" : "Type the limit…";
   $("drill-input").value = ""; $("drill-input").disabled = false; $("drill-submit").disabled = false;

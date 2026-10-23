@@ -729,6 +729,30 @@ input.gs-bad { border-color: var(--red) !important; background: var(--red-soft) 
 .ep-doc-drill .ep-doc-step input:disabled { opacity: 1; -webkit-text-fill-color: var(--text); }
 @media (max-width: 600px) { .ep-doc-title { font-size: var(--fs-base); } .ep-doc-sec { font-size: var(--fs-sm); } .ep-doc-ep { padding: var(--sp-2) var(--sp-2) var(--sp-3); } .ep-doc-step { padding-left: 0; font-size: var(--fs-base); grid-template-columns: 2.2em 1fr; } .ep-doc-step.sub { padding-left: 2.2em; } }
 
+/* ---------- Primary: T-6B limits sheet, page 5 of the key ---------- */
+.lim-doc { max-width: 1100px; font-size: var(--fs-xs); font-weight: 700; }
+.lim-bar { background: var(--surface-2); text-align: center; font-weight: 800; font-size: var(--fs-sm); padding: 2px var(--sp-2); border-top: 2px solid var(--text); border-bottom: 1px solid var(--text); }
+.lim-scroll { overflow-x: auto; }
+.lim-table { width: 100%; min-width: 860px; border-collapse: collapse; border-style: hidden; }
+.lim-table th, .lim-table td { border: 1px solid var(--text); padding: var(--sp-2) var(--sp-1); text-align: center; vertical-align: middle; line-height: 2; }
+.lim-table thead tr:first-child th { border-top: 0; }
+.lim-table tbody th { white-space: nowrap; padding: 0 var(--sp-2); }
+.lim-table small { font-size: 0.85em; }
+.lim-dead { background: var(--border-strong); color: var(--text-2); }
+.lim-notes, .lim-pm { list-style: decimal inside; margin: 0; padding: 0; }
+.lim-notes li, .lim-pm li { padding: var(--sp-1) var(--sp-3); border-top: 1px solid var(--text); line-height: 2; }
+.lim-notes li:first-child, .lim-pm li:first-child, .lim-bar + .lim-row { border-top: 0; }
+.lim-cols { display: grid; grid-template-columns: 1fr 1fr; }
+.lim-col + .lim-col { border-left: 2px solid var(--text); }
+.lim-row { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 0 var(--sp-3); padding: var(--sp-1) var(--sp-3); border-top: 1px solid var(--text); line-height: 2; }
+.lim-row > span:last-child { white-space: nowrap; margin-left: auto; }
+.lim-row.lim-stack > span { white-space: normal; margin-left: 0; }
+.lim-f { display: inline-flex; flex-direction: column; align-items: center; vertical-align: baseline; max-width: 100%; }
+.lim-f input { max-width: 100%; background: transparent; color: var(--text); border: 0; border-bottom: 1.5px solid var(--text-2); border-radius: 0; padding: 0 2px; font-family: var(--doc-serif); font-weight: 700; font-size: var(--fs-base); text-align: center; }
+.lim-f input:focus { outline: none; border-bottom: 2px solid var(--accent); background: var(--accent-soft); }
+.lim-key { font-family: var(--font-mono); font-size: 0.7rem; font-weight: 400; color: var(--green-text); line-height: 1.3; white-space: nowrap; }
+@media (max-width: 760px) { .lim-cols { grid-template-columns: 1fr; } .lim-col + .lim-col { border-left: 0; } }
+
 /* ---------- Flight Phase: EP simulator ---------- */
 .fp-box { max-width: 720px; }
 .fp-range { display: flex; align-items: center; justify-content: center; gap: var(--sp-2); margin-top: var(--sp-3); color: var(--text-2); font-size: var(--fs-sm); flex-wrap: wrap; }

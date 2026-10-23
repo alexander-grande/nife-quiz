@@ -44,7 +44,7 @@
   <header class="page-head">
     <div class="eyebrow">Primary &middot; T-6B Texan II</div>
     <h1>Primary</h1>
-    <div class="sub">The T-6B EPs, drilled two ways &mdash; fill in the whole sheet, or get one procedure cold and recite it verbatim. All 20 EPs from the key.</div>
+    <div class="sub">The T-6B EPs and operating limits from the key, each drilled two ways &mdash; fill in the whole sheet, or take them one at a time.</div>
   </header>
 
   <h2 class="section-h first">EPs 1&ndash;20</h2>
@@ -66,7 +66,26 @@
     </a>
   </div>
 
-  <p class="note">Graded on the words that matter &mdash; &ldquo;EMER LDG GR handle&rdquo; and &ldquo;emergency landing gear handle&rdquo; are both right, and units are optional. Numbers must be exact, and steps are graded in order. The limits are coming.</p>
+  <p class="note">Graded on the words that matter &mdash; &ldquo;EMER LDG GR handle&rdquo; and &ldquo;emergency landing gear handle&rdquo; are both right, and units are optional. Numbers must be exact, and steps are graded in order.</p>
+
+  <h2 class="section-h">Operating Limits</h2>
+  <p class="note tight">Page 5 of the key &mdash; engine operating limits table and notes, airspeed, starter cycle, flight maneuvering, acceleration, and other limitations.</p>
+  <div class="test-cards">
+    <a class="test-card topic-card" href="limits-sheet.html">
+      <div class="num">&#9998;</div>
+      <h3>Limits Sheet</h3>
+      <p>Every blank on page 5, fillable</p>
+      <p class="card-desc">Laid out like the key. Fill in the table, notes, and limitations, then check the whole sheet at once.</p>
+      <p class="badge-line" id="badge-lim-sheet"></p>
+    </a>
+    <a class="test-card topic-card" href="limits-drill.html">
+      <div class="num">&#9201;</div>
+      <h3>Limits Drill</h3>
+      <p>One limit at a time</p>
+      <p class="card-desc">A shuffled deck of every blank, asked cold with the units given. Retry the ones you missed until they stick.</p>
+      <p class="badge-line" id="badge-lim-drill"></p>
+    </a>
+  </div>
 
 </main>
 <script>
@@ -74,6 +93,8 @@
   const set = (id, key, fmt) => { try { const s = JSON.parse(localStorage.getItem(key) || "null"); if (s) document.getElementById(id).textContent = fmt(s); } catch (e) {} };
   set("badge-sheet", "nife-primary-sheet", s => "Best: " + s.best + "% · " + s.n + " attempt" + (s.n > 1 ? "s" : ""));
   set("badge-ep", "nife-primary-ep", s => s.n + " EP" + (s.n > 1 ? "s" : "") + " recited · " + s.perfect + " perfect");
+  set("badge-lim-sheet", "nife-primary-limits-sheet", s => "Best: " + s.best + "% · " + s.n + " attempt" + (s.n > 1 ? "s" : ""));
+  set("badge-lim-drill", "nife-primary-limits", s => s.right + "/" + s.asked + " correct (" + Math.round(s.right / s.asked * 100) + "%)");
 })();
 </script>
 <script src="../site.js?v=r22" defer></script>
