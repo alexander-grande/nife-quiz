@@ -97,13 +97,13 @@
     <div class="lim-bar">NOTES</div>
     <ol class="lim-notes">
       <li>N<sub>1</sub> values presented for PMU ON. With PMU OFF, N<sub>1</sub> may vary from these values.</li>
-      <li>With PMU OFF, permissible maximum N<sub>P</sub> is [[n2]] %.</li>
+      <li>With PMU OFF, permissible maximum N<sub>P</sub> is [[n2]] +/- [[n2-tol]] %.</li>
       <li>Permissible at any operating condition &ldquo;power setting&rdquo; for completion of an in-flight emergency.</li>
       <li>Avoid stabilized ground operation from [[n4]] % N<sub>P</sub>.</li>
       <li>Operation in this range permitted only during aerobatics or spins, and [[n5-psi]] psi for [[n5-sec]] seconds with PCL at IDLE.</li>
       <li>Normal oil pressure during steady state conditions is [[n6-normal]] psi. Operation at oil pressure less than [[n6-low]] psi at flight idle or above is indicative of oil system malfunction.</li>
       <li>Acceptable for ground operation at and below [[n7]] torque.</li>
-      <li>The PMU will govern maximum torque at [[n8-gov]] %. Torque above [[n8-malf]] % at a constant PCL setting and steady flight is indicative of a governing system malfunction.</li>
+      <li>The PMU will govern maximum torque at [[n8-gov]] +/- [[n8-gov-tol]] %. Torque above [[n8-malf]] % at a constant PCL setting and steady flight is indicative of a governing system malfunction.</li>
       <li>Allowable torque range with Np stabilized and PCL at IDLE.</li>
       <li>With the PMU on, torque between [[n10-range]] % is possible following rapid PCL movement or aerobatic maneuvers. Torque above [[n10-malf]] % is a limiting system malfunction.</li>
     </ol>
@@ -132,7 +132,7 @@
         <div class="lim-row"><span>MINIMUM BATTERY VOLTAGE:</span><span>[[min-batt]] VOLTS</span></div>
         <div class="lim-row"><span>HYDRAULIC CAUTION:</span><span>&lt; [[hyd-low]] PSI, &gt; [[hyd-high]] PSI</span></div>
         <div class="lim-row lim-stack"><span>FUEL CAUTION LIGHT: &lt; [[fuel-caution]] POUNDS IN RESPECTIVE WING TANK</span></div>
-        <div class="lim-row"><span>COCKPIT PRESSURIZATION SCHEDULE LIMIT:</span><span>[[press]] PSI</span></div>
+        <div class="lim-row"><span>COCKPIT PRESSURIZATION SCHEDULE LIMIT:</span><span>[[press]] +/- [[press-tol]] PSI</span></div>
       </div>
       <div class="lim-col">
         <div class="lim-bar">STARTER CYCLE LIMITATIONS</div>
@@ -171,7 +171,7 @@
 
 </main>
 <script src="../ground/data.js?v=r31"></script>
-<script src="limits-data.js?v=r1"></script>
+<script src="limits-data.js?v=r2"></script>
 <script src="limits-sheet.js?v=r1"></script>
 <script src="../site.js?v=r22" defer></script>
 </body>

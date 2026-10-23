@@ -3,8 +3,8 @@
 // T-6B EP & OP Limits Key (01 Aug 23, Change 2). Graded with gradeLimit
 // from ../ground/data.js (same numbers in the same order; units optional),
 // so load that first.
-// id, ask (how the drill phrases it; ends in "…" when it reads as a
-// fill-in), a (the key), unit (shown beside the drill box),
+// id, ask (how the drill phrases it; ends in "…" or shows ____ when it
+// reads as a fill-in), a (the key), unit (shown beside the drill box),
 // words (key words a text answer must contain — "30 sec" vs "30 min")
 // ============================================================
 const T6_LIMITS = [
@@ -42,14 +42,17 @@ const T6_LIMITS = [
   { id: "tr-oilt", unit: "°C", ask: "Transient — oil temperature", a: "106 to 110 °C" },
   { id: "tr-oilt-min", unit: "min", ask: "Transient — time allowed at 106–110 °C oil temperature", a: "10 minutes" },
   // Notes
-  { id: "n2", unit: "%", ask: "With PMU OFF, permissible maximum N<sub>P</sub> is…", a: "100 ± 2 %" },
+  // "+/-" is printed on the key with a blank either side (no ± key to type)
+  { id: "n2", unit: "%", ask: "With PMU OFF, permissible maximum N<sub>P</sub> is ____ +/- 2 %", a: "100 %" },
+  { id: "n2-tol", unit: "%", ask: "With PMU OFF, permissible maximum N<sub>P</sub> is 100 +/- ____ %", a: "2 %" },
   { id: "n4", unit: "% Np", ask: "Avoid stabilized ground operation from…", a: "62 to 80 % Np" },
   { id: "n5-psi", unit: "psi", ask: "Oil pressure permitted only during aerobatics or spins, with PCL at IDLE, for a few seconds (note 5)", a: "15 to 40 psi" },
   { id: "n5-sec", unit: "sec", ask: "How long 15–40 psi oil pressure is permitted with PCL at IDLE (note 5)", a: "5 sec" },
   { id: "n6-normal", unit: "psi", ask: "Normal oil pressure during steady state conditions", a: "90 to 120 psi" },
   { id: "n6-low", unit: "psi", ask: "Oil pressure at flight idle or above that is indicative of an oil system malfunction: less than…", a: "90 psi" },
   { id: "n7", unit: "% torque", ask: "Note 7 (idle oil temp 106–110 °C) is acceptable for ground operation at and below…", a: "20 %" },
-  { id: "n8-gov", unit: "%", ask: "The PMU will govern maximum torque at…", a: "100 ± 2 %" },
+  { id: "n8-gov", unit: "%", ask: "The PMU will govern maximum torque at ____ +/- 2 %", a: "100 %" },
+  { id: "n8-gov-tol", unit: "%", ask: "The PMU will govern maximum torque at 100 +/- ____ %", a: "2 %" },
   { id: "n8-malf", unit: "%", ask: "Torque above this at a constant PCL setting and steady flight is indicative of a governing system malfunction", a: "102 %" },
   { id: "n10-range", unit: "%", ask: "With the PMU on, torque possible following rapid PCL movement or aerobatic maneuvers", a: "102 to 107 %" },
   { id: "n10-malf", unit: "%", ask: "With the PMU on, torque above this is a limiting system malfunction", a: "107 %" },
@@ -90,5 +93,6 @@ const T6_LIMITS = [
   { id: "hyd-low", unit: "psi", ask: "Hydraulic caution — below…", a: "1800 psi" },
   { id: "hyd-high", unit: "psi", ask: "Hydraulic caution — above…", a: "3500 psi" },
   { id: "fuel-caution", unit: "lbs", ask: "Fuel caution light — below how many pounds in the respective wing tank", a: "110 lbs" },
-  { id: "press", unit: "psi", ask: "Cockpit pressurization schedule limit", a: "3.6 ± 0.2 psi" },
+  { id: "press", unit: "psi", ask: "Cockpit pressurization schedule limit: ____ +/- 0.2 psi", a: "3.6 psi" },
+  { id: "press-tol", unit: "psi", ask: "Cockpit pressurization schedule limit: 3.6 +/- ____ psi", a: "0.2 psi" },
 ];

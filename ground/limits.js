@@ -22,7 +22,7 @@ function show() {
   answered = false;
   const cell = deck[pos];
   $("drill-progress").textContent = `Question ${pos + 1} of ${deck.length}`;
-  $("drill-ask").innerHTML = /[…?]$/.test(cell.ask) ? cell.ask : cell.ask + "?";
+  $("drill-ask").innerHTML = /[…?]$/.test(cell.ask) || cell.ask.includes("____") ? cell.ask : cell.ask + "?";   // a fill-in reads as-is
   $("drill-unit").textContent = cell.unit || "";
   $("drill-input").placeholder = cell.unit ? "Number…" : "Type the limit…";
   $("drill-input").value = ""; $("drill-input").disabled = false; $("drill-submit").disabled = false;
