@@ -5,7 +5,8 @@
 // so load that first.
 // id, ask (how the drill phrases it; ends in "…" or shows ____ when it
 // reads as a fill-in), a (the key), unit (shown beside the drill box),
-// words (key words a text answer must contain — "30 sec" vs "30 min")
+// words (key words a text answer must contain — "30 sec" vs "30 min"),
+// text (graded on the wording like an EP line, numbers still exact)
 // ============================================================
 const T6_LIMITS = [
   // Engine operating limits table — TAKEOFF/MAX
@@ -80,6 +81,18 @@ const T6_LIMITS = [
   { id: "g-asym-gear", unit: "Gs", ask: "Acceleration limits — asymmetric, gear & flaps extended", a: "+2.0 to 0.0 Gs" },
   { id: "uncoord-g", unit: "G", ask: "Uncoordinated rolling maneuvers initiated at…", a: "-1 G" },
   { id: "uncoord-bank", unit: "°", ask: "Uncoordinated rolling maneuvers initiated at -1 G shall be limited to a bank angle change of…", a: "180°" },
+  // Prohibited maneuvers — numbered, graded in order
+  { id: "pm-1", unit: "", ask: "Prohibited maneuver #1", a: "Inverted stalls", text: true },
+  { id: "pm-2", unit: "", ask: "Prohibited maneuver #2", a: "Inverted spins", text: true },
+  { id: "pm-3", unit: "", ask: "Prohibited maneuver #3", a: "Spins with PCL above idle", text: true, words: ["above"] },
+  { id: "pm-4", unit: "", ask: "Prohibited maneuver #4", a: "Spins with the landing gear, flaps, or speed brake extended", text: true },
+  { id: "pm-5", unit: "", ask: "Prohibited maneuver #5", a: "Spins with PMU off", text: true, words: ["off"] },
+  { id: "pm-6", unit: "", ask: "Prohibited maneuver #6", a: "Aggravated spins past two turns", text: true },
+  { id: "pm-7", unit: "", ask: "Prohibited maneuver #7", a: "Spins below 10,000 feet pressure altitude", text: true, words: ["below"] },
+  { id: "pm-8", unit: "", ask: "Prohibited maneuver #8", a: "Spins above 22,000 feet pressure altitude", text: true, words: ["above"] },
+  { id: "pm-9", unit: "", ask: "Prohibited maneuver #9", a: "Abrupt cross-controlled (snap) maneuvers", text: true },
+  { id: "pm-10", unit: "", ask: "Prohibited maneuver #10", a: "Aerobatic maneuvers, spins, or stalls with a fuel imbalance greater than 50 pounds between wings", text: true },
+  { id: "pm-11", unit: "", ask: "Prohibited maneuver #11", a: "Tail slides", text: true },
   // Other limitations
   { id: "batt-start", unit: "volts", ask: "Minimum voltage for battery start", a: "23.5 volts" },
   { id: "xw-dry", unit: "knots", ask: "Max crosswind — dry runway", a: "25 knots" },

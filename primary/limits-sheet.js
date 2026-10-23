@@ -12,7 +12,7 @@ function box(id) {
   const c = byId[id];
   if (!c) throw new Error(`limits-sheet: no limit "${id}" in T6_LIMITS`);
   const w = Math.max(4, c.a.replace(c.unit, "").trim().length + 2);   // sized to the key, like the blank on paper
-  return `<span class="lim-f"><input type="text" data-lim="${id}" style="width:${w}ch" aria-label="${plain(c.ask)}" autocomplete="off" spellcheck="false"></span>`;
+  return `<span class="lim-f${c.text ? " lim-line" : ""}"><input type="text" data-lim="${id}"${c.text ? "" : ` style="width:${w}ch"`} aria-label="${plain(c.ask)}" autocomplete="off" spellcheck="false"></span>`;
 }
 $("lim-doc").innerHTML = $("lim-doc").innerHTML.replace(/\[\[([\w-]+)\]\]/g, (m, id) => box(id));
 const inputs = () => [...document.querySelectorAll("input[data-lim]")];

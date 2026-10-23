@@ -137,10 +137,14 @@ function numsOf(s) {
 function gradeLimit(cell, given) {
   const g = String(given || "").trim();
   if (!g) return false;
-  const want = numsOf(cell.a), got = numsOf(g);
-  if (want.length !== got.length || want.some((v, i) => v !== got[i])) return false;
+  // words: the deciding words must be there — "30 sec" vs "30 min", "PMU off" vs "PMU on"
   if (cell.words) { const low = g.toLowerCase(); if (!cell.words.every(w => low.includes(w))) return false; }
-  return true;
+  if (cell.text) {   // a phrase, graded on the wording like an EP line; "two" may be written "2"
+    const two = s => s.replace(/\btwo\b/gi, "2");
+    return epMatchLine(two(g), { type: "step", item: two(cell.a), action: "" });
+  }
+  const want = numsOf(cell.a), got = numsOf(g);
+  return want.length === got.length && want.every((v, i) => v === got[i]);
 }
 
 // EP text: normalize a typed line so casing, punctuation, numbering, bullets,
@@ -154,6 +158,7 @@ function normEP(s) {
     .replace(/\b(kias|knots?|kts|rpm)\b/g, "")    // units are optional: "68 KIAS" == "68 knots", "1700 RPM" == "1700"
     .replace(/\bdegrees?\b/g, "")
     .replace(/\b(feet|foot)\b/g, "ft")
+    .replace(/\b(pounds?|lbs?)\b/g, "lb")
     .replace(/\bminimum\b/g, "min")            // T-6 sheet spellings vs. how people write them
     .replace(/\bmaximum\b/g, "max")
     .replace(/\bemergency\b/g, "emer")

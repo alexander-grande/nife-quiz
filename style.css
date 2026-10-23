@@ -739,7 +739,13 @@ input.gs-bad { border-color: var(--red) !important; background: var(--red-soft) 
 .lim-table tbody th { white-space: nowrap; padding: 0 var(--sp-2); }
 .lim-table small { font-size: 0.85em; }
 .lim-dead { background: var(--border-strong); color: var(--text-2); }
-.lim-notes, .lim-pm { list-style: decimal inside; margin: 0; padding: 0; }
+.lim-notes { list-style: decimal inside; margin: 0; padding: 0; }
+.lim-pm { list-style: none; margin: 0; padding: 0; }
+.lim-pm li { display: flex; align-items: baseline; gap: var(--sp-2); }
+.lim-n { min-width: 1.6em; text-align: right; }
+.lim-f.lim-line { flex: 1; align-items: stretch; }
+.lim-f.lim-line input { width: 100%; text-align: left; text-transform: uppercase; font-size: var(--fs-sm); }
+.lim-f.lim-line .lim-key { white-space: normal; text-transform: uppercase; }
 .lim-notes li, .lim-pm li { padding: var(--sp-1) var(--sp-3); border-top: 1px solid var(--text); line-height: 2; }
 .lim-notes li:first-child, .lim-pm li:first-child, .lim-bar + .lim-row { border-top: 0; }
 .lim-cols { display: grid; grid-template-columns: 1fr 1fr; }
