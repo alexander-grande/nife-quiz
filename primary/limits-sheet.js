@@ -40,10 +40,18 @@ $("btn-check2").addEventListener("click", check);
 $("btn-reveal").addEventListener("click", reveal);
 $("btn-clear").addEventListener("click", clearSheet);
 $("btn-top").addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
-// Enter moves to the next box instead of doing nothing
+// Tab and Enter go down each column of the engine table (all of TORQUE,
+// then ITT, …), then through the rest of the sheet in page order.
+const cellAt = inp => { const td = inp.closest("td"); return [td.cellIndex, td.parentElement.rowIndex]; };
+const ORDER = [...document.querySelectorAll(".lim-table input")]
+  .map((inp, k) => ({ inp, k, at: cellAt(inp) }))
+  .sort((a, b) => a.at[0] - b.at[0] || a.at[1] - b.at[1] || a.k - b.k)   // column, then row, then order within the cell
+  .map(x => x.inp)
+  .concat(inputs().filter(i => !i.closest(".lim-table")));
 document.addEventListener("keydown", e => {
-  if (e.key !== "Enter" || !e.target.matches("input[data-lim]")) return;
+  if ((e.key !== "Enter" && e.key !== "Tab") || !e.target.matches("input[data-lim]")) return;
+  const i = ORDER.indexOf(e.target), j = e.key === "Tab" && e.shiftKey ? i - 1 : i + 1;
+  if (j < 0 || j >= ORDER.length) { if (e.key === "Enter") e.preventDefault(); return; }   // Tab off either end leaves the sheet as usual
   e.preventDefault();
-  const all = inputs(), i = all.indexOf(e.target);
-  if (i < all.length - 1) all[i + 1].focus();
+  ORDER[j].focus();
 });
