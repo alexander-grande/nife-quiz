@@ -213,7 +213,9 @@ function translateRationale(q, text, perm) {
   // parenthesized bare letters: "(a) describes ..."
   out = out.replace(/\(([A-Da-d])\)/g, (m, L) => rep(L) || m);
   // bare capital letter followed by a verb: "A is dew point; B describes ..."
-  out = out.replace(/(?<!°)(?<!°\s)\b([A-D])\b(?=\s+(?:is|are|was|describes|defines|reverses|belongs|fails|adds|mixes|matches|swaps|equals|gives|puts|borrows|uses|applies|refers|remains|holds|comes|would))/g,
+  // — but not a name that ends in a letter: "Class A is", "Mode C is",
+  // "Classes B, C, and D are"
+  out = out.replace(/(?<!°)(?<!°\s)(?<!\b(?:Class|Mode)\s)(?<!\bClasses(?:\s[A-D],?)+\s(?:and|or)\s)\b([A-D])\b(?=\s+(?:is|are|was|describes|defines|reverses|belongs|fails|adds|mixes|matches|swaps|equals|gives|puts|borrows|uses|applies|refers|remains|holds|comes|would))/g,
     (m, L) => rep(L) || m);
   return out.replace(/\u0000(\d)\u0000/g, (m, d) => final(+d));
 }
