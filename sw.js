@@ -2,7 +2,7 @@
 // Strategy: precache everything at install; serve cache-first with
 // background revalidation, so the site works fully offline and still
 // picks up new content on the next online visit.
-const CACHE = "nife-79fcc50c30";
+const CACHE = "nife-80fb1a89a3";
 const PRECACHE = [
   "./",
   "./academics.html",
@@ -85,11 +85,17 @@ const PRECACHE = [
   "./manifest.webmanifest",
   "./primary/data.js",
   "./primary/ep-drill.html",
+  "./primary/flashcards.html",
+  "./primary/flashcards.js",
   "./primary/index.html",
   "./primary/limits-data.js",
   "./primary/limits-drill.html",
   "./primary/limits-sheet.html",
   "./primary/limits-sheet.js",
+  "./primary/nwc-data.js",
+  "./primary/nwc-test.html",
+  "./primary/nwc-tests.js",
+  "./primary/nwc-unit.js",
   "./primary/sheet.html",
   "./quiz.js",
   "./site.js",

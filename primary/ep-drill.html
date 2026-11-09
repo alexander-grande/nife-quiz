@@ -14,7 +14,7 @@
 <title>T-6B EP Drill | MIF Master</title>
 <link rel="icon" type="image/png" href="../favicon.png">
 <link rel="apple-touch-icon" href="../apple-touch-icon.png">
-<link rel="stylesheet" href="../style.css?v=r24">
+<link rel="stylesheet" href="../style.css?v=r27">
 <script>(function(){try{var t=localStorage.getItem("nife-theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}})();</script>
 <script src="../analytics.js"></script>
 <link rel="manifest" href="../manifest.webmanifest">
@@ -44,7 +44,7 @@
   <header class="page-head">
     <div class="eyebrow">Primary &middot; T-6B Texan II</div>
     <h1>T-6B EP Drill</h1>
-    <div class="sub">A random EP, laid out like the T-6B key. Fill in every line from memory &mdash; the step numbers are given, the words and the &ldquo;IF&hellip;&rdquo; lines are on you. Graded line by line.</div>
+    <div class="sub">A random EP, laid out like the T-6B key. Fill in every line from memory &mdash; the step numbers are given, the words and the &ldquo;IF&hellip;&rdquo; lines are on you. Graded line by line, then the EP&rsquo;s notes, warnings and cautions are shown underneath.</div>
   </header>
 
   <div class="ep-doc-drill">
@@ -66,8 +66,9 @@
 </main>
 <script src="../ground/data.js?v=r32"></script>
 <script src="data.js?v=r6"></script>
-<script>const EP_PAGE = { eps: T6_EPS, statKey: "nife-primary-ep", doc: true };</script>
-<script src="../ground/ep.js?v=r20"></script>
+<script src="nwc-data.js?v=r1"></script>
+<script>const EP_PAGE = { eps: T6_EPS, statKey: "nife-primary-ep", doc: true, after: nwcReviewHTML };</script>
+<script src="../ground/ep.js?v=r21"></script>
 <script src="../site.js?v=r22" defer></script>
 </body>
 </html>

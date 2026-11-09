@@ -59,6 +59,7 @@ let optMaps = [];        // per active question: displayed position -> original 
 let currentQ = 0;        // position within activeQ
 let answers = [];        // original option index picked, or null, per active question
 let retakePool = null;   // when set, the next run uses only these question indices
+let runTag = "";         // "" = full test; otherwise what this run is ("missed questions only", "EP 6 only")
 let showAllResults = false;
 let timerInterval = null;
 
@@ -94,7 +95,7 @@ function loadHistory() {
 function saveAttempt(correct, total) {
   try {
     const arr = loadHistory();
-    arr.push({ t: Date.now(), c: correct, n: total, m: mode, f: total === TEST.questions.length });
+    arr.push({ t: Date.now(), c: correct, n: total, m: mode, f: !runTag, s: runTag || undefined });
     localStorage.setItem(HIST_KEY, JSON.stringify(arr.slice(-HIST_MAX)));
   } catch (e) { /* storage unavailable (private browsing etc.) — history just isn't kept */ }
 }
@@ -112,7 +113,7 @@ function renderHistory() {
     const d = new Date(a.t);
     const date = (d.getMonth() + 1) + "/" + d.getDate();
     const pct = Math.round(a.c / a.n * 100);
-    const tag = a.f ? (a.m === "exam" ? "Exam" : "Practice") : "Missed-only";
+    const tag = a.f ? (a.m === "exam" ? "Exam" : "Practice") : (a.s && !/^missed/.test(a.s) ? a.s : "Missed-only");
     html += `<div class="hist-row"><span>${date}</span><span>${tag}</span>` +
       `<span>${a.c}/${a.n}</span><span class="${pct >= PASS_PCT ? "hist-pass" : "hist-fail"}">${pct}%</span></div>`;
   });
@@ -255,15 +256,18 @@ function buildRun(pool) {
 
 function startTest() {
   stopDumpTimer();
-  const pool = retakePool || TEST.questions.map((_, i) => i);
+  // A page may narrow a fresh run (not a retake) with UNIT.subset() → { pool, label } or null.
+  let pool = retakePool, tag = pool ? "missed questions only" : "";
+  if (!pool && typeof UNIT.subset === "function") { const sub = UNIT.subset(); if (sub) { pool = sub.pool; tag = sub.label; } }
+  pool = pool || TEST.questions.map((_, i) => i);
+  runTag = pool.length < TEST.questions.length ? tag : "";
   retakePool = null;
   activeQ = buildRun(pool);
   optMaps = activeQ.map(qi => optMapFor(TEST.questions[qi]));
   answers = new Array(activeQ.length).fill(null);
   currentQ = 0;
   const label = mode === "exam" ? "Exam Mode" : "Practice Mode";
-  $("quiz-mode-label").textContent = activeQ.length < TEST.questions.length
-    ? label + " · missed questions only" : label;
+  $("quiz-mode-label").textContent = runTag ? label + " · " + runTag : label;
   buildQGrid();
   show(quizScreen);
   renderQuestion();
@@ -407,7 +411,7 @@ function renderChapterBreakdown() {
     byCh[ch].n++;
     if (answers[i] === q.a) byCh[ch].c++;
   });
-  let html = `<div class="ch-head">Breakdown by chapter</div>`;
+  let html = `<div class="ch-head">Breakdown by ${UNIT.chWord || "chapter"}</div>`;
   Object.keys(byCh).map(Number).sort((a, b) => a - b).forEach(ch => {
     const { c, n } = byCh[ch];
     const pct = Math.round(c / n * 100);
@@ -428,12 +432,11 @@ function gradeTest() {
   const correct = activeQ.reduce((n, qi, i) => n + (answers[i] === TEST.questions[qi].a ? 1 : 0), 0);
   const pct = Math.round(correct / total * 100);
   const passed = pct >= PASS_PCT;
-  const isFull = total === TEST.questions.length;
 
   saveAttempt(correct, total);
 
   $("score-pct").textContent = pct + "%";
-  $("score-frac").textContent = `${correct} of ${total}` + (isFull ? "" : " · missed-only");
+  $("score-frac").textContent = `${correct} of ${total}` + (runTag ? " · " + (/^missed/.test(runTag) ? "missed-only" : runTag) : "");
   const circle = $("score-circle");
   circle.classList.toggle("fail", !passed);
   circle.style.setProperty("--p", pct);

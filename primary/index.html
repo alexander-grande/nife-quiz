@@ -14,7 +14,7 @@
 <title>Primary | MIF Master</title>
 <link rel="icon" type="image/png" href="../favicon.png">
 <link rel="apple-touch-icon" href="../apple-touch-icon.png">
-<link rel="stylesheet" href="../style.css?v=r22">
+<link rel="stylesheet" href="../style.css?v=r27">
 <script>(function(){try{var t=localStorage.getItem("nife-theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}})();</script>
 <script src="../analytics.js"></script>
 <link rel="manifest" href="../manifest.webmanifest">
@@ -44,7 +44,7 @@
   <header class="page-head">
     <div class="eyebrow">Primary &middot; T-6B Texan II</div>
     <h1>Primary</h1>
-    <div class="sub">The T-6B EPs and operating limits from the key, each drilled two ways &mdash; fill in the whole sheet, or take them one at a time.</div>
+    <div class="sub">The T-6B EPs and operating limits from the key, each drilled two ways &mdash; fill in the whole sheet, or take them one at a time &mdash; plus the flashcards&rsquo; notes, warnings and cautions.</div>
   </header>
 
   <h2 class="section-h first">EPs 1&ndash;20</h2>
@@ -67,6 +67,24 @@
   </div>
 
   <p class="note">Graded on the words that matter &mdash; &ldquo;EMER LDG GR handle&rdquo; and &ldquo;emergency landing gear handle&rdquo; are both right, and units are optional. Numbers must be exact, and steps are graded in order.</p>
+
+  <h2 class="section-h">Notes, Warnings &amp; Cautions</h2>
+  <p class="note tight">Know the starred steps word for word. For the notes, warnings and cautions, know the main point. These come from the class T-6B flashcards, and the EP Drill also shows each EP&rsquo;s list after you grade it.</p>
+  <div class="test-cards">
+    <a class="test-card topic-card" href="flashcards.html">
+      <div class="num">&#9707;</div>
+      <h3>EP Flashcards</h3>
+      <p>All 20 cards, front and back</p>
+      <p class="card-desc">The class deck: the EP and its annunciators on the front; indications and the procedure on the back, with every <span class="nwc-W">warning</span>, <span class="nwc-C">caution</span> and <span class="nwc-N">note</span> where it falls.</p>
+    </a>
+    <a class="test-card topic-card" href="nwc-test.html">
+      <div class="num">?</div>
+      <h3>NWC Quiz</h3>
+      <p>Multiple choice, by EP or all</p>
+      <p class="card-desc">One question for each note, warning and caution: the number, the action, or what happens. Take all 20 EPs or one at a time.</p>
+      <p class="badge-line" id="badge-nwc"></p>
+    </a>
+  </div>
 
   <h2 class="section-h">Operating Limits</h2>
   <p class="note tight">Page 5 of the key &mdash; engine operating limits table and notes, airspeed, starter cycle, flight maneuvering, acceleration, and other limitations.</p>
@@ -94,6 +112,7 @@
   set("badge-sheet", "nife-primary-sheet", s => "Best: " + s.best + "% · " + s.n + " attempt" + (s.n > 1 ? "s" : ""));
   set("badge-ep", "nife-primary-ep", s => s.n + " EP" + (s.n > 1 ? "s" : "") + " recited · " + s.perfect + " perfect");
   set("badge-lim-sheet", "nife-primary-limits-sheet", s => "Best: " + s.best + "% · " + s.n + " attempt" + (s.n > 1 ? "s" : ""));
+  try { const h = JSON.parse(localStorage.getItem("nife-primary-nwc-hist-0") || "[]"), full = h.filter(x => x.f); if (h.length) document.getElementById("badge-nwc").textContent = h.length + " attempt" + (h.length > 1 ? "s" : "") + (full.length ? " · best full quiz: " + Math.max(...full.map(x => Math.round(x.c / x.n * 100))) + "%" : ""); } catch (e) {}
   set("badge-lim-drill", "nife-primary-limits", s => s.right + "/" + s.asked + " correct (" + Math.round(s.right / s.asked * 100) + "%)");
 })();
 </script>

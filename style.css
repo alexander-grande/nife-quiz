@@ -42,6 +42,7 @@
   --red-text: #ff9ea2;
   --red-soft: rgba(229, 72, 77, 0.14);
   --blue-text: #8fb4ff;
+  --amber-text: #ffb366;
   --on-green: #0b111c; --on-red: #0b111c;
   --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.35);
   --shadow-2: 0 10px 30px rgba(0, 0, 0, 0.40);
@@ -83,6 +84,7 @@
     --green: #15803d; --green-text: #146e40; --green-soft: rgba(21, 128, 61, 0.13); --on-green: #ffffff;
     --red: #c8323a; --red-text: #a8262c; --red-soft: rgba(200, 50, 58, 0.12); --on-red: #ffffff;
     --blue-text: #1f3fd1;
+    --amber-text: #b45309;
     --shadow-1: 0 1px 2px rgba(20, 32, 47, 0.08);
     --shadow-2: 0 10px 30px rgba(20, 32, 47, 0.10);
     color-scheme: light;
@@ -96,6 +98,7 @@
   --green: #15803d; --green-text: #146e40; --green-soft: rgba(21, 128, 61, 0.13); --on-green: #ffffff;
   --red: #c8323a; --red-text: #a8262c; --red-soft: rgba(200, 50, 58, 0.12); --on-red: #ffffff;
   --blue-text: #1f3fd1;
+  --amber-text: #b45309;
   --shadow-1: 0 1px 2px rgba(20, 32, 47, 0.08);
   --shadow-2: 0 10px 30px rgba(20, 32, 47, 0.10);
   color-scheme: light;
@@ -780,3 +783,34 @@ input.gs-bad { border-color: var(--red) !important; background: var(--red-soft) 
 .gs-step.gs-bad { border-left: 3px solid var(--red); padding-left: var(--sp-2); }
 .gs-step .gs-key { display: block; color: var(--red); font-size: var(--fs-xs); font-family: var(--font-mono); margin-top: 2px; }
 .fp-selftest { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-md); padding: var(--sp-4); overflow-x: auto; font-family: var(--font-mono); font-size: var(--fs-xs); line-height: 1.7; white-space: pre; }
+
+/* ---------- Primary: T-6B EP flashcards & notes/warnings/cautions ---------- */
+.nwc { font-size: var(--fs-sm); line-height: 1.5; margin: var(--sp-2) 0; }
+.nwc b { font-weight: 700; }
+.nwc-W { color: var(--red-text); }
+.nwc-C { color: var(--amber-text); }
+.nwc-N { color: var(--blue-text); }
+.nwc-ind { margin: 0 0 var(--sp-3); line-height: 1.5; }
+.nwc-ca { font-weight: 800; margin: var(--sp-3) 0 var(--sp-1); }
+.nwc-step { font-weight: 600; margin: var(--sp-1) 0; }
+.nwc-step.sub { padding-left: 1.6em; }
+.nwc-if { margin: var(--sp-3) 0 var(--sp-1); }
+.t6-card { max-width: 720px; margin: 0 auto var(--sp-4); background: var(--surface); border: 2px solid var(--text); border-radius: var(--r-md); cursor: pointer; min-height: 380px; display: flex; flex-direction: column; box-shadow: var(--shadow-1); }
+.t6-card:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.t6-front { flex: 1; display: flex; flex-direction: column; align-items: center; text-align: center; padding: var(--sp-6) var(--sp-5) var(--sp-3); gap: var(--sp-5); }
+.t6-front h2 { font-size: var(--fs-xl); font-weight: 800; line-height: var(--lh-tight); margin: var(--sp-4) 0 0; }
+.t6-ann { display: flex; flex-direction: column; align-items: center; gap: 2px; font-size: var(--fs-lg); font-weight: 600; }
+.t6-ann .r { color: var(--red-text); }
+.t6-ann .a { color: #ffe000; background: #000; padding: 0 4px; }
+.t6-ann .gap { height: 0.9em; }
+.t6-front ul { text-align: left; margin: 0; padding-left: 1.2em; line-height: 1.5; }
+.t6-counts { margin-top: auto; font-size: var(--fs-md); font-variant-numeric: tabular-nums; }
+.t6-hint { color: var(--text-3); font-size: var(--fs-xs); }
+.t6-back { padding: var(--sp-5); text-align: left; }
+.t6-back-title { font-size: var(--fs-sm); font-weight: 800; color: var(--text-2); text-align: center; margin-bottom: var(--sp-3); }
+select.t6-select { background: var(--surface); color: var(--text); border: 1px solid var(--border-strong); border-radius: var(--r-sm); padding: 8px 10px; font: inherit; font-size: var(--fs-sm); max-width: 62vw; }
+/* EP drill: the NWCs under a graded EP */
+.nwc-review { max-width: 900px; margin: var(--sp-4) auto 0; background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-md); padding: var(--sp-4); }
+.nwc-review h4 { margin: 0 0 var(--sp-2); font-size: var(--fs-md); }
+.nwc-review .nwc-after { font-size: var(--fs-xs); color: var(--text-3); text-transform: uppercase; letter-spacing: .06em; margin-top: var(--sp-3); }
+@media (max-width: 600px) { .t6-front { padding: var(--sp-5) var(--sp-4) var(--sp-3); } .t6-back { padding: var(--sp-4); } .t6-front h2 { font-size: var(--fs-lg); } }

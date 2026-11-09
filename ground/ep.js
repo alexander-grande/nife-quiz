@@ -3,7 +3,8 @@
 // given, the student fills in each line. Graded line by line.
 // ============================================================
 const $ = id => document.getElementById(id);
-// A page can point this at another EP set: const EP_PAGE = { eps, statKey, star, doc }
+// A page can point this at another EP set: const EP_PAGE = { eps, statKey, star, doc, after }
+// after(ep) → HTML shown under the result once the EP is graded or shown
 const CFG = typeof EP_PAGE !== "undefined" ? EP_PAGE : {};
 const EP_LIST = CFG.eps || EPS, STAR = CFG.star ?? "*";
 // doc: laid out like the printed key — IF lines unnumbered, answers shown as "PCL – OFF"
@@ -22,7 +23,7 @@ function current() { return EP_LIST[order[pos]]; }
 function inputs() { return [...document.querySelectorAll("#ep-lines input")]; }
 
 function show() {
-  graded = false;
+  graded = false; clearAfter();
   const ep = current();
   $("ep-progress").textContent = `EP ${pos + 1} of ${order.length}`;
   $("ep-title").textContent = ep.title;
@@ -66,12 +67,20 @@ function grade() {
   renderStats();
   $("ep-submit").classList.add("hidden"); $("ep-show").classList.add("hidden");
   $("ep-next").classList.remove("hidden"); $("ep-next").focus();
+  showAfter();
 }
 function showEP() {
   graded = true; markAll(true);
   const r = $("ep-result"); r.className = "feedback"; r.innerHTML = `<div class="fb-verdict">Answer key shown — not scored.</div>`;
   $("ep-submit").classList.add("hidden"); $("ep-show").classList.add("hidden"); $("ep-next").classList.remove("hidden"); $("ep-next").focus();
+  showAfter();
 }
+function showAfter() {
+  if (typeof CFG.after !== "function") return;
+  const html = CFG.after(current()); if (!html) return;
+  const box = document.createElement("div"); box.innerHTML = html; $("ep-result").after(box.firstElementChild || box);
+}
+function clearAfter() { document.querySelectorAll(".ep-after").forEach(el => el.remove()); }
 function next() { pos++; if (pos >= order.length) { order = shuffle(EP_LIST.map((_, i) => i)); pos = 0; } show(); }
 $("ep-submit").addEventListener("click", grade);
 $("ep-show").addEventListener("click", showEP);
