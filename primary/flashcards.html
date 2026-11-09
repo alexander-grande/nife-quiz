@@ -14,7 +14,7 @@
 <title>T-6B EP Flashcards | MIF Master</title>
 <link rel="icon" type="image/png" href="../favicon.png">
 <link rel="apple-touch-icon" href="../apple-touch-icon.png">
-<link rel="stylesheet" href="../style.css?v=r27">
+<link rel="stylesheet" href="../style.css?v=r28">
 <script>(function(){try{var t=localStorage.getItem("nife-theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}})();</script>
 <script src="../analytics.js"></script>
 <link rel="manifest" href="../manifest.webmanifest">
@@ -44,9 +44,12 @@
   <header class="page-head">
     <div class="eyebrow">Primary &middot; T-6B Texan II</div>
     <h1>T-6B EP Flashcards</h1>
-    <div class="sub">The class flashcards for all 20 EPs. Front: the EP and its annunciators, with the count of <span class="nwc-W">warnings</span>, <span class="nwc-C">cautions</span> and <span class="nwc-N">notes</span>. Back: indications and the corrective action, with each one where it falls in the procedure. Tap the card or press space to flip; arrow keys move.</div>
+    <div class="sub">The class flashcards for all 20 EPs. Front: the EP and its annunciators, with the count of <span class="nwc-W">warnings</span>, <span class="nwc-C">cautions</span> and <span class="nwc-N">notes</span>. Back: indications and the corrective action, with each one where it falls in the procedure. Tap the card or press space to flip; arrow keys move. On a phone, use Study Mode: the card fills the screen, you tap to flip and swipe to move.</div>
   </header>
 
+  <div class="fc-controls">
+    <button class="btn primary" id="btn-study" type="button">Study Mode</button>
+  </div>
   <div class="fc-controls">
     <label class="sr-only" for="fc-jump">Go to EP</label>
     <select id="fc-jump" class="t6-select"></select>
@@ -67,10 +70,27 @@
   <p class="note">Starred steps are the official key (Change 2), word for word &mdash; the same lines the EP Sheet and Drill grade. Notes, warnings and cautions are from the class flashcards: know what each one says, not every word.</p>
 
 </main>
+
+<div class="study" id="study" hidden role="dialog" aria-modal="true" aria-label="Flashcard study mode">
+  <div class="study-top">
+    <button class="study-x" id="study-close" type="button" aria-label="Exit study mode">&times;</button>
+    <span class="study-count" id="study-count" aria-live="polite"></span>
+    <button class="btn small" id="study-order" type="button">Shuffle</button>
+  </div>
+  <div class="study-progress"><div class="study-fill" id="study-fill"></div></div>
+  <div class="study-stage">
+    <div class="study-card" id="study-card"><div class="study-face" id="study-face"></div></div>
+  </div>
+  <div class="study-bottom">
+    <button class="study-nav" id="study-prev" type="button" aria-label="Previous card">&larr;</button>
+    <span class="study-hint"><span id="study-side">Front</span> &middot; tap to flip &middot; swipe to move</span>
+    <button class="study-nav" id="study-next" type="button" aria-label="Next card">&rarr;</button>
+  </div>
+</div>
 <script src="../ground/data.js?v=r32"></script>
 <script src="data.js?v=r6"></script>
 <script src="nwc-data.js?v=r1"></script>
-<script src="flashcards.js?v=r1"></script>
+<script src="flashcards.js?v=r2"></script>
 <script src="../site.js?v=r22" defer></script>
 </body>
 </html>
